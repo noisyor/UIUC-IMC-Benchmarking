@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="A rigorous, open benchmarking resource for in-memory computing architectures, with indexed chip data, reproducible plots, and methodology papers." />
+  <meta property="og:title" content="Benchmarking In-Memory Computing Architectures" />
+  <meta property="og:description" content="Compare reported IMC designs through a common compositional view, normalized metrics, and an open indexed database." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+  <title>Benchmarking In-Memory Computing Architectures</title>
+</head>
+<body class="home-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="favicon.svg" alt="" /><span><strong>IMC Benchmarking</strong><small>Open data · normalized comparison</small></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Project sections">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="methodology.html">Methodology</a>
+      <a href="explorer.html">Paper index</a>
+      <a href="lab.html">Build an IMC</a>
+      <a href="trends.html">Trends</a>
+      <a href="papers.html">Papers</a>
+    </nav>
+    <a class="header-repo" href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">Source repository ↗</a>
+  </header>
+
+  <main id="main">
+    <section class="home-hero">
+      <div class="home-hero-copy">
+        <div class="hero-kicker"><span>Open IMC research benchmark</span><span>2018—2024</span></div>
+        <h1>Many architectures.<br /><em>One common ground.</em></h1>
+        <p class="home-hero-summary">Bring memory technology, circuit organization, precision, energy, density, and accuracy into one evidence-aware view of in-memory computing.</p>
+        <div class="actions">
+          <a class="button home-button-primary" href="explorer.html">Enter the benchmark <span aria-hidden="true">→</span></a>
+          <a class="button home-button-ghost" href="lab.html">Build an IMC</a>
+        </div>
+        <p class="hero-authors">Naresh R. Shanbhag · Saion K. Roy · maintained with the UIUC IMC community</p>
+      </div>
+
+      <div class="convergence-stage" aria-label="A symbolic formation showing four IMC design dimensions converging on 1-bit normalization, with compose, normalize, and interpret arranged above">
+        <div class="convergence-head"><span>CONVERGENCE MAP</span><span>OPEN DATA · 2024</span></div>
+        <div class="convergence-field">
+          <div class="framework-structure" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <span class="formation-label framework-label">BENCHMARK FRAMEWORK</span>
+          <div class="framework-line" aria-label="Compose, normalize, and interpret arranged as the benchmark framework">
+            <div class="framework-card"><strong>COMPOSE</strong><span>map the system</span></div>
+            <div class="framework-card framework-center"><strong>NORMALIZE</strong><span>set common terms</span></div>
+            <div class="framework-card"><strong>INTERPRET</strong><span>read the evidence</span></div>
+          </div>
+          <span class="coordinate-deck" aria-hidden="true"></span>
+          <span class="convergence-route route-one" aria-hidden="true"></span>
+          <span class="convergence-route route-two" aria-hidden="true"></span>
+          <span class="convergence-route route-three" aria-hidden="true"></span>
+          <span class="convergence-route route-four" aria-hidden="true"></span>
+          <div class="field-node node-architecture"><small>01</small><strong>Architecture</strong><span>array + periphery</span></div>
+          <div class="field-node node-metrics"><small>02</small><strong>Metrics</strong><span>energy + density</span></div>
+          <div class="field-node node-precision"><small>03</small><strong>Precision</strong><span>input + weight</span></div>
+          <div class="field-node node-accuracy"><small>04</small><strong>Accuracy</strong><span>SNR + evidence</span></div>
+          <div class="benchmark-core"><small>COMMON COORDINATE</small><strong>1b</strong><small>NORMALIZATION</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="home-stat-band" aria-label="Dataset summary">
+      <div class="stat-intro"><span>THE INDEX</span><strong>Evidence at a glance</strong></div>
+      <article><strong>106</strong><span>Indexed papers</span></article>
+      <article><strong>144</strong><span>Operating points</span></article>
+      <article><strong>33</strong><span>Defined fields</span></article>
+      <article><strong>7</strong><span>Years of reports</span></article>
+    </section>
+
+    <section class="home-routes section">
+      <div class="home-section-heading">
+        <p class="section-label">Choose your point of entry</p>
+        <h2>Follow the evidence,<br />not the loudest number.</h2>
+        <p>Every route leads back to the same indexed dataset and the assumptions behind each comparison.</p>
+      </div>
+      <div class="route-grid">
+        <a class="route-card route-red" href="explorer.html">
+          <span class="route-index">01 / EVIDENCE</span>
+          <div><h3>Explore the field.</h3><p>Search 106 papers by year, venue, memory architecture, and normalized performance.</p></div>
+          <strong class="route-link">Open paper index <span aria-hidden="true">↗</span></strong>
+        </a>
+        <a class="route-card route-blue" href="lab.html">
+          <span class="route-index">02 / DESIGN</span>
+          <div><h3>Build a candidate.</h3><p>Choose a supported IMC architecture, set its parameters, and place it against reported designs with accuracy context.</p></div>
+          <strong class="route-link">Enter the design lab <span aria-hidden="true">↗</span></strong>
+        </a>
+        <a class="route-card route-gold" href="methodology.html">
+          <span class="route-index">03 / METHOD</span>
+          <div><h3>Question the comparison.</h3><p>Trace how the project composes architectures, normalizes metrics, and separates measurement from inference.</p></div>
+          <strong class="route-link">Read the methodology <span aria-hidden="true">↗</span></strong>
+        </a>
+      </div>
+    </section>
+
+    <section class="home-common-ground section">
+      <div class="common-ground-copy">
+        <p class="section-label">The common ground</p>
+        <h2>One plot is only the beginning.</h2>
+        <p>A peak efficiency result means little without the array, periphery, precision, dataflow, technology node, and accuracy conditions that produced it. This benchmark keeps those conditions visible.</p>
+        <ol class="method-list">
+          <li><span>01</span><div><strong>Compose</strong><p>Describe the complete IMC datapath through canonical components.</p></div></li>
+          <li><span>02</span><div><strong>Normalize</strong><p>Translate reported results into comparable 1-bit operation metrics.</p></div></li>
+          <li><span>03</span><div><strong>Interpret</strong><p>Read efficiency, density, scale-up, and accuracy as a coupled system.</p></div></li>
+        </ol>
+        <a class="text-link" href="methodology.html">See how the benchmark is constructed <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="benchmark-stage home-benchmark-stage" aria-label="Interactive conceptual benchmark plot">
+        <div class="stage-header"><span>BENCHMARK VIEW · 2024 DATA</span><span>INDEXED OPERATING POINTS</span></div>
+        <div class="axis-tabs" aria-label="Choose benchmark axes">
+          <button type="button" data-axis="efficiency" aria-pressed="true">Efficiency × density</button>
+          <button type="button" data-axis="throughput" aria-pressed="false">Efficiency × throughput</button>
+          <button type="button" data-axis="precision" aria-pressed="false">ADC × information</button>
+        </div>
+        <div class="plot-demo">
+          <span class="plot-axis-y">1b-TOPS/W</span><span class="plot-axis-x">1b-TOPS/mm²</span>
+          <i class="plot-point circle" data-arch="sram" style="left:11%;bottom:77%"></i><i class="plot-point" data-arch="sram" style="left:23%;bottom:61%"></i>
+          <i class="plot-point circle" data-arch="sram" style="left:32%;bottom:71%"></i><i class="plot-point" data-arch="sram" style="left:40%;bottom:48%"></i>
+          <i class="plot-point circle" data-arch="envm" style="left:49%;bottom:58%"></i><i class="plot-point" data-arch="envm" style="left:57%;bottom:35%"></i>
+          <i class="plot-point circle" data-arch="digital" style="left:66%;bottom:43%"></i><i class="plot-point" data-arch="digital" style="left:75%;bottom:24%"></i>
+          <i class="plot-point circle" data-arch="sram" style="left:83%;bottom:31%"></i><i class="plot-point" data-arch="sram" style="left:88%;bottom:14%"></i>
+          <i class="plot-point circle" data-arch="edram" style="left:69%;bottom:68%"></i><i class="plot-point" data-arch="digital" style="left:44%;bottom:80%"></i>
+        </div>
+        <div class="plot-legend"><span style="--legend:var(--mint)">SRAM</span><span style="--legend:var(--coral)">eNVM</span><span style="--legend:var(--violet)">Digital</span><span style="--legend:var(--amber)">eDRAM</span></div>
+      </div>
+    </section>
+
+    <section class="home-manifesto">
+      <div>
+        <p class="section-label">Open artifact</p>
+        <h2>The benchmark stays open to scrutiny.</h2>
+      </div>
+      <div>
+        <p>Inspect the CSV, regenerate the plots, follow the cited papers, or report a correction. The source repository remains the canonical artifact.</p>
+        <div class="actions"><a class="button home-button-primary" href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">Open source repository ↗</a><a class="button home-button-ghost" href="https://forms.gle/xLT8NehqR1ALuW2p7">Report a data issue ↗</a></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><a class="footer-brand" href="index.html"><img src="favicon.svg" alt="" /><strong>IMC Benchmarking</strong></a><p>Research website for the UIUC-IMC benchmarking dataset and methodology.</p><a href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">GitHub ↗</a></footer>
+</body>
+</html>

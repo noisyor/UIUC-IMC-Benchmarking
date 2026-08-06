@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The compositional methodology and normalized metrics used by the UIUC in-memory computing benchmarking project." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="styles.css" /><script src="app.js" defer></script>
+  <title>Methodology · IMC Benchmarking</title>
+</head>
+<body class="themed-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="favicon.svg" alt="" /><span><strong>IMC Benchmarking</strong><small>Open data · normalized comparison</small></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Project sections"><a href="index.html">Overview</a><a href="methodology.html" aria-current="page">Methodology</a><a href="explorer.html">Paper index</a><a href="lab.html">Build an IMC</a><a href="trends.html">Trends</a><a href="papers.html">Papers</a></nav>
+    <a class="header-repo" href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">Source repository ↗</a>
+  </header>
+  <main id="main">
+    <section class="page-hero"><p class="section-label">Methodology</p><h1>A common frame for diverse IMCs.</h1><p>The benchmarking method separates architectural structure, comparable metrics, and interpretation. This avoids treating precision-normalized values or bank-level results as complete system claims.</p></section>
+
+    <section class="section dark">
+      <div class="section-heading"><p class="section-label">Compositional view</p><h2>Follow one computation through the architecture.</h2><p>An IMC is organized into canonical stages so that reported designs can be described using the same coordinates.</p></div>
+      <div class="pipeline">
+        <article><strong>STAGE 01</strong><h3>Activation mapper</h3><p>Encodes input activations in time, voltage, or current before they enter the memory array.</p></article>
+        <article><strong>STAGE 02</strong><h3>Bitcell array</h3><p>Defines the compute model, bitcell organization, row and column parallelism, and physical array dimensions.</p></article>
+        <article><strong>STAGE 03</strong><h3>ADC column</h3><p>Acts as the canonical unit: one ADC and the rows and columns contributing to its dot product each read cycle.</p></article>
+        <article><strong>STAGE 04</strong><h3>Output composer</h3><p>Combines ADC outputs and, for multi-bit weights, realizes powers-of-two summation before or after conversion.</p></article>
+      </div>
+    </section>
+
+    <section class="section white">
+      <div class="section-heading"><p class="section-label">Metric set</p><h2>Normalize the arithmetic, retain the context.</h2><p>The project uses bit-normalized figures of merit to compare designs with different operand precisions. Raw architectural fields remain available so each normalization can be audited.</p></div>
+      <div class="metric-table-wrap">
+        <table>
+          <thead><tr><th>Metric</th><th>Meaning</th><th>Why it matters</th></tr></thead>
+          <tbody>
+            <tr><td><code>1b-TOPS</code></td><td>Bit-normalized throughput</td><td>Places different input and weight precisions on a shared operation basis.</td></tr>
+            <tr><td><code>1b-TOPS/W</code></td><td>Bit-normalized energy efficiency</td><td>Supports energy comparison while preserving operand-precision fields for audit.</td></tr>
+            <tr><td><code>1b-TOPS/mm²</code></td><td>Bit-normalized compute density</td><td>Connects throughput to reported or estimated bank area.</td></tr>
+            <tr><td><code>B<sub>I(col)</sub></code></td><td>Information at the ADC-column input</td><td>Captures the precision and dimension of the computation feeding one ADC.</td></tr>
+            <tr><td><code>SNR<sub>col</sub></code></td><td>ADC-column compute signal-to-noise ratio</td><td>Measures deviation from a fixed-point digital reference, including noise and distortion.</td></tr>
+            <tr><td><code>N<sub>core</sub></code></td><td>Number of IMC banks/cores</td><td>Distinguishes bank-level performance from processor-level scale-up.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="story-grid">
+        <div class="story-copy"><p class="section-label">Accuracy gap</p><h2>Efficiency needs an accuracy coordinate.</h2><p>Analog IMCs trade compute fidelity against energy. The associated papers therefore argue that efficiency, throughput, and accuracy should be reported together, with compute SNR at the ADC-column or bank level and statistical confidence for network-level accuracy.</p><p>The database exposes reported ADC precision and pre-ADC information content as a proxy when compute SNR is unavailable. This is diagnostic evidence, not a substitute for direct accuracy measurement.</p></div>
+        <figure class="figure-frame"><img src="assets/figures/4_BADC_vs_BIcol_SRAM.png" alt="ADC precision against pre-ADC information content for SRAM IMCs in the 2024 data" /><figcaption>ADC precision versus information content at the ADC-column input, using the 2024 dataset.</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="section white">
+      <div class="section-heading"><p class="section-label">Analysis protocol</p><h2>Six checks before comparison.</h2></div>
+      <div class="card-grid">
+        <article class="card"><span class="card-number">01</span><h3>Normalize precision</h3><p>Convert reported throughput and efficiency to a one-bit operation basis.</p></article>
+        <article class="card"><span class="card-number">02</span><h3>Resolve the ADC column</h3><p>Extract dot-product dimension, physical parallelism, precisions, and converter context.</p></article>
+        <article class="card"><span class="card-number">03</span><h3>Recompute throughput</h3><p>Use latency and physical parallelism to cross-check the reported value.</p></article>
+        <article class="card"><span class="card-number">04</span><h3>Cross-check efficiency</h3><p>Normalize recomputed throughput by total reported power when it is available.</p></article>
+        <article class="card"><span class="card-number">05</span><h3>Verify density</h3><p>Normalize throughput by bank area, estimating area from die imagery only when needed.</p></article>
+        <article class="card"><span class="card-number">06</span><h3>Preserve level</h3><p>Keep bank and processor results distinct so scale-up overhead is not hidden.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer><a class="footer-brand" href="index.html"><img src="favicon.svg" alt="" /><strong>IMC Benchmarking</strong></a><p>Methodology summarized from the CICC and OJ-SSCS papers.</p><a href="papers.html">Read the papers →</a></footer>
+</body>
+</html>

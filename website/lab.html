@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Build a hypothetical in-memory computing design, place it on the current benchmark plot, compare it with reported operating points, and inspect accuracy evidence requirements." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="data/benchmark-data.js" defer></script>
+  <script src="data/model-data.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="lab.js" defer></script>
+  <title>Build an IMC · IMC Benchmarking</title>
+</head>
+<body class="themed-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="favicon.svg" alt="" /><span><strong>IMC Benchmarking</strong><small>Open data · normalized comparison</small></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Project sections"><a href="index.html">Overview</a><a href="methodology.html">Methodology</a><a href="explorer.html">Paper index</a><a href="lab.html" aria-current="page">Build an IMC</a><a href="trends.html">Trends</a><a href="papers.html">Papers</a></nav>
+    <a class="header-repo" href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">Source repository ↗</a>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <p class="section-label">Interactive comparison lab</p>
+      <h1>Build an IMC and test where it lands.</h1>
+      <p>Choose a hypothetical operating point, place it on the current efficiency-density plot, compare it with nearby reported designs, and identify what accuracy evidence is still missing.</p>
+    </section>
+
+    <section class="section">
+      <div class="lab-shell">
+        <form class="lab-controls" id="imc-builder">
+          <h2>Design parameters</h2>
+          <p class="control-intro">Choose physical assumptions and claimed performance. The lab derives efficiency and density, checks every selection against reported papers, and runs an attached feasibility model when one is available.</p>
+          <div class="control-grid">
+            <div class="control-group">
+              <label for="lab-architecture">Architecture</label>
+              <select id="lab-architecture"><option value="SRAM">SRAM</option><option value="eNVM">Resistive eNVM</option></select>
+            </div>
+            <div class="control-group">
+              <label for="lab-model">Compute model</label>
+              <select id="lab-model"></select>
+            </div>
+            <div class="control-group">
+              <label for="lab-tech">Technology <output id="lab-tech-output">28 nm</output></label>
+              <input id="lab-tech" type="range" min="4" max="180" value="28" step="1" />
+            </div>
+            <div class="control-group">
+              <label for="lab-dimension">Dot-product dimension</label>
+              <input id="lab-dimension" type="number" min="1" max="8192" value="128" step="1" />
+              <p class="control-help" id="lab-dimension-help">Reported dimensions will appear here.</p>
+            </div>
+            <div class="control-group">
+              <label for="lab-input-bits">Input precision</label>
+              <select id="lab-input-bits"><option>1</option><option selected>2</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>
+            </div>
+            <div class="control-group">
+              <label for="lab-weight-bits">Weight precision</label>
+              <select id="lab-weight-bits"><option>1</option><option>1.5</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>8</option><option>12</option></select>
+            </div>
+            <div class="control-group full">
+              <label for="lab-energy">Claimed energy per 1b operation <output id="lab-energy-output">1 fJ</output></label>
+              <input id="lab-energy" type="range" min="-1.3" max="2.3" value="0" step="0.01" />
+            </div>
+            <div class="control-group">
+              <label for="lab-throughput">Claimed 1b throughput <output id="lab-throughput-output">1 TOPS</output></label>
+              <input id="lab-throughput" type="range" min="-3" max="2" value="0" step="0.01" />
+            </div>
+            <div class="control-group">
+              <label for="lab-area">Active core area <output id="lab-area-output">0.01 mm²</output></label>
+              <input id="lab-area" type="range" min="-4" max="1" value="-2" step="0.01" />
+            </div>
+            <div class="control-group">
+              <label for="lab-adc-bits">ADC precision</label>
+              <select id="lab-adc-bits"><option value="">Not used / unreported</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>12</option></select>
+            </div>
+            <fieldset class="model-controls full" id="envm-model-controls" hidden>
+              <legend>Resistive eNVM model inputs</legend>
+              <div class="control-grid">
+                <div class="control-group"><label for="lab-envm-device">Device</label><select id="lab-envm-device"><option>ReRAM</option><option>MRAM</option><option>FeFET</option></select></div>
+                <div class="control-group"><label for="lab-vbl">Bitline voltage <output id="lab-vbl-output">0.1 V</output></label><input id="lab-vbl" type="range" min="-3" max="-0.09" value="-1" step="0.01" /></div>
+                <div class="control-group full"><label for="lab-core-period">Core period <output id="lab-core-period-output">20 ns</output></label><input id="lab-core-period" type="range" min="2" max="100" value="20" step="1" /></div>
+              </div>
+              <p class="control-help">The published surface models current-summing MRAM, ReRAM, and FeFET arrays with a six-bit ADC. Other ADC settings are energy-only extrapolations.</p>
+            </fieldset>
+            <fieldset class="model-controls full" id="sram-model-controls" hidden>
+              <legend>SRAM QR accuracy-model inputs</legend>
+              <div class="control-grid">
+                <div class="control-group"><label for="lab-cell-cap">Unit-cell capacitance <output id="lab-cell-cap-output">1 fF</output></label><input id="lab-cell-cap" type="range" min="0.25" max="8" value="1" step="0.05" /></div>
+                <div class="control-group"><label for="lab-adc-noise">ADC thermal noise <output id="lab-adc-noise-output">0.5 mV</output></label><input id="lab-adc-noise" type="range" min="0" max="5" value="0.5" step="0.05" /></div>
+              </div>
+              <p class="control-help">This deterministic browser simulation follows the repository’s 28 nm QR capacitance-mismatch and ADC-transfer model. It estimates compute SNR, not energy or area.</p>
+            </fieldset>
+            <div class="control-group">
+              <label for="lab-information">Pre-ADC information <output id="lab-information-output">12 bits</output></label>
+              <input id="lab-information" type="range" min="2" max="24" value="12" step="0.5" />
+            </div>
+            <div class="control-group full">
+              <div class="checkbox-line"><input id="lab-has-snr" type="checkbox" /><label for="lab-has-snr">I have a measured compute SNR</label></div>
+              <p class="control-help">A measured <em>SNR</em><sub>col</sub> is needed for accuracy-aware comparison. ADC bits alone do not establish compute accuracy.</p>
+            </div>
+            <div class="control-group full">
+              <label for="lab-snr">Compute SNR <output id="lab-snr-output">20 dB</output></label>
+              <input id="lab-snr" type="range" min="0" max="50" value="20" step="0.5" disabled />
+            </div>
+          </div>
+          <aside class="evidence-status" id="evidence-status" aria-live="polite"><strong>Checking the benchmark…</strong></aside>
+        </form>
+
+        <section class="lab-visual" aria-labelledby="lab-plot-title">
+          <div class="lab-visual-head"><div><h2 id="lab-plot-title">Energy efficiency vs. compute density</h2><p>Your candidate is shown as a diamond against operating points from the current repository data.</p></div></div>
+          <div class="lab-legend" aria-label="Architecture colors"><span style="--legend-color:var(--green)"><i></i>SRAM</span><span style="--legend-color:var(--red)"><i></i>eNVM/eFlash</span><span style="--legend-color:var(--amber)"><i></i>eDRAM</span><span style="--legend-color:var(--blue)"><i></i>Digital reference</span><span class="candidate-key"><i></i>Your IMC</span></div>
+          <div class="lab-chart-wrap"><svg id="lab-chart" class="lab-chart" viewBox="0 0 900 560" role="img" aria-labelledby="lab-chart-title lab-chart-desc"><title id="lab-chart-title">Candidate IMC compared with reported benchmark operating points</title><desc id="lab-chart-desc">Log-scale scatter plot of one-bit TOPS per square millimeter against one-bit TOPS per watt.</desc></svg></div>
+        </section>
+
+        <div class="lab-results">
+          <section class="lab-result" aria-labelledby="placement-title"><h3 id="placement-title">Derived placement</h3><strong class="result-lead" id="placement-lead">Loading benchmark data…</strong><ul class="result-list"><li><span>Energy efficiency</span><strong id="derived-efficiency">—</strong></li><li><span>Compute density</span><strong id="derived-density">—</strong></li><li><span>Reported-envelope check</span><strong id="envelope-check">—</strong></li></ul></section>
+          <section class="lab-result" aria-labelledby="model-title"><h3 id="model-title">Feasibility model</h3><strong class="result-lead" id="model-lead">Selecting a model…</strong><p id="model-detail">An attached model will run when its scope matches the selected architecture and compute model.</p><ul class="result-list compact" id="model-metrics"></ul></section>
+          <section class="lab-result" aria-labelledby="accuracy-title"><h3 id="accuracy-title">Accuracy awareness</h3><strong class="result-lead" id="accuracy-lead">Accuracy not established</strong><p id="accuracy-detail">Add a measured compute SNR to compare against the paper’s task-dependent guidance.</p><div class="accuracy-scale" aria-hidden="true"><i id="accuracy-marker" class="accuracy-marker" hidden></i></div></section>
+          <section class="lab-result" aria-labelledby="neighbors-title"><h3 id="neighbors-title">Nearest reported points</h3><table class="neighbors-table"><thead><tr><th>Index</th><th>Paper</th><th>Architecture</th></tr></thead><tbody id="neighbor-body"><tr><td colspan="3">Loading…</td></tr></tbody></table></section>
+          <p class="lab-disclaimer">Derived coordinates are arithmetic consequences of the entered energy, throughput, and area assumptions. Model checks are scoped to their source repositories; they do not certify silicon performance or network accuracy. The OJ-SSCS paper cites a task-dependent 10–40 dB compute-SNR range for several evaluated fixed-point networks. Quantization-aware training can change the requirement.</p>
+          <p class="lab-disclaimer model-sources">Model sources: <a href="https://github.com/calmyor/eNVM-IMC-Modeling">resistive eNVM energy–SNDR model ↗</a> and <a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">28 nm SRAM-QR accuracy model ↗</a>. The DIMC panel reports the scope found in the Explorer BackdooringDiT implementation.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><a class="footer-brand" href="index.html"><img src="favicon.svg" alt="" /><strong>IMC Benchmarking</strong></a><p>Interactive comparison uses the repository’s current CSV without modifying it.</p><a href="methodology.html">Accuracy methodology →</a></footer>
+</body>
+</html>

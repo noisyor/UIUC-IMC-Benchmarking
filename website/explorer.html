@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Search the indexed papers in the UIUC in-memory computing benchmarking database by number, architecture, year, venue, title, or author." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="styles.css" /><script src="data/benchmark-data.js" defer></script><script src="data/paper-links.js" defer></script><script src="app.js" defer></script>
+  <title>Paper Index · IMC Benchmarking</title>
+</head>
+<body class="themed-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="favicon.svg" alt="" /><span><strong>IMC Benchmarking</strong><small>Open data · normalized comparison</small></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Project sections"><a href="index.html">Overview</a><a href="methodology.html">Methodology</a><a href="explorer.html" aria-current="page">Paper index</a><a href="lab.html">Build an IMC</a><a href="trends.html">Trends</a><a href="papers.html">Papers</a></nav>
+    <a class="header-repo" href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">Source repository ↗</a>
+  </header>
+  <main id="main">
+    <section class="page-hero"><p class="section-label">Indexed database</p><h1>Find a paper by its benchmark number.</h1><p>Search the project’s 106 indexed IC papers and follow each title to its DOI record. A paper can contribute more than one operating point, so its reported values may appear as a range.</p></section>
+    <section class="section">
+      <div class="explorer-shell">
+        <div class="explorer-controls">
+          <input id="paper-search" type="search" placeholder="Search index, title, author, or venue" aria-label="Search papers" />
+          <select id="architecture-filter" aria-label="Filter by architecture"><option value="">All architectures</option><option value="SRAM">SRAM</option><option value="eNVM">eNVM</option><option value="eDRAM">eDRAM</option><option value="eFlash">eFlash</option><option value="Digital">Digital</option></select>
+          <select id="year-filter" aria-label="Filter by year"><option value="">All years</option></select>
+          <select id="venue-filter" aria-label="Filter by venue"><option value="">All venues</option></select>
+        </div>
+        <div class="explorer-summary"><span id="result-count">Loading the paper index…</span><span>Latest dataset update: October 2024</span></div>
+        <div class="explorer-table-wrap">
+          <table class="explorer-table">
+            <thead><tr><th>Index</th><th>Year</th><th>Paper</th><th>Venue</th><th>Architecture</th><th>1b-TOPS/W</th><th>1b-TOPS/mm²</th><th>Points</th><th>Paper link</th></tr></thead>
+            <tbody id="benchmark-body"><tr><td class="explorer-empty" colspan="9">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <p class="data-note">Index values follow <code>Benchmarking_Data.csv</code> and are intentionally not renumbered. The 144 rows represent reported or derived operating points, not 144 distinct papers. Paper links were resolved by title against DOI metadata; blank benchmark metrics remain blank rather than being inferred by this website.</p>
+      <div class="actions"><a class="button button-dark" href="data/Benchmarking_Data.csv" download>Download benchmark CSV</a><a class="button" href="data/column_index.csv" download>Download field definitions</a></div>
+    </section>
+  </main>
+  <footer><a class="footer-brand" href="index.html"><img src="favicon.svg" alt="" /><strong>IMC Benchmarking</strong></a><p>Paper indices and metrics are read directly from the project CSV.</p><a href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">Source repository ↗</a></footer>
+</body>
+</html>
