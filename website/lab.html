@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Build a hypothetical in-memory computing design, place it on the current benchmark plot, compare it with reported operating points, and inspect accuracy evidence requirements." />
+  <meta name="description" content="Build a hypothetical in-memory computing design, compare it with reported operating points, and screen SRAM analog-IMC network accuracy with ASiM-derived guidance." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
   <script src="data/benchmark-data.js" defer></script>
@@ -25,56 +25,42 @@
     <section class="page-hero">
       <p class="section-label">Interactive comparison lab</p>
       <h1>Build an IMC and test where it lands.</h1>
-      <p>Choose a hypothetical operating point, place it on the current efficiency-density plot, compare it with nearby reported designs, and identify what accuracy evidence is still missing.</p>
+      <p>Choose a hypothetical operating point, place it on the current efficiency-density plot, compare it with nearby reported designs, and screen network-level accuracy for charge-domain SRAM analog IMC.</p>
     </section>
 
     <section class="section">
       <div class="lab-shell">
         <form class="lab-controls" id="imc-builder">
-          <h2>Design parameters</h2>
-          <p class="control-intro">Choose physical assumptions and claimed performance. The lab derives efficiency and density, checks every selection against reported papers, and runs an attached feasibility model when one is available.</p>
-          <div class="control-grid">
-            <div class="control-group">
-              <label for="lab-architecture">Architecture</label>
-              <select id="lab-architecture"><option value="SRAM">SRAM</option><option value="eNVM">Resistive eNVM</option></select>
-            </div>
-            <div class="control-group">
-              <label for="lab-model">Compute model</label>
-              <select id="lab-model"></select>
-            </div>
-            <div class="control-group">
-              <label for="lab-tech">Technology <output id="lab-tech-output">28 nm</output></label>
-              <input id="lab-tech" type="range" min="4" max="180" value="28" step="1" />
-            </div>
-            <div class="control-group">
-              <label for="lab-dimension">Dot-product dimension</label>
-              <input id="lab-dimension" type="number" min="1" max="8192" value="128" step="1" />
-              <p class="control-help" id="lab-dimension-help">Reported dimensions will appear here.</p>
-            </div>
-            <div class="control-group">
-              <label for="lab-input-bits">Input precision</label>
-              <select id="lab-input-bits"><option>1</option><option selected>2</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select>
-            </div>
-            <div class="control-group">
-              <label for="lab-weight-bits">Weight precision</label>
-              <select id="lab-weight-bits"><option>1</option><option>1.5</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>8</option><option>12</option></select>
-            </div>
-            <div class="control-group full">
-              <label for="lab-energy">Claimed energy per 1b operation <output id="lab-energy-output">1 fJ</output></label>
-              <input id="lab-energy" type="range" min="-1.3" max="2.3" value="0" step="0.01" />
-            </div>
-            <div class="control-group">
-              <label for="lab-throughput">Claimed 1b throughput <output id="lab-throughput-output">1 TOPS</output></label>
-              <input id="lab-throughput" type="range" min="-3" max="2" value="0" step="0.01" />
-            </div>
-            <div class="control-group">
-              <label for="lab-area">Active core area <output id="lab-area-output">0.01 mm²</output></label>
-              <input id="lab-area" type="range" min="-4" max="1" value="-2" step="0.01" />
-            </div>
-            <div class="control-group">
-              <label for="lab-adc-bits">ADC precision</label>
-              <select id="lab-adc-bits"><option value="">Not used / unreported</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>12</option></select>
-            </div>
+          <div class="lab-controls-head">
+            <div><p class="section-label">Design workspace</p><h2>Configure one candidate.</h2><p class="control-intro">Start with its architecture and reported performance. Model-specific controls appear only when they apply.</p></div>
+            <p class="control-live-note"><span></span>All results update live</p>
+          </div>
+
+          <div class="lab-control-sections">
+            <fieldset class="control-section">
+              <legend><span>01</span> Architecture and mapping</legend>
+              <div class="control-grid control-grid-wide">
+                <div class="control-group"><label for="lab-architecture">Architecture</label><select id="lab-architecture"><option value="SRAM">SRAM</option><option value="eNVM">Resistive eNVM</option></select></div>
+                <div class="control-group"><label for="lab-model">Compute model</label><select id="lab-model"></select></div>
+                <div class="control-group"><label for="lab-tech">Technology <output id="lab-tech-output">28 nm</output></label><input id="lab-tech" type="range" min="4" max="180" value="28" step="1" /></div>
+                <div class="control-group"><label for="lab-dimension">Dot-product dimension</label><input id="lab-dimension" type="number" min="1" max="8192" value="128" step="1" /><p class="control-help" id="lab-dimension-help">Reported dimensions will appear here.</p></div>
+                <div class="control-group"><label for="lab-input-bits">Input precision</label><select id="lab-input-bits"><option>1</option><option selected>2</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></div>
+                <div class="control-group"><label for="lab-weight-bits">Weight precision</label><select id="lab-weight-bits"><option>1</option><option>1.5</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>8</option><option>12</option></select></div>
+                <div class="control-group"><label for="lab-adc-bits">ADC precision</label><select id="lab-adc-bits"><option value="">Not used / unreported</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>12</option></select></div>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-section performance-section">
+              <legend><span>02</span> Performance claim</legend>
+              <div class="control-grid performance-grid">
+                <div class="control-group"><label for="lab-energy">Energy per 1b operation <output id="lab-energy-output">1 fJ</output></label><input id="lab-energy" type="range" min="-1.3" max="2.3" value="0" step="0.01" /></div>
+                <div class="control-group"><label for="lab-throughput">1b throughput <output id="lab-throughput-output">1 TOPS</output></label><input id="lab-throughput" type="range" min="-3" max="2" value="0" step="0.01" /></div>
+                <div class="control-group"><label for="lab-area">Active core area <output id="lab-area-output">0.01 mm²</output></label><input id="lab-area" type="range" min="-4" max="1" value="-2" step="0.01" /></div>
+              </div>
+            </fieldset>
+
+            <section class="model-section" aria-labelledby="model-inputs-title">
+              <div class="model-section-head"><p><span>03</span></p><div><h3 id="model-inputs-title">Model-backed checks</h3><p>Only controls supported by the selected architecture are shown.</p></div></div>
             <fieldset class="model-controls full" id="envm-model-controls" hidden>
               <legend>Resistive eNVM model inputs</legend>
               <div class="control-grid">
@@ -82,7 +68,7 @@
                 <div class="control-group"><label for="lab-vbl">Bitline voltage <output id="lab-vbl-output">0.1 V</output></label><input id="lab-vbl" type="range" min="-3" max="-0.09" value="-1" step="0.01" /></div>
                 <div class="control-group full"><label for="lab-core-period">Core period <output id="lab-core-period-output">20 ns</output></label><input id="lab-core-period" type="range" min="2" max="100" value="20" step="1" /></div>
               </div>
-              <p class="control-help">The published surface models current-summing MRAM, ReRAM, and FeFET arrays with a six-bit ADC. Other ADC settings are energy-only extrapolations.</p>
+              <p class="control-help">The published surface models current-summing MRAM, ReRAM, and FeFET arrays with a six-bit ADC. Other ADC settings are energy-only extrapolations. <a class="inline-citation" href="https://doi.org/10.1109/JXCDC.2024.3381888">Roy &amp; Shanbhag, JXCDC 2024 ↗</a></p>
             </fieldset>
             <fieldset class="model-controls full" id="sram-model-controls" hidden>
               <legend>SRAM QR accuracy-model inputs</legend>
@@ -90,20 +76,52 @@
                 <div class="control-group"><label for="lab-cell-cap">Unit-cell capacitance <output id="lab-cell-cap-output">1 fF</output></label><input id="lab-cell-cap" type="range" min="0.25" max="8" value="1" step="0.05" /></div>
                 <div class="control-group"><label for="lab-adc-noise">ADC thermal noise <output id="lab-adc-noise-output">0.5 mV</output></label><input id="lab-adc-noise" type="range" min="0" max="5" value="0.5" step="0.05" /></div>
               </div>
-              <p class="control-help">This deterministic browser simulation follows the repository’s 28 nm QR capacitance-mismatch and ADC-transfer model. It estimates compute SNR, not energy or area.</p>
+              <p class="control-help">This deterministic browser simulation follows the repository’s 28 nm QR capacitance-mismatch and ADC-transfer model. It estimates compute SNR, not energy or area. <a class="inline-citation" href="https://doi.org/10.1109/TCSI.2025.3594230">Kavishwar &amp; Shanbhag, TCAS-I ↗</a></p>
             </fieldset>
-            <div class="control-group">
-              <label for="lab-information">Pre-ADC information <output id="lab-information-output">12 bits</output></label>
-              <input id="lab-information" type="range" min="2" max="24" value="12" step="0.5" />
-            </div>
-            <div class="control-group full">
-              <div class="checkbox-line"><input id="lab-has-snr" type="checkbox" /><label for="lab-has-snr">I have a measured compute SNR</label></div>
-              <p class="control-help">A measured <em>SNR</em><sub>col</sub> is needed for accuracy-aware comparison. ADC bits alone do not establish compute accuracy.</p>
-            </div>
-            <div class="control-group full">
-              <label for="lab-snr">Compute SNR <output id="lab-snr-output">20 dB</output></label>
-              <input id="lab-snr" type="range" min="0" max="50" value="20" step="0.5" disabled />
-            </div>
+            <fieldset class="model-controls full asim-controls" id="asim-model-controls" hidden>
+              <legend>ASiM network-accuracy screening</legend>
+              <div class="control-grid">
+                <div class="control-group full">
+                  <label for="lab-asim-workload">Network and dataset</label>
+                  <select id="lab-asim-workload">
+                    <option value="resnet18-cifar10">ResNet-18 · CIFAR-10</option>
+                    <option value="resnet18-imagenet">ResNet-18 · ImageNet</option>
+                    <option value="vitb32-cifar10">ViT-B-32 · CIFAR-10</option>
+                    <option value="vitb32-imagenet">ViT-B-32 · ImageNet</option>
+                  </select>
+                </div>
+                <div class="control-group">
+                  <label for="lab-asim-baseline">Digital baseline top-1</label>
+                  <div class="input-with-unit"><input id="lab-asim-baseline" type="number" min="0" max="100" value="93" step="0.1" /><span>%</span></div>
+                </div>
+                <div class="control-group">
+                  <label for="lab-asim-encoding">Activation encoding</label>
+                  <select id="lab-asim-encoding"><option value="0">Bit-serial</option><option value="2">2-bit parallel</option><option value="4">4-bit parallel</option></select>
+                </div>
+                <div class="control-group">
+                  <label for="lab-asim-random-noise">Random noise <output id="lab-asim-random-noise-output">0.05% V<sub>pp</sub></output></label>
+                  <input id="lab-asim-random-noise" type="range" min="0" max="0.5" value="0.05" step="0.005" />
+                </div>
+                <div class="control-group">
+                  <label for="lab-asim-nonlinearity">Nonlinearity <output id="lab-asim-nonlinearity-output">0.05% V<sub>pp</sub></output></label>
+                  <input id="lab-asim-nonlinearity" type="range" min="0" max="0.5" value="0.05" step="0.005" />
+                </div>
+                <div class="control-group full">
+                  <label for="lab-asim-training">Model preparation</label>
+                  <select id="lab-asim-training"><option value="qat">Quantization-aware trained checkpoint</option><option value="nat">Noise-aware trained checkpoint</option></select>
+                </div>
+              </div>
+              <p class="control-help">Shown only for analog SRAM choices. ASiM directly models charge-domain SRAM ACiM; the browser produces a paper-calibrated screening band, not a substitute for inference on the trained checkpoint and validation set. <a class="inline-citation" href="https://arxiv.org/abs/2411.11022">Zhang et al., TVLSI 2025 ↗</a></p>
+            </fieldset>
+              <details class="manual-evidence">
+                <summary>Optional measured-accuracy evidence</summary>
+                <div class="control-grid performance-grid">
+                  <div class="control-group"><label for="lab-information">Pre-ADC information <output id="lab-information-output">12 bits</output></label><input id="lab-information" type="range" min="2" max="24" value="12" step="0.5" /></div>
+                  <div class="control-group"><div class="checkbox-line"><input id="lab-has-snr" type="checkbox" /><label for="lab-has-snr">I have a measured compute SNR</label></div><p class="control-help">ADC bits alone do not establish compute accuracy.</p></div>
+                  <div class="control-group"><label for="lab-snr">Compute SNR <output id="lab-snr-output">20 dB</output></label><input id="lab-snr" type="range" min="0" max="50" value="20" step="0.5" disabled /></div>
+                </div>
+              </details>
+            </section>
           </div>
           <aside class="evidence-status" id="evidence-status" aria-live="polite"><strong>Checking the benchmark…</strong></aside>
         </form>
@@ -115,12 +133,11 @@
         </section>
 
         <div class="lab-results">
-          <section class="lab-result" aria-labelledby="placement-title"><h3 id="placement-title">Derived placement</h3><strong class="result-lead" id="placement-lead">Loading benchmark data…</strong><ul class="result-list"><li><span>Energy efficiency</span><strong id="derived-efficiency">—</strong></li><li><span>Compute density</span><strong id="derived-density">—</strong></li><li><span>Reported-envelope check</span><strong id="envelope-check">—</strong></li></ul></section>
-          <section class="lab-result" aria-labelledby="model-title"><h3 id="model-title">Feasibility model</h3><strong class="result-lead" id="model-lead">Selecting a model…</strong><p id="model-detail">An attached model will run when its scope matches the selected architecture and compute model.</p><ul class="result-list compact" id="model-metrics"></ul></section>
-          <section class="lab-result" aria-labelledby="accuracy-title"><h3 id="accuracy-title">Accuracy awareness</h3><strong class="result-lead" id="accuracy-lead">Accuracy not established</strong><p id="accuracy-detail">Add a measured compute SNR to compare against the paper’s task-dependent guidance.</p><div class="accuracy-scale" aria-hidden="true"><i id="accuracy-marker" class="accuracy-marker" hidden></i></div></section>
-          <section class="lab-result" aria-labelledby="neighbors-title"><h3 id="neighbors-title">Nearest reported points</h3><table class="neighbors-table"><thead><tr><th>Index</th><th>Paper</th><th>Architecture</th></tr></thead><tbody id="neighbor-body"><tr><td colspan="3">Loading…</td></tr></tbody></table></section>
-          <p class="lab-disclaimer">Derived coordinates are arithmetic consequences of the entered energy, throughput, and area assumptions. Model checks are scoped to their source repositories; they do not certify silicon performance or network accuracy. The OJ-SSCS paper cites a task-dependent 10–40 dB compute-SNR range for several evaluated fixed-point networks. Quantization-aware training can change the requirement.</p>
-          <p class="lab-disclaimer model-sources">Model sources: <a href="https://github.com/calmyor/eNVM-IMC-Modeling">resistive eNVM energy–SNDR model ↗</a> and <a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">28 nm SRAM-QR accuracy model ↗</a>. The DIMC panel reports the scope found in the Explorer BackdooringDiT implementation.</p>
+          <section class="lab-result" aria-labelledby="placement-title"><h3 id="placement-title">Derived placement</h3><strong class="result-lead" id="placement-lead">Loading benchmark data…</strong><ul class="result-list"><li><span>Energy efficiency</span><strong id="derived-efficiency">—</strong></li><li><span>Compute density</span><strong id="derived-density">—</strong></li><li><span>Reported-envelope check</span><strong id="envelope-check">—</strong></li></ul><p class="metric-citation"><span>Method</span><a href="https://doi.org/10.1109/CICC53496.2022.9772817">CICC 2022</a><a href="https://doi.org/10.1109/OJSSCS.2022.3210152">OJ-SSCS 2022</a></p></section>
+          <section class="lab-result" aria-labelledby="model-title"><h3 id="model-title">Feasibility model</h3><strong class="result-lead" id="model-lead">Selecting a model…</strong><p id="model-detail">An attached model will run when its scope matches the selected architecture and compute model.</p><ul class="result-list compact" id="model-metrics"></ul><p class="metric-citation" id="model-citation"><span>Source</span>Waiting for a supported model</p></section>
+          <section class="lab-result" aria-labelledby="accuracy-title"><h3 id="accuracy-title">Accuracy awareness</h3><strong class="result-lead" id="accuracy-lead">Accuracy not established</strong><p id="accuracy-detail">Add a measured compute SNR to compare against the paper’s task-dependent guidance.</p><div class="accuracy-scale" id="accuracy-scale" aria-hidden="true"><i id="accuracy-marker" class="accuracy-marker" hidden></i></div><div class="asim-result" id="asim-result" hidden><ul class="result-list compact"><li><span>ADC design boundary</span><strong id="asim-adc-boundary">—</strong></li><li><span>Combined analog noise</span><strong id="asim-noise">—</strong></li><li><span>Evidence class</span><strong id="asim-evidence-class">—</strong></li></ul><details class="asim-config"><summary>ASiM run configuration</summary><pre id="asim-config-text"></pre></details></div><p class="metric-citation" id="accuracy-citation"><span>Source</span>Waiting for an accuracy model</p></section>
+          <section class="lab-result lab-neighbors" aria-labelledby="neighbors-title"><h3 id="neighbors-title">Nearest reported points</h3><table class="neighbors-table"><thead><tr><th>Index</th><th>Paper</th><th>Architecture</th></tr></thead><tbody id="neighbor-body"><tr><td colspan="3">Loading…</td></tr></tbody></table><p class="metric-citation"><span>Data</span><a href="explorer.html">Benchmark paper index</a><a href="data/Benchmarking_Data.csv" download>Benchmarking_Data.csv</a></p></section>
+          <details class="lab-notes"><summary>Full metric references</summary><div><p>Derived coordinates follow directly from the entered energy, throughput, and area. Model checks do not certify silicon performance. ASiM screening is inferred from published design regimes; exact accuracy requires the selected checkpoint, mapping, and validation-set simulation.</p><ol class="citation-list"><li><strong>Benchmarking method and normalized coordinates.</strong> N. R. Shanbhag and S. K. Roy, “Comprehending In-memory Computing Trends via Proper Benchmarking,” CICC, 2022. <a href="https://doi.org/10.1109/CICC53496.2022.9772817">doi:10.1109/CICC53496.2022.9772817 ↗</a></li><li><strong>Benchmark analysis and compute-accuracy framing.</strong> N. R. Shanbhag and S. K. Roy, “Benchmarking In-Memory Computing Architectures,” IEEE OJ-SSCS, vol. 2, pp. 288–300, 2022. <a href="https://doi.org/10.1109/OJSSCS.2022.3210152">doi:10.1109/OJSSCS.2022.3210152 ↗</a></li><li><strong>Resistive eNVM energy and SNDR.</strong> S. K. Roy and N. R. Shanbhag, “Energy-Accuracy Trade-Offs for Resistive In-Memory Computing Architectures,” IEEE JXCDC, vol. 10, pp. 22–30, 2024. <a href="https://doi.org/10.1109/JXCDC.2024.3381888">doi:10.1109/JXCDC.2024.3381888 ↗</a> <a href="https://github.com/calmyor/eNVM-IMC-Modeling">Code ↗</a></li><li><strong>28 nm SRAM-QR compute-SNR model.</strong> M. Kavishwar and N. R. Shanbhag, “Energy-Accuracy Trade-Offs in Massive MIMO Signal Detection Using SRAM-Based In-Memory Computing,” IEEE TCAS-I, 2025. <a href="https://doi.org/10.1109/TCSI.2025.3594230">doi:10.1109/TCSI.2025.3594230 ↗</a> <a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">Code ↗</a></li><li><strong>SRAM-ACiM network-accuracy screening.</strong> W. Zhang, S. Ando, Y.-C. Chen, and K. Yoshioka, “ASiM: Modeling and Analyzing Inference Accuracy of SRAM-Based Analog CiM Circuits,” IEEE TVLSI, 2025. <a href="https://arxiv.org/abs/2411.11022">Paper ↗</a> <a href="https://github.com/Keio-CSG/ASiM">Code ↗</a></li></ol><p class="citation-boundary"><strong>DIMC boundary:</strong> the current DIMC panel is a behavioral implementation reference with forced latency, not a paper-backed energy, area, or accuracy model.</p></div></details>
         </div>
       </div>
     </section>

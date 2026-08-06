@@ -144,6 +144,108 @@ function labSramQrSnr(candidate) {
   return errorVariance > 0 ? 10 * Math.log10(labVariance(ideal) / errorVariance) : 100;
 }
 
+const labAsimWorkloads = {
+  "resnet18-cifar10": { label: "ResNet-18 · CIFAR-10", task: "CIFAR-10", model: "ResNet-18", chance: 10, adcOffset: { 0: -2, 2: -1, 4: -1 }, noiseLimit: { 0: 0.4, 2: 0.2, 4: 0.1 }, sensitivity: "moderate" },
+  "resnet18-imagenet": { label: "ResNet-18 · ImageNet", task: "ImageNet", model: "ResNet-18", chance: 0.1, adcOffset: { 0: 0, 2: 1, 4: 2 }, noiseLimit: { 0: 0.125, 2: 0.09, 4: 0.05 }, sensitivity: "high" },
+  "vitb32-cifar10": { label: "ViT-B-32 · CIFAR-10", task: "CIFAR-10", model: "ViT-B-32", chance: 10, adcOffset: { 0: 0, 2: 1, 4: 2 }, noiseLimit: { 0: 0.125, 2: 0.09, 4: 0.05 }, sensitivity: "high" },
+  "vitb32-imagenet": { label: "ViT-B-32 · ImageNet", task: "ImageNet", model: "ViT-B-32", chance: 0.1, adcOffset: { 0: 0, 2: 2, 4: 3 }, noiseLimit: { 0: 0.125, 2: 0.075, 4: 0.05 }, sensitivity: "very high" }
+};
+
+function labAsimScreen(candidate) {
+  const workload = labAsimWorkloads[candidate.asimWorkload];
+  const encoding = candidate.asimEncoding;
+  const baseAdc = Math.ceil(Math.log2(Math.max(2, candidate.dimension + 1)));
+  const fullRangeAdc = baseAdc + encoding;
+  const requiredAdc = Math.max(1, baseAdc + workload.adcOffset[encoding]);
+  const adcDeficit = Math.max(0, requiredAdc - (candidate.adcBits || 0));
+  const combinedNoisePct = Math.hypot(candidate.asimRandomNoise, candidate.asimNonlinearity);
+  const noiseLsb = candidate.adcBits === null ? Infinity : combinedNoisePct / 100 * (2 ** candidate.adcBits - 1);
+  const noiseRatio = noiseLsb / workload.noiseLimit[encoding];
+
+  let adcLoss;
+  if (adcDeficit === 0) adcLoss = workload.sensitivity === "moderate" ? [0, 1.5] : [0, 3];
+  else if (workload.sensitivity === "moderate") adcLoss = adcDeficit === 1 ? [1, 5] : [5 + 6 * (adcDeficit - 2), 16 + 10 * (adcDeficit - 2)];
+  else if (workload.model === "ResNet-18") adcLoss = adcDeficit === 1 ? [7, 13] : [18 + 10 * (adcDeficit - 2), 40 + 15 * (adcDeficit - 2)];
+  else adcLoss = adcDeficit === 1 ? [15, 40] : [35 + 15 * (adcDeficit - 2), 90];
+
+  let noiseLoss;
+  if (noiseRatio <= 0.5) noiseLoss = [0, 1];
+  else if (noiseRatio <= 1) noiseLoss = [1, workload.sensitivity === "moderate" ? 3 : 5];
+  else if (noiseRatio <= 2) noiseLoss = workload.sensitivity === "moderate" ? [3, 12] : [8, 25];
+  else if (noiseRatio <= 4) noiseLoss = workload.sensitivity === "moderate" ? [10, 30] : [20, 60];
+  else noiseLoss = workload.sensitivity === "moderate" ? [25, 70] : [45, 100];
+
+  const minimumLoss = adcLoss[0] + noiseLoss[0];
+  const maximumLoss = adcLoss[1] + noiseLoss[1];
+  const low = Math.max(workload.chance, candidate.asimBaseline - maximumLoss);
+  let high = Math.max(workload.chance, candidate.asimBaseline - minimumLoss);
+  if (high === workload.chance) high = Math.min(candidate.asimBaseline, workload.chance + (workload.task === "ImageNet" ? 1 : 5));
+  const insideAdc = adcDeficit === 0;
+  const insideNoise = noiseRatio <= 1;
+  const evidenceClass = insideAdc && insideNoise ? "Published low-loss regime" : (adcDeficit <= 1 && noiseRatio <= 2 ? "Boundary regime" : "Outside low-loss regime");
+  const encodingText = encoding === 0 ? "None" : String(encoding);
+  const configLines = [
+    `# Screening translation; paste into the matching ASiM example config`,
+    `cfg.task = '${workload.task}'`,
+    `# model = ${workload.model}; checkpoint baseline = ${candidate.asimBaseline.toFixed(1)}% top-1`
+  ];
+  if (workload.model === "ResNet-18") {
+    ["conv", "linear"].forEach((module) => {
+      configLines.push(
+        `cfg.asim_${module}_wbit = ${candidate.weightBits}`,
+        `cfg.asim_${module}_xbit = ${candidate.inputBits}`,
+        `cfg.asim_${module}_adc_prec = ${candidate.adcBits}`,
+        `cfg.asim_${module}_nrow = ${Math.round(candidate.dimension)}`,
+        `cfg.asim_${module}_rand_noise_sigma = ${candidate.asimRandomNoise}`,
+        `cfg.asim_${module}_non_linear_sigma = ${candidate.asimNonlinearity}`,
+        `cfg.asim_${module === "conv" ? "act_enc" : "linear_act_enc"} = ${encodingText}`
+      );
+    });
+  } else {
+    configLines.push(
+      `cfg.asim_vit_attn_nrow = ${Math.round(candidate.dimension)}`,
+      `cfg.asim_vit_attn_qk_qbit = ${candidate.inputBits}`,
+      `cfg.asim_vit_attn_qk_kbit = ${candidate.inputBits}`,
+      `cfg.asim_vit_attn_av_abit = ${candidate.inputBits}`,
+      `cfg.asim_vit_attn_av_vbit = ${candidate.inputBits}`,
+      `cfg.asim_vit_attn_qk_adc_prec = ${candidate.adcBits}`,
+      `cfg.asim_vit_attn_av_adc_prec = ${candidate.adcBits}`,
+      `cfg.asim_vit_attn_proj_adc_prec = ${candidate.adcBits}`,
+      `cfg.asim_vit_attn_proj_wbit = ${candidate.weightBits}`,
+      `cfg.asim_vit_attn_proj_xbit = ${candidate.inputBits}`,
+      `cfg.asim_vit_attn_qk_rand_noise_sigma = ${candidate.asimRandomNoise}`,
+      `cfg.asim_vit_attn_av_rand_noise_sigma = ${candidate.asimRandomNoise}`,
+      `cfg.asim_vit_attn_proj_rand_noise_sigma = ${candidate.asimRandomNoise}`,
+      `cfg.asim_vit_attn_qk_non_linear_sigma = ${candidate.asimNonlinearity}`,
+      `cfg.asim_vit_attn_av_non_linear_sigma = ${candidate.asimNonlinearity}`,
+      `cfg.asim_vit_attn_proj_non_linear_sigma = ${candidate.asimNonlinearity}`,
+      `cfg.asim_vit_attn_qk_k_enc = ${encodingText}`,
+      `cfg.asim_vit_attn_av_a_enc = ${encodingText}`,
+      `cfg.asim_vit_attn_proj_act_enc = ${encodingText}`
+    );
+    ["mlp", "fc"].forEach((module) => {
+      configLines.push(
+        `cfg.asim_vit_${module}_wbit = ${candidate.weightBits}`,
+        `cfg.asim_vit_${module}_xbit = ${candidate.inputBits}`,
+        `cfg.asim_vit_${module}_adc_prec = ${candidate.adcBits}`,
+        `cfg.asim_vit_${module}_nrow = ${Math.round(candidate.dimension)}`,
+        `cfg.asim_vit_${module}_rand_noise_sigma = ${candidate.asimRandomNoise}`,
+        `cfg.asim_vit_${module}_non_linear_sigma = ${candidate.asimNonlinearity}`,
+        `cfg.asim_vit_${module}_act_enc = ${encodingText}`
+      );
+    });
+    configLines.push(
+      `cfg.asim_vit_quant_conv_wbit = ${candidate.weightBits}`,
+      `cfg.asim_vit_quant_conv_xbit = ${candidate.inputBits}`
+    );
+  }
+  configLines.push(
+    `# Model preparation selected here: ${candidate.asimTraining === "nat" ? "noise-aware training (NAT)" : "quantization-aware training (QAT)"}.`,
+    `# Run main/src_simulation.py to obtain the actual validation-set Test Acc.`
+  );
+  return { workload, baseAdc, fullRangeAdc, requiredAdc, adcDeficit, combinedNoisePct, noiseLsb, noiseRatio, low, high, evidenceClass, config: configLines.join("\n") };
+}
+
 async function initDetailedLab() {
   const chart = document.querySelector("#lab-chart");
   if (!chart) return;
@@ -171,14 +273,18 @@ async function initDetailedLab() {
     adcBits: document.querySelector("#lab-adc-bits"), information: document.querySelector("#lab-information"),
     hasSnr: document.querySelector("#lab-has-snr"), snr: document.querySelector("#lab-snr"),
     envmDevice: document.querySelector("#lab-envm-device"), vbl: document.querySelector("#lab-vbl"), corePeriod: document.querySelector("#lab-core-period"),
-    cellCap: document.querySelector("#lab-cell-cap"), adcNoise: document.querySelector("#lab-adc-noise")
+    cellCap: document.querySelector("#lab-cell-cap"), adcNoise: document.querySelector("#lab-adc-noise"),
+    asimWorkload: document.querySelector("#lab-asim-workload"), asimBaseline: document.querySelector("#lab-asim-baseline"),
+    asimEncoding: document.querySelector("#lab-asim-encoding"), asimRandomNoise: document.querySelector("#lab-asim-random-noise"),
+    asimNonlinearity: document.querySelector("#lab-asim-nonlinearity"), asimTraining: document.querySelector("#lab-asim-training")
   };
   const outputs = {
     tech: document.querySelector("#lab-tech-output"), energy: document.querySelector("#lab-energy-output"),
     throughput: document.querySelector("#lab-throughput-output"), area: document.querySelector("#lab-area-output"),
     information: document.querySelector("#lab-information-output"), snr: document.querySelector("#lab-snr-output"),
     vbl: document.querySelector("#lab-vbl-output"), corePeriod: document.querySelector("#lab-core-period-output"),
-    cellCap: document.querySelector("#lab-cell-cap-output"), adcNoise: document.querySelector("#lab-adc-noise-output")
+    cellCap: document.querySelector("#lab-cell-cap-output"), adcNoise: document.querySelector("#lab-adc-noise-output"),
+    asimRandomNoise: document.querySelector("#lab-asim-random-noise-output"), asimNonlinearity: document.querySelector("#lab-asim-nonlinearity-output")
   };
   const colors = { SRAM: "#218a5b", eNVM: "#df4b45", eFlash: "#df4b45", Digital: "#3268cc", eDRAM: "#d98a1c" };
   const width = Math.max(320, Math.round(chart.getBoundingClientRect().width || 900));
@@ -209,7 +315,10 @@ async function initDetailedLab() {
       efficiency: 1000 / energyFj, density: throughput / area,
       hasSnr: controls.hasSnr.checked, snr: Number(controls.snr.value),
       envmDevice: controls.envmDevice.value, vbl: 10 ** Number(controls.vbl.value), corePeriodNs: Number(controls.corePeriod.value),
-      cellCap: Number(controls.cellCap.value), adcNoiseMv: Number(controls.adcNoise.value)
+      cellCap: Number(controls.cellCap.value), adcNoiseMv: Number(controls.adcNoise.value),
+      asimWorkload: controls.asimWorkload.value, asimBaseline: Number(controls.asimBaseline.value),
+      asimEncoding: Number(controls.asimEncoding.value), asimRandomNoise: Number(controls.asimRandomNoise.value),
+      asimNonlinearity: Number(controls.asimNonlinearity.value), asimTraining: controls.asimTraining.value
     };
   }
 
@@ -238,6 +347,7 @@ async function initDetailedLab() {
     else if (!controls.adcBits.value) controls.adcBits.value = modelRows.some((row) => row.adcBits === 6) ? "6" : "5";
     document.querySelector("#envm-model-controls").hidden = !(architecture === "eNVM" && model === "IS");
     document.querySelector("#sram-model-controls").hidden = !(architecture === "SRAM" && model === "QR");
+    document.querySelector("#asim-model-controls").hidden = !(architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(model));
   }
 
   function updateEvidence(candidate) {
@@ -340,9 +450,37 @@ async function initDetailedLab() {
   }
 
   function updateAccuracy(candidate, modelResult) {
+    const title = document.querySelector("#accuracy-title");
     const lead = document.querySelector("#accuracy-lead");
     const detail = document.querySelector("#accuracy-detail");
     const marker = document.querySelector("#accuracy-marker");
+    const scale = document.querySelector("#accuracy-scale");
+    const asimResult = document.querySelector("#asim-result");
+    const asimActive = candidate.architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(candidate.model);
+    title.textContent = asimActive ? "Network-level accuracy" : "Accuracy awareness";
+    scale.hidden = asimActive;
+    asimResult.hidden = !asimActive;
+    if (asimActive) {
+      marker.hidden = true;
+      if (!Number.isInteger(candidate.inputBits) || !Number.isInteger(candidate.weightBits) || candidate.adcBits === null) {
+        lead.textContent = "ASiM screening needs integer precisions and an ADC";
+        detail.textContent = "Choose integer input and weight bits plus an ADC precision. ASiM decomposes quantized tensors into binary MAC cycles and cannot use the selected fractional precision directly.";
+        document.querySelector("#asim-adc-boundary").textContent = "Not evaluated";
+        document.querySelector("#asim-noise").textContent = "Not evaluated";
+        document.querySelector("#asim-evidence-class").textContent = "Outside ASiM input scope";
+        document.querySelector("#asim-config-text").textContent = "Select integer input/weight precision and an ADC precision to generate an ASiM configuration.";
+        return;
+      }
+      const screening = labAsimScreen(candidate);
+      lead.textContent = `Screening band: ${labFormat(screening.low, 1)}–${labFormat(screening.high, 1)}% top-1`;
+      const trainingNote = candidate.asimTraining === "nat" ? "The entered baseline should be the clean accuracy of the selected NAT checkpoint; its added robustness is not credited numerically without a direct run." : "The entered baseline should be the clean accuracy of the selected QAT checkpoint.";
+      detail.textContent = `${screening.workload.label} screening band from ASiM’s published ADC and noise regimes, anchored to the entered ${labFormat(candidate.asimBaseline, 1)}% digital baseline. ${trainingNote} This is not an ASiM inference result.`;
+      document.querySelector("#asim-adc-boundary").textContent = `${screening.requiredAdc}b guidance · ${screening.fullRangeAdc}b full range`;
+      document.querySelector("#asim-noise").textContent = `${labFormat(screening.combinedNoisePct, 3)}% Vpp · ${labFormat(screening.noiseLsb, 3)} LSB rms proxy`;
+      document.querySelector("#asim-evidence-class").textContent = screening.evidenceClass;
+      document.querySelector("#asim-config-text").textContent = screening.config;
+      return;
+    }
     const presentSnr = candidate.hasSnr ? candidate.snr : modelResult.modeledSnr;
     if (presentSnr === null || !Number.isFinite(presentSnr)) {
       marker.hidden = true;
@@ -368,6 +506,30 @@ async function initDetailedLab() {
     } else {
       lead.textContent = `${sourceText} SNR is above cited guidance`;
       detail.textContent = `${labFormat(presentSnr, 1)} dB exceeds the cited range, but mapping and target-network accuracy still require direct evaluation.`;
+    }
+  }
+
+  function updateMetricCitations(candidate) {
+    const modelCitation = document.querySelector("#model-citation");
+    const accuracyCitation = document.querySelector("#accuracy-citation");
+    if (candidate.architecture === "eNVM" && candidate.model === "IS") {
+      modelCitation.innerHTML = '<span>Source</span><a href="https://doi.org/10.1109/JXCDC.2024.3381888">Roy &amp; Shanbhag, JXCDC 2024</a><a href="https://github.com/calmyor/eNVM-IMC-Modeling">Code</a>';
+      accuracyCitation.innerHTML = '<span>Source</span><a href="https://doi.org/10.1109/JXCDC.2024.3381888">Resistive IMC SNDR model</a>';
+      return;
+    }
+    if (candidate.architecture === "SRAM" && candidate.model === "QR") {
+      modelCitation.innerHTML = '<span>Source</span><a href="https://doi.org/10.1109/TCSI.2025.3594230">Kavishwar &amp; Shanbhag, TCAS-I</a><a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">Code</a>';
+    } else if (candidate.architecture === "SRAM" && candidate.model === "DIMC") {
+      modelCitation.innerHTML = '<span>Scope</span>Behavioral implementation reference; no paper-backed metric model';
+    } else {
+      modelCitation.innerHTML = '<span>Method</span><a href="https://doi.org/10.1109/CICC53496.2022.9772817">CICC benchmarking method</a>';
+    }
+    if (candidate.architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(candidate.model)) {
+      accuracyCitation.innerHTML = '<span>Source</span><a href="https://arxiv.org/abs/2411.11022">Zhang et al., ASiM</a><a href="https://github.com/Keio-CSG/ASiM">Code</a>';
+    } else if (candidate.model === "DIMC") {
+      accuracyCitation.innerHTML = '<span>Scope</span>No network-accuracy source is attached';
+    } else {
+      accuracyCitation.innerHTML = '<span>Method</span><a href="https://doi.org/10.1109/OJSSCS.2022.3210152">OJ-SSCS accuracy framing</a>';
     }
   }
 
@@ -422,6 +584,8 @@ async function initDetailedLab() {
     outputs.corePeriod.textContent = `${candidate.corePeriodNs} ns`;
     outputs.cellCap.textContent = `${labFormat(candidate.cellCap, 2)} fF`;
     outputs.adcNoise.textContent = `${labFormat(candidate.adcNoiseMv, 2)} mV`;
+    outputs.asimRandomNoise.innerHTML = `${labFormat(candidate.asimRandomNoise, 3)}% V<sub>pp</sub>`;
+    outputs.asimNonlinearity.innerHTML = `${labFormat(candidate.asimNonlinearity, 3)}% V<sub>pp</sub>`;
     controls.snr.disabled = !candidate.hasSnr;
     if (candidate.envmDevice === "FeFET") controls.vbl.max = "0.7"; else controls.vbl.max = "-0.09";
 
@@ -440,6 +604,7 @@ async function initDetailedLab() {
     document.querySelector("#model-detail").textContent = modelResult.detail;
     document.querySelector("#model-metrics").innerHTML = modelResult.metrics.map(([label, value]) => `<li><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`).join("");
     updateAccuracy(candidate, modelResult);
+    updateMetricCitations(candidate);
     updateNeighbors(candidate);
   }
 
@@ -454,6 +619,11 @@ async function initDetailedLab() {
     const maximum = controls.envmDevice.value === "FeFET" ? 0.7 : -0.09;
     controls.vbl.max = String(maximum);
     if (Number(controls.vbl.value) > maximum) controls.vbl.value = String(maximum);
+    update();
+  });
+  const asimBaselineDefaults = { "resnet18-cifar10": 93, "resnet18-imagenet": 69.8, "vitb32-cifar10": 98, "vitb32-imagenet": 75.9 };
+  controls.asimWorkload.addEventListener("change", () => {
+    controls.asimBaseline.value = String(asimBaselineDefaults[controls.asimWorkload.value]);
     update();
   });
   Object.entries(controls).filter(([key]) => !["architecture", "model", "envmDevice"].includes(key)).forEach(([, control]) => control.addEventListener("input", scheduleUpdate));
