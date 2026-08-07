@@ -89,6 +89,39 @@ function escapeHtml(value) {
   })[character]);
 }
 
+function paperPeople(index, fallbackAuthors) {
+  const metadata = window.BENCHMARK_PAPER_METADATA?.papers?.[index];
+  const authors = metadata?.authors || [];
+  if (!authors.length) return {
+    toggle: `<span class="paper-meta">${escapeHtml(fallbackAuthors)}</span>`,
+    row: ""
+  };
+  const affiliations = [...new Set(authors.flatMap((author) => author.affiliations || []))];
+  const people = authors.map((author) => {
+    const authorAffiliations = author.affiliations?.length
+      ? author.affiliations.map((affiliation) => escapeHtml(affiliation)).join("<br>")
+      : "Affiliation unavailable in the DOI metadata";
+    return `<div class="paper-person"><dt>${escapeHtml(author.name)}</dt><dd>${authorAffiliations}</dd></div>`;
+  }).join("");
+  const sourceLink = metadata.openAlexUrl
+    ? `<a href="${escapeHtml(metadata.openAlexUrl)}" target="_blank" rel="noopener">OpenAlex record ↗</a>`
+    : "OpenAlex DOI metadata";
+  const label = `${authors.length} author${authors.length === 1 ? "" : "s"} · ${affiliations.length} affiliation${affiliations.length === 1 ? "" : "s"}`;
+  const panelId = `paper-people-${index}`;
+  return {
+    toggle: `<button class="paper-people-toggle" type="button" aria-expanded="false" aria-controls="${panelId}">${label}</button>`,
+    row: `
+      <tr id="${panelId}" class="paper-people-row" hidden>
+        <td colspan="9">
+          <section class="paper-people-panel" aria-label="Authors and affiliations for benchmark paper ${escapeHtml(index)}">
+            <div class="paper-people-head"><strong>Full author and affiliation record</strong><span>Source: ${sourceLink}</span></div>
+            <dl class="paper-people-list">${people}</dl>
+          </section>
+        </td>
+      </tr>`
+  };
+}
+
 async function initExplorer() {
   const tableBody = document.querySelector("#benchmark-body");
   if (!tableBody) return;
@@ -114,6 +147,16 @@ async function initExplorer() {
   const venue = document.querySelector("#venue-filter");
   const count = document.querySelector("#result-count");
 
+  tableBody.addEventListener("click", (event) => {
+    const toggle = event.target.closest(".paper-people-toggle");
+    if (!toggle) return;
+    const detailRow = document.querySelector(`#${toggle.getAttribute("aria-controls")}`);
+    if (!detailRow) return;
+    const expanded = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", String(!expanded));
+    detailRow.hidden = expanded;
+  });
+
   [...new Set(paperRows.map((row) => row.Year))].sort().reverse().forEach((value) => year.add(new Option(value, value)));
   [...new Set(paperRows.map((row) => row["Journal/Conference"]))].sort().forEach((value) => venue.add(new Option(value, value)));
 
@@ -127,7 +170,9 @@ async function initExplorer() {
   function render() {
     const query = search.value.trim().toLowerCase();
     const visible = paperRows.filter((row) => {
-      const haystack = [row.Index, row["Paper Title"], row.Authors, row["Journal/Conference"]].join(" ").toLowerCase();
+      const metadata = window.BENCHMARK_PAPER_METADATA?.papers?.[row.Index];
+      const people = metadata?.authors?.flatMap((author) => [author.name, ...(author.affiliations || [])]) || [];
+      const haystack = [row.Index, row["Paper Title"], row.Authors, row["Journal/Conference"], ...people].join(" ").toLowerCase();
       return (!query || haystack.includes(query)) &&
         (!architecture.value || row.Architecture === architecture.value) &&
         (!year.value || row.Year === year.value) &&
@@ -140,6 +185,7 @@ async function initExplorer() {
     }
     tableBody.innerHTML = visible.map((row) => {
       const paperLink = window.BENCHMARK_PAPER_LINKS?.[row.Index];
+      const people = paperPeople(row.Index, row.Authors);
       const linkedTitle = paperLink
         ? `<a class="paper-title-link" href="${escapeHtml(paperLink.url)}" target="_blank" rel="noopener">${escapeHtml(row["Paper Title"])}</a>`
         : escapeHtml(row["Paper Title"]);
@@ -150,14 +196,14 @@ async function initExplorer() {
         <tr>
           <td><span class="index-chip">#${escapeHtml(row.Index)}</span></td>
           <td>${escapeHtml(row.Year)}</td>
-          <td><strong>${linkedTitle}</strong><br><span class="paper-meta">${escapeHtml(row.Authors)}</span></td>
+          <td><strong>${linkedTitle}</strong>${people.toggle}</td>
           <td>${escapeHtml(row["Journal/Conference"])}</td>
           <td><span class="arch-chip ${escapeHtml(row.Architecture.toLowerCase())}">${escapeHtml(titleCaseArch(row.Architecture))}</span></td>
           <td>${metric(row, "TOPS/W")}</td>
           <td>${metric(row, "TOPS/mm2")}</td>
           <td>${row.operatingPoints}</td>
           <td>${linkCell}</td>
-        </tr>`;
+        </tr>${people.row}`;
     }).join("");
   }
 

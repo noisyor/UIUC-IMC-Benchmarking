@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Search the indexed papers in the UIUC in-memory computing benchmarking database by number, architecture, year, venue, title, or author." />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="styles.css" /><script src="data/benchmark-data.js" defer></script><script src="data/paper-links.js" defer></script><script src="app.js" defer></script>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="styles.css" /><script src="data/benchmark-data.js" defer></script><script src="data/paper-links.js" defer></script><script src="data/paper-metadata.js" defer></script><script src="app.js" defer></script>
   <title>Paper Index · IMC Benchmarking</title>
 </head>
 <body class="themed-page">
@@ -15,11 +15,11 @@
     <a class="header-repo" href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking">Source repository ↗</a>
   </header>
   <main id="main">
-    <section class="page-hero"><p class="section-label">Indexed database</p><h1>Find a paper by its benchmark number.</h1><p>Search the project’s 106 indexed IC papers and follow each title to its DOI record. A paper can contribute more than one operating point, so its reported values may appear as a range.</p></section>
+    <section class="page-hero"><p class="section-label">Indexed database</p><h1>Find a paper by its benchmark number.</h1><p>Search the project’s 106 indexed IC papers and expand any entry to see its complete DOI-matched author and affiliation record. A paper can contribute more than one operating point, so its reported values may appear as a range.</p></section>
     <section class="section">
       <div class="explorer-shell">
         <div class="explorer-controls">
-          <input id="paper-search" type="search" placeholder="Search index, title, author, or venue" aria-label="Search papers" />
+          <input id="paper-search" type="search" placeholder="Search title, author, affiliation, or venue" aria-label="Search papers" />
           <select id="architecture-filter" aria-label="Filter by architecture"><option value="">All architectures</option><option value="SRAM">SRAM</option><option value="eNVM">eNVM</option><option value="eDRAM">eDRAM</option><option value="eFlash">eFlash</option><option value="Digital">Digital</option></select>
           <select id="year-filter" aria-label="Filter by year"><option value="">All years</option></select>
           <select id="venue-filter" aria-label="Filter by venue"><option value="">All venues</option></select>
@@ -32,7 +32,7 @@
           </table>
         </div>
       </div>
-      <p class="data-note">Index values follow <code>Benchmarking_Data.csv</code> and are intentionally not renumbered. The 144 rows represent reported or derived operating points, not 144 distinct papers. Paper links were resolved by title against DOI metadata; blank benchmark metrics remain blank rather than being inferred by this website.</p>
+      <p class="data-note">Index values follow <code>Benchmarking_Data.csv</code> and are intentionally not renumbered. The 144 rows represent reported or derived operating points, not 144 distinct papers. Full author and affiliation records were retrieved by DOI from <a href="https://openalex.org" target="_blank" rel="noopener">OpenAlex</a> on August 6, 2026. Blank benchmark metrics remain blank rather than being inferred by this website.</p>
       <div class="actions"><a class="button button-dark" href="data/Benchmarking_Data.csv" download>Download benchmark CSV</a><a class="button" href="data/column_index.csv" download>Download field definitions</a></div>
     </section>
   </main>
