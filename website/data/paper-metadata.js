@@ -1103,231 +1103,198 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yang Jiao",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Liang Han",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Rong Jin",
           "affiliations": [
-            "Alibaba,Seattle,WA",
             "Alibaba, Seattle, WA"
           ]
         },
         {
           "name": "Yi-Jung Su",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Chiente Ho",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Li Yin",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Yun Li",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Long Chen",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Zhen Chen",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Lu Liu",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Zhuyu He",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Yu Yan",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Jun He",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Jun Mao",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Xiaotao Zai",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Xuejun Wu",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Yongquan Zhou",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Mingqiu Gu",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Guocai Zhu",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Rong Zhong",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Wenyuan Lee",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Ping Chen",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Yiping Chen",
           "affiliations": [
-            "Alibaba,Sunnyvale,CA",
             "Alibaba, Sunnyvale, CA"
           ]
         },
         {
           "name": "Weiliang Li",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Deyu Xiao",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Qing Yan",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Mingyuan Zhuang",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Jiejun Chen",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Yun Tian",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Yingzi Lin",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Wei Wu",
           "affiliations": [
-            "Alibaba,Shanghai,China",
             "Alibaba, Shanghai, China"
           ]
         },
         {
           "name": "Hao Li",
           "affiliations": [
-            "Alibaba,Hangzhou,China",
             "Alibaba, Hangzhou, China"
           ]
         },
         {
           "name": "Zesheng Dou",
           "affiliations": [
-            "Alibaba,Hangzhou,China",
             "Alibaba, Hangzhou, China"
           ]
         }
@@ -1448,148 +1415,127 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Jian-Wei Su",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
-            "Industrial Technology Research Institute, Hsinchu, Taiwan",
-            "National Tsing Hua University, Hsinchu, Taiwan"
+            "National Tsing Hua University, Hsinchu, Taiwan",
+            "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Chi Chou",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ruhui Liu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ta-Wei Liu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Pei-Jung Lu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ping-Chun Wu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Lin Chung",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Li-Yang Hung",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Jin-Sheng Ren",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tianlong Pan",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Sih-Han Li",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Shih-Chieh Chang",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Shyh-Shyuan Sheu",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Wei-Chung Lo",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-I Wu",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Xin Si",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chung-Chuan Lo",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ren-Shuo Liu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-Cheng Hsieh",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Kea-Tiong Tang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
@@ -2044,84 +1990,72 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Jun-Seok Park",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Jun-Woo Jang",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,Suwon,Korea",
             "Samsung Advanced Institute of Technology, Suwon, Korea"
           ]
         },
         {
           "name": "Heonsoo Lee",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Dongwoo Lee",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Sehwan Lee",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,Suwon,Korea",
             "Samsung Advanced Institute of Technology, Suwon, Korea"
           ]
         },
         {
           "name": "Hanwoong Jung",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,Suwon,Korea",
             "Samsung Advanced Institute of Technology, Suwon, Korea"
           ]
         },
         {
           "name": "Seungwon Lee",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,Suwon,Korea",
             "Samsung Advanced Institute of Technology, Suwon, Korea"
           ]
         },
         {
           "name": "Suknam Kwon",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Kyungah Jeong",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Joon-Ho Song",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,Suwon,Korea",
             "Samsung Advanced Institute of Technology, Suwon, Korea"
           ]
         },
         {
           "name": "SukHwan Lim",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Inyup Kang",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         }
@@ -2137,140 +2071,120 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Po-Hao Lee",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hidehiro Fujiwara",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yi-Chun Shih",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chia-Fu Lee",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Rawan Naous",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Lin Chen",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chieh-Pu Lo",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Cheng-Han Lu",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Haruki Mori",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Wei-Chang Zhao",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Dar Sun",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Mahmut E. Sinangil",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Huei Chen",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tan-Li Chou",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Kerem Akarvardar",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hung-Jen Liao",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yih Wang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tsung-Yung Jonathan Chang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         }
@@ -2812,70 +2726,60 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Ruiqi Guo",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Hao Li",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Ruhui Liu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu",
             "National Tsing Hua University, Hsinchu"
           ]
         },
         {
           "name": "Zhixiao Zhang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu",
             "National Tsing Hua University, Hsinchu"
           ]
         },
         {
           "name": "Limei Tang",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Hao Sun",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Leibo Liu",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu",
             "National Tsing Hua University, Hsinchu"
           ]
         },
         {
           "name": "Shaojun Wei",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Shouyi Yin",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         }
@@ -3318,168 +3222,157 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "R. Khaddam-Aljameh",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "M. Stanisavljevic",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "J. Fornt Mas",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "G. Karunaratne",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "M. Braendli",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "F. Liu",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "A. Singh",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "S. M. Müller",
           "affiliations": [
-            "IBM Systems and Technology,B&#x00F6;blingen,Germany",
+            "IBM Systems and Technology, B&#x00F6; blingen, Germany",
             "IBM Systems and Technology, Böblingen, Germany"
           ]
         },
         {
           "name": "U. Egger",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "A. Petropoulos",
           "affiliations": [
-            "University of Patras,Rio Achaia,Greece",
             "University of Patras, Rio Achaia, Greece"
           ]
         },
         {
           "name": "T. Antonakopoulos",
           "affiliations": [
-            "University of Patras,Rio Achaia,Greece",
             "University of Patras, Rio Achaia, Greece"
           ]
         },
         {
           "name": "K. Brew",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "S. Choi",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "I. Ok",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "F. L. Lie",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "N. Saulnier",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "V. Chan",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "I. Ahsan",
           "affiliations": [
-            "IBM Research,Albany,NY,USA",
             "IBM Research, Albany, NY, USA"
           ]
         },
         {
           "name": "V. Narayanan",
           "affiliations": [
-            "IBM T. J. Watson Research Center,Yorktown Heights,NY,USA",
             "IBM T. J. Watson Research Center, Yorktown Heights, NY, USA"
           ]
         },
         {
           "name": "S. R. Nandakumar",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "M. Le Gallo",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "P. A. Francese",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "A. Sebastian",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         },
         {
           "name": "E. Eleftheriou",
           "affiliations": [
-            "IBM Research Europe,R&#x00FC;schlikon,Switzerland",
+            "IBM Research Europe, R&#x00FC; schlikon, Switzerland",
             "IBM Research Europe, Rüschlikon, Switzerland"
           ]
         }
@@ -4315,72 +4208,62 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Win-San Khwa",
           "affiliations": [
-            "TSMC Corporate Research,Hsinchu,Taiwan",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Cheng Chiu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chuan-Jia Jhang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Sheng-Po Huang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chun-Ying Lee",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tai-Hao Wen",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Fu-Chun Chang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Shao-Ming Yu",
           "affiliations": [
-            "TSMC Corporate Research,Hsinchu,Taiwan",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tung-Yin Lee",
           "affiliations": [
-            "TSMC Corporate Research,Hsinchu,Taiwan",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "TSMC Corporate Research,Hsinchu,Taiwan",
-            "National Tsing Hua University, Hsinchu, Taiwan",
-            "TSMC Corporate Research, Hsinchu, Taiwan"
+            "TSMC Corporate Research, Hsinchu, Taiwan",
+            "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         }
       ],
@@ -4395,98 +4278,84 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Je-Min Hung",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Hsiang Huang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Sheng-Po Huang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Fu-Chun Chang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tai-Hao Wen",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chin-I Su",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Win-San Khwa",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chung-Chuan Lo",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ren-Shuo Liu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-Cheng Hsieh",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Kea-Tiong Tang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tsung-Yung Jonathan Chang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
@@ -4503,140 +4372,120 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Ping-Chun Wu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Jian-Wei Su",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Lin Chung",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Li-Yang Hong",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Jin-Sheng Ren",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Fu-Chun Chang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yuan Wu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ho- Yu Chen",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chen-Hsun Lin",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hsu-Ming Hsiao",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Sih-Han Li",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Shyh-Shyuan Sheu",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Shih-Chieh Chang",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Wei-Chung Lo",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chung-Chuan Lo",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ren-Shuo Liu",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-Cheng Hsieh",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Kea-Tiong Tang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-I Wu",
           "affiliations": [
-            "Industrial Technology Research Institute,Hsinchu,Taiwan",
             "Industrial Technology Research Institute, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "National Tsing Hua University,Hsinchu,Taiwan",
             "National Tsing Hua University, Hsinchu, Taiwan"
           ]
         }
@@ -4652,126 +4501,108 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Hidehiro Fujiwara",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Haruki Mori",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Wei-Chang Zhao",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Mei-Chen Chuang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Rawan Naous",
           "affiliations": [
-            "TSMC,San Jose,CA",
             "TSMC, San Jose, CA"
           ]
         },
         {
           "name": "Chao-Kai Chuang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Takeshi Hashizume",
           "affiliations": [
-            "TSMC,Yokohama,Japan",
             "TSMC, Yokohama, Japan"
           ]
         },
         {
           "name": "Dar Sun",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chia-Fu Lee",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Kerem Akarvardar",
           "affiliations": [
-            "TSMC,San Jose,CA",
             "TSMC, San Jose, CA"
           ]
         },
         {
           "name": "Saman Adham",
           "affiliations": [
-            "TSMC,Austin,TX",
             "TSMC, Austin, TX"
           ]
         },
         {
           "name": "Tan-Li Chou",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Mahmut Ersin Sinangil",
           "affiliations": [
-            "TSMC,San Jose,CA",
             "TSMC, San Jose, CA"
           ]
         },
         {
           "name": "Yih Wang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Huei Chen",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hung-Jen Liao",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tsung-Yung Jonathan Chang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         }
@@ -4787,86 +4618,74 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Bonan Yan",
           "affiliations": [
-            "Peking University,Beijing,China",
             "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Jeng-Long Hsu",
           "affiliations": [
-            "NeoNexus,Singapore,Singapore",
             "NeoNexus, Singapore, Singapore"
           ]
         },
         {
           "name": "Pang-Cheng Yu",
           "affiliations": [
-            "NeoNexus,Singapore,Singapore",
             "NeoNexus, Singapore, Singapore"
           ]
         },
         {
           "name": "Chia-Chi Lee",
           "affiliations": [
-            "NeoNexus,Singapore,Singapore",
             "NeoNexus, Singapore, Singapore"
           ]
         },
         {
           "name": "Yaojun Zhang",
           "affiliations": [
-            "Pimchip Technology,Beijing,China",
             "Pimchip Technology, Beijing, China"
           ]
         },
         {
           "name": "Wenshuo Yue",
           "affiliations": [
-            "Peking University,Beijing,China",
             "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Guoqiang Mei",
           "affiliations": [
-            "Pimchip Technology,Beijing,China",
             "Pimchip Technology, Beijing, China"
           ]
         },
         {
           "name": "Yuchao Yang",
           "affiliations": [
-            "NeoNexus,Singapore,Singapore",
-            "Peking University,Beijing,China",
+            "NeoNexus, Singapore, Singapore",
             "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Yue Yang",
           "affiliations": [
-            "NeoNexus,Singapore,Singapore",
-            "Peking University,Beijing,China",
-            "NeoNexus, Singapore, Singapore"
+            "NeoNexus, Singapore, Singapore",
+            "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Hai Li",
           "affiliations": [
-            "Duke University,Durham,NC",
             "Duke University, Durham, NC"
           ]
         },
         {
           "name": "Yiran Chen",
           "affiliations": [
-            "Duke University,Durham,NC",
             "Duke University, Durham, NC"
           ]
         },
         {
           "name": "Ru Huang",
           "affiliations": [
-            "Peking University,Beijing,China",
             "Peking University, Beijing, China"
           ]
         }
@@ -4882,119 +4701,102 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Jun-Seok Park",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Changsoo Park",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Suknam Kwon",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Hyeong-Seok Kim",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Taeho Jeon",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Yesung Kang",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Heonsoo Lee",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Dongwoo Lee",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "James Kim",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "YoungJong Lee",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Sangkyu Park",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Jun-Woo Jang",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,Suwon,Korea",
             "Samsung Advanced Institute of Technology, Suwon, Korea"
           ]
         },
         {
           "name": "SangHyuck Ha",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "MinSeong Kim",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Jihoon Bang",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Suk Hwan Lim",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         },
         {
           "name": "Inyup Kang",
           "affiliations": [
-            "Samsung Electronics,Hwaseong,Korea",
             "Samsung Electronics, Hwaseong, Korea"
           ]
         }
@@ -5010,14 +4812,12 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yuhao Ju",
           "affiliations": [
-            "Northwestern University,Evanston,IL",
             "Northwestern University, Evanston, IL"
           ]
         },
         {
           "name": "Jie Gu",
           "affiliations": [
-            "Northwestern University,Evanston,IL",
             "Northwestern University, Evanston, IL"
           ]
         }
@@ -5033,112 +4833,96 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Haozhe Zhu",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Bo Jiao",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Jinshan Zhang",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Xinru Jia",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Yunzhengmao Wang",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Tianchan Guan",
           "affiliations": [
-            "Alibaba DAMO Academy,Shanghai,China",
             "Alibaba DAMO Academy, Shanghai, China"
           ]
         },
         {
           "name": "Shengcheng Wang",
           "affiliations": [
-            "Alibaba DAMO Academy,Shanghai,China",
             "Alibaba DAMO Academy, Shanghai, China"
           ]
         },
         {
           "name": "Dimin Niu",
           "affiliations": [
-            "Alibaba DAMO Academy,Shanghai,China",
             "Alibaba DAMO Academy, Shanghai, China"
           ]
         },
         {
           "name": "Hongzhong Zheng",
           "affiliations": [
-            "Alibaba DAMO Academy,Shanghai,China",
             "Alibaba DAMO Academy, Shanghai, China"
           ]
         },
         {
           "name": "Chixiao Chen",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Mingyu Wang",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Lihua Zhang",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Xiaoyang Zeng",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Qi Liu",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         },
         {
           "name": "Yuan Xie",
           "affiliations": [
-            "Alibaba DAMO Academy,Shanghai,China",
             "Alibaba DAMO Academy, Shanghai, China"
           ]
         },
         {
           "name": "Ming Liu",
           "affiliations": [
-            "Fudan University,Shanghai,China",
             "Fudan University, Shanghai, China"
           ]
         }
@@ -5154,63 +4938,54 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Kazutoshi Hirose",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Jaehoon Yu",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Kota Ando",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Yasuyuki Okoshi",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Angel Lopez Garcia-Arias",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Junnosuke Suzuki",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Thiem Van Chu",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Kazushi Kawamura",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Masato Motomura",
           "affiliations": [
-            "Tokyo Institute of Technology,Yokohama,Japan",
             "Tokyo Institute of Technology, Yokohama, Japan"
           ]
         }
@@ -5226,7 +5001,6 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Fengbin Tu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China",
             "University of California, Santa Barbara, CA"
           ]
@@ -5234,63 +5008,54 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yiqi Wang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Zihan Wu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Ling Liang",
           "affiliations": [
-            "University of California,Santa Barbara,CA",
             "University of California, Santa Barbara, CA"
           ]
         },
         {
           "name": "Yufei Ding",
           "affiliations": [
-            "University of California,Santa Barbara,CA",
             "University of California, Santa Barbara, CA"
           ]
         },
         {
           "name": "Bongjin Kim",
           "affiliations": [
-            "University of California,Santa Barbara,CA",
             "University of California, Santa Barbara, CA"
           ]
         },
         {
           "name": "Leibo Liu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Shaojun Wei",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Yuan Xie",
           "affiliations": [
-            "University of California,Santa Barbara,CA",
             "University of California, Santa Barbara, CA"
           ]
         },
         {
           "name": "Shouyi Yin",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         }
@@ -5306,28 +5071,24 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Kodai Ueyoshi",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium"
           ]
         },
         {
           "name": "Ioannis A. Papistas",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Pouya Houshmand",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium"
           ]
         },
         {
           "name": "Giuseppe M. Sarda",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium",
             "imec, Leuven, Belgium"
           ]
@@ -5335,84 +5096,72 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Vikram Jain",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium"
           ]
         },
         {
           "name": "Man Shi",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium"
           ]
         },
         {
           "name": "Qilin Zheng",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium"
           ]
         },
         {
           "name": "Sebastian Giraldo",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium"
           ]
         },
         {
           "name": "Peter Vrancx",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Jonas Doevenspeck",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Debjyoti Bhattacharjee",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Stefan Cosemans",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Arindam Mallik",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Peter Debacker",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Diederik Verkest",
           "affiliations": [
-            "imec,Leuven,Belgium",
             "imec, Leuven, Belgium"
           ]
         },
         {
           "name": "Marian Verhelst",
           "affiliations": [
-            "KU Leuven,Leuven,Belgium",
             "KU Leuven, Leuven, Belgium",
             "imec, Leuven, Belgium"
           ]
@@ -5429,35 +5178,30 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Laura Fick",
           "affiliations": [
-            "Mythic,Austin,TX",
             "Mythic, Austin, TX"
           ]
         },
         {
           "name": "Skylar Skrzyniarz",
           "affiliations": [
-            "Mythic,Austin,TX",
             "Mythic, Austin, TX"
           ]
         },
         {
           "name": "Malav Parikh",
           "affiliations": [
-            "Mythic,Austin,TX",
             "Mythic, Austin, TX"
           ]
         },
         {
           "name": "Michael B. Henry",
           "affiliations": [
-            "Mythic,Redwood City,CA",
             "Mythic, Redwood City, CA"
           ]
         },
         {
           "name": "David Fick",
           "affiliations": [
-            "Mythic,Austin,TX",
             "Mythic, Austin, TX"
           ]
         }
@@ -5473,42 +5217,36 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Dewei Wang",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Chuan-Tung Lin",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Gregory K. Chen",
           "affiliations": [
-            "Intel,Portland,OR",
             "Intel, Portland, OR"
           ]
         },
         {
           "name": "Phil Knag",
           "affiliations": [
-            "Intel,Portland,OR",
             "Intel, Portland, OR"
           ]
         },
         {
           "name": "Ram K. Krishnamurthy",
           "affiliations": [
-            "Intel,Portland,OR",
             "Intel, Portland, OR"
           ]
         },
         {
           "name": "Mingoo Seok",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         }
@@ -5524,51 +5262,44 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Samuel D. Spetalnick",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Muya Chang",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
-            "TSMC Corporate Research,Hsinchu,Taiwan",
-            "Georgia Institute of Technology, Atlanta, GA"
+            "Georgia Institute of Technology, Atlanta, GA",
+            "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Brian Crafton",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Win-San Khwa",
           "affiliations": [
-            "TSMC Corporate Research,Hsinchu,Taiwan",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC Design Technology,Hsinchu,Taiwan",
             "TSMC Design Technology, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
-            "TSMC Corporate Research,Hsinchu,Taiwan",
+            "Georgia Institute of Technology, Atlanta, GA",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Arijit Raychowdhury",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         }
@@ -5617,70 +5348,60 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Bo Zhang",
           "affiliations": [
-            "Columbia University,USA",
             "Columbia University, USA"
           ]
         },
         {
           "name": "Jyotishman Saikia",
           "affiliations": [
-            "Arizona State University,USA",
             "Arizona State University, USA"
           ]
         },
         {
           "name": "Jian Meng",
           "affiliations": [
-            "Arizona State University,USA",
             "Arizona State University, USA"
           ]
         },
         {
           "name": "Dewei Wang",
           "affiliations": [
-            "Columbia University,USA",
             "Columbia University, USA"
           ]
         },
         {
           "name": "Soonwan Kwon",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,South Korea",
             "Samsung Advanced Institute of Technology, South Korea"
           ]
         },
         {
           "name": "Sungmeen Myung",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,South Korea",
             "Samsung Advanced Institute of Technology, South Korea"
           ]
         },
         {
           "name": "Hyunsoo Kim",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,South Korea",
             "Samsung Advanced Institute of Technology, South Korea"
           ]
         },
         {
           "name": "Sang Joon Kim",
           "affiliations": [
-            "Samsung Advanced Institute of Technology,South Korea",
             "Samsung Advanced Institute of Technology, South Korea"
           ]
         },
         {
           "name": "Jae-sun Seo",
           "affiliations": [
-            "Arizona State University,USA",
             "Arizona State University, USA"
           ]
         },
         {
           "name": "Mingoo Seok",
           "affiliations": [
-            "Columbia University,USA",
             "Columbia University, USA"
           ]
         }
@@ -5696,35 +5417,30 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Zhiyu Chen",
           "affiliations": [
-            "Rice University,Houston,TX",
             "Rice University, Houston, TX"
           ]
         },
         {
           "name": "Qing Jin",
           "affiliations": [
-            "Northeastern University,Boston,MA",
             "Northeastern University, Boston, MA"
           ]
         },
         {
           "name": "Zhanghao Yu",
           "affiliations": [
-            "Rice University,Houston,TX",
             "Rice University, Houston, TX"
           ]
         },
         {
           "name": "Yanzhi Wang",
           "affiliations": [
-            "Northeastern University,Boston,MA",
             "Northeastern University, Boston, MA"
           ]
         },
         {
           "name": "Kaiyuan Yang",
           "affiliations": [
-            "Rice University,Houston,TX",
             "Rice University, Houston, TX"
           ]
         }
@@ -5740,56 +5456,48 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Edward Choi",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Injun Choi",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Chanhee Jeon",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Gichan Yun",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Donghyeon Yi",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Sohmyung Ha",
           "affiliations": [
-            "New York University Abu Dhabi,Abu Dhabi,United Arab Emirates",
             "New York University Abu Dhabi, Abu Dhabi, United Arab Emirates"
           ]
         },
         {
           "name": "Ik-Joon Chang",
           "affiliations": [
-            "Kyung Hee University,Yongin,South Korea",
             "Kyung Hee University, Yongin, South Korea"
           ]
         },
         {
           "name": "Minkyu Je",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         }
@@ -5805,35 +5513,30 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Jaehoon Heo",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Junsoo Kim",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Wontak Han",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Sukbin Lim",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Joo-Young Kim",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         }
@@ -5849,49 +5552,49 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Animesh Gupta",
           "affiliations": [
-            "National University of Singapore,ECE,Singapore",
+            "National University of Singapore, ECE, Singapore",
             "ECE, National University of Singapore, Singapore"
           ]
         },
         {
           "name": "Viveka Konandur",
           "affiliations": [
-            "National University of Singapore,ECE,Singapore",
+            "National University of Singapore, ECE, Singapore",
             "ECE, National University of Singapore, Singapore"
           ]
         },
         {
           "name": "Thoithoi Salam",
           "affiliations": [
-            "National University of Singapore,ECE,Singapore",
+            "National University of Singapore, ECE, Singapore",
             "ECE, National University of Singapore, Singapore"
           ]
         },
         {
           "name": "Saurabh Jain",
           "affiliations": [
-            "National University of Singapore,ECE,Singapore",
+            "National University of Singapore, ECE, Singapore",
             "ECE, National University of Singapore, Singapore"
           ]
         },
         {
           "name": "Orazio Aiello",
           "affiliations": [
-            "National University of Singapore,ECE,Singapore",
+            "National University of Singapore, ECE, Singapore",
             "ECE, National University of Singapore, Singapore"
           ]
         },
         {
           "name": "Paolo Crovetti",
           "affiliations": [
-            "Politecnico di Torino,DET,Italy",
+            "Politecnico di Torino, DET, Italy",
             "DET, Politecnico di Torino, Italy"
           ]
         },
         {
           "name": "Massimo Alioto",
           "affiliations": [
-            "National University of Singapore,ECE,Singapore",
+            "National University of Singapore, ECE, Singapore",
             "ECE, National University of Singapore, Singapore"
           ]
         }
@@ -5907,56 +5610,48 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Ben Keller",
           "affiliations": [
-            "NVIDIA,Santa Clara,CA,USA",
             "NVIDIA, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Rangharajan Venkatesan",
           "affiliations": [
-            "NVIDIA,Santa Clara,CA,USA",
             "NVIDIA, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Steve Dai",
           "affiliations": [
-            "NVIDIA,Santa Clara,CA,USA",
             "NVIDIA, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Stephen G. Tell",
           "affiliations": [
-            "NVIDIA,Durham,NC,USA",
             "NVIDIA, Durham, NC, USA"
           ]
         },
         {
           "name": "Brian Zimmer",
           "affiliations": [
-            "NVIDIA,Santa Clara,CA,USA",
             "NVIDIA, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "William J. Dally",
           "affiliations": [
-            "NVIDIA,Santa Clara,CA,USA",
             "NVIDIA, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "C. Thomas Gray",
           "affiliations": [
-            "NVIDIA,Durham,NC,USA",
             "NVIDIA, Durham, NC, USA"
           ]
         },
         {
           "name": "Brucek Khailany",
           "affiliations": [
-            "NVIDIA,Austin,TX,USA",
             "NVIDIA, Austin, TX, USA"
           ]
         }
@@ -5972,63 +5667,54 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Chia-Fu Lee",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Cheng-Han Lu",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Cheng-En Lee",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Haruki Mori",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hidehiro Fujiwara",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yi-Chun Shih",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tan-Li Chou",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tsung-Yung Jonathan Chang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         }
@@ -6044,35 +5730,30 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Shanshan Xie",
           "affiliations": [
-            "The University of Texas,Austin,TX",
             "The University of Texas, Austin, TX"
           ]
         },
         {
           "name": "Can Ni",
           "affiliations": [
-            "The University of Texas,Austin,TX",
             "The University of Texas, Austin, TX"
           ]
         },
         {
           "name": "Pulkit Jain",
           "affiliations": [
-            "Intel Corporation,Hillsboro,OR,USA",
             "Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Fatih Hamzaoglu",
           "affiliations": [
-            "Intel Corporation,Hillsboro,OR,USA",
             "Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Jaydeep P. Kulkarni",
           "affiliations": [
-            "The University of Texas,Austin,TX",
             "The University of Texas, Austin, TX"
           ]
         }
@@ -6088,112 +5769,96 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Justin M. Correll",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Lu Jie",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Seungheun Song",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Seungjong Lee",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Junkang Zhu",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Wei Tang",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Luke Wormald",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Jack Erhardt",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Nicolas Breil",
           "affiliations": [
-            "Applied Materials,Santa Clara,CA,USA",
             "Applied Materials, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Roger Quon",
           "affiliations": [
-            "Applied Materials,Santa Clara,CA,USA",
             "Applied Materials, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Deepak Kamalanathan",
           "affiliations": [
-            "Applied Materials,Santa Clara,CA,USA",
             "Applied Materials, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Siddarth Krishnan",
           "affiliations": [
-            "Applied Materials,Santa Clara,CA,USA",
             "Applied Materials, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Michael Chudzik",
           "affiliations": [
-            "Applied Materials,Santa Clara,CA,USA",
             "Applied Materials, Santa Clara, CA, USA"
           ]
         },
         {
           "name": "Zhengya Zhang",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Wei D. Lu",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         },
         {
           "name": "Michael P. Flynn",
           "affiliations": [
-            "University of Michigan,Ann Arbor,MI,USA",
             "University of Michigan, Ann Arbor, MI, USA"
           ]
         }
@@ -6209,21 +5874,18 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Peter Deaville",
           "affiliations": [
-            "Princeton University,NJ,USA",
             "Princeton University, NJ, USA"
           ]
         },
         {
           "name": "Bonan Zhang",
           "affiliations": [
-            "Princeton University,NJ,USA",
             "Princeton University, NJ, USA"
           ]
         },
         {
           "name": "Naveen Verma",
           "affiliations": [
-            "Princeton University,NJ,USA",
             "Princeton University, NJ, USA"
           ]
         }
@@ -6239,56 +5901,56 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Hechen Wang",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Renzhi Liu",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Richard Dorrance",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Deepak Dasalukunte",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Xiaosen Liu",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Dan Lake",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Brent Carlton",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "May Wu",
           "affiliations": [
-            "Intel Corporation,Intel Labs,Hillsboro,OR,USA",
+            "Intel Corporation, Intel Labs, Hillsboro, OR, USA",
             "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         }
@@ -6304,133 +5966,114 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "An Guo",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Xin Si",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Xi Chen",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Fangyuan Dong",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Xingyu Pu",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Dongqi Li",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Yongliang Zhou",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Lizheng Ren",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Yeyang Xue",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Xueshan Dong",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Hui Gao",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Yiran Zhang",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Jingmin Zhang",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Yuyao Kong",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Tianzhu Xiong",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Bo Wang",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Hao Cai",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Weiwei Shan",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Jun Yang",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         }
@@ -6446,77 +6089,66 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yifan He",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Haikang Diao",
           "affiliations": [
-            "Peking University,Beijing,China",
             "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Chen Tang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Wenbin Jia",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Xiyuan Tang",
           "affiliations": [
-            "Peking University,Beijing,China",
             "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Yuan Wang",
           "affiliations": [
-            "Peking University,Beijing,China",
             "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Jinshan Yue",
           "affiliations": [
-            "Chinese Academy of Sciences,Beijing,China",
             "Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Xueqing Li",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Huazhong Yang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Hongyang Jia",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Yongpan Liu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         }
@@ -6532,126 +6164,108 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Haruki Mori",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Wei-Chang Zhao",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Cheng-En Lee",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chia-Fu Lee",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Hao Hsu",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chao-Kai Chuang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Takeshi Hashizume",
           "affiliations": [
-            "TSMC,Yokohama,Japan",
             "TSMC, Yokohama, Japan"
           ]
         },
         {
           "name": "Hao-Chun Tung",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yao-Yi Liu",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Shin-Rung Wu",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Kerem Akarvardar",
           "affiliations": [
-            "TSMC,San Jose,CA",
             "TSMC, San Jose, CA"
           ]
         },
         {
           "name": "Tan-Li Chou",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hidehiro Fujiwara",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yih Wang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yen-Huei Chen",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hung-Jen Liao",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tsung-Yung Jonathan Chang",
           "affiliations": [
-            "TSMC,Hsinchu,Taiwan",
             "TSMC, Hsinchu, Taiwan"
           ]
         }
@@ -6667,112 +6281,96 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Bo Wang",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Chen Xue",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Zhongyuan Feng",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Zhaoyang Zhang",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Han Liu",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Lizheng Ren",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Xiang Li",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Anran Yin",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Tianzhu Xiong",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Yeyang Xue",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Shengnan He",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Yuyao Kong",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Yongliang Zhou",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "An Guo",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Xin Si",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         },
         {
           "name": "Jun Yang",
           "affiliations": [
-            "Southeast University,Nanjing,China",
             "Southeast University, Nanjing, China"
           ]
         }
@@ -6788,105 +6386,90 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Sung-En Hsieh",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chun-Hao Wei",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Cheng-Xin Xue",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hung-Wei Lin",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Wei-Hsuan Tu",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "En-Jui Chang",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Kai-Taing Yang",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Po-Heng Chen",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Wei-Nan Liao",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Li Lian Low",
           "affiliations": [
-            "MediaTek,Singapore,Singapore",
             "MediaTek, Singapore, Singapore"
           ]
         },
         {
           "name": "Chia-Da Lee",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Allen-CL Lu",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Jenwei Liang",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-Chung Cheng",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tzung-Hung Kang",
           "affiliations": [
-            "MediaTek.,Hsinchu,Taiwan",
             "MediaTek., Hsinchu, Taiwan"
           ]
         }
@@ -6902,56 +6485,48 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Fengbin Tu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Yiqi Wang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Zihan Wu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Weiwei Wu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Leibo Liu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Yang Hu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Shaojun Wei",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Shouyi Yin",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         }
@@ -6967,79 +6542,68 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Muya Chang",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
-            "TSMC Corporate Research,Hsinchu,Taiwan",
-            "Georgia Institute of Technology, Atlanta, GA"
+            "Georgia Institute of Technology, Atlanta, GA",
+            "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Ashwin Sanjay Lele",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Samuel D. Spetalnick",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Brian Crafton",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Shota Konno",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Zishen Wan",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Ashwin Bhat",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         },
         {
           "name": "Win-San Khwa",
           "affiliations": [
-            "TSMC Corporate Research,Hsinchu,Taiwan",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC Design Technology,Hsinchu,Taiwan",
             "TSMC Design Technology, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
-            "TSMC Corporate Research,Hsinchu,Taiwan",
+            "Georgia Institute of Technology, Atlanta, GA",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Arijit Raychowdhury",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA",
             "Georgia Institute of Technology, Atlanta, GA"
           ]
         }
@@ -7055,116 +6619,102 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Francesco Conti",
           "affiliations": [
-            "University of Bologna,Bologna,Italy",
             "University of Bologna, Bologna, Italy"
           ]
         },
         {
           "name": "Davide Rossi",
           "affiliations": [
-            "University of Bologna,Bologna,Italy",
             "University of Bologna, Bologna, Italy"
           ]
         },
         {
           "name": "Gianna Paulin",
           "affiliations": [
-            "University of Bologna,Bologna,Italy",
             "University of Bologna, Bologna, Italy"
           ]
         },
         {
           "name": "Angelo Garofalo",
           "affiliations": [
-            "University of Bologna,Bologna,Italy",
             "University of Bologna, Bologna, Italy"
           ]
         },
         {
           "name": "Alfio Di Mauro",
           "affiliations": [
-            "ETH Z&#x00FC;rich,Z&#x00FC;rich,Switzerland"
+            "ETH Z&#x00FC; rich, Z&#x00FC; rich, Switzerland"
           ]
         },
         {
           "name": "Georg Rutishauer",
           "affiliations": [
-            "ETH Z&#x00FC;rich,Z&#x00FC;rich,Switzerland"
+            "ETH Z&#x00FC; rich, Z&#x00FC; rich, Switzerland"
           ]
         },
         {
           "name": "Gian marco Ottavi",
           "affiliations": [
-            "University of Bologna,Bologna,Italy",
             "University of Bologna, Bologna, Italy"
           ]
         },
         {
           "name": "Manuel Eggimann",
           "affiliations": [
-            "ETH Z&#x00FC;rich,Z&#x00FC;rich,Switzerland"
+            "ETH Z&#x00FC; rich, Z&#x00FC; rich, Switzerland"
           ]
         },
         {
           "name": "Hayate Okuhara",
           "affiliations": [
-            "University of Bologna,Bologna,Italy",
             "University of Bologna, Bologna, Italy"
           ]
         },
         {
           "name": "Vincent Huard",
           "affiliations": [
-            "Dolphin Design,Meylan,France",
             "Dolphin Design, Meylan, France"
           ]
         },
         {
           "name": "Olivier Montfort",
           "affiliations": [
-            "Dolphin Design,Meylan,France",
             "Dolphin Design, Meylan, France"
           ]
         },
         {
           "name": "Lionel Jure",
           "affiliations": [
-            "Dolphin Design,Meylan,France",
             "Dolphin Design, Meylan, France"
           ]
         },
         {
           "name": "Nils Exibard",
           "affiliations": [
-            "Dolphin Design,Meylan,France",
             "Dolphin Design, Meylan, France"
           ]
         },
         {
           "name": "Pascal Gouedo",
           "affiliations": [
-            "Dolphin Design,Meylan,France",
             "Dolphin Design, Meylan, France"
           ]
         },
         {
           "name": "Mathieu Louvat",
           "affiliations": [
-            "Dolphin Design,Meylan,France",
             "Dolphin Design, Meylan, France"
           ]
         },
         {
           "name": "Emmanuel Botte",
           "affiliations": [
-            "Dolphin Design,Meylan,France",
             "Dolphin Design, Meylan, France"
           ]
         },
         {
           "name": "Luca Benini",
           "affiliations": [
-            "University of Bologna,Bologna,Italy",
             "University of Bologna, Bologna, Italy"
           ]
         }
@@ -7180,56 +6730,48 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Wenyu Sun",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Xiaoyu Feng",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Chen Tang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Shupei Fan",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Yixiong Yang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Jinshan Yue",
           "affiliations": [
-            "Chinese Academy of Sciences,Beijing,China",
             "Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Huazhong Yang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Yongpan Liu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         }
@@ -7245,28 +6787,24 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Seunghyun Moon",
           "affiliations": [
-            "Pohang University of Science and Technology,Pohang,Korea",
             "Pohang University of Science and Technology, Pohang, Korea"
           ]
         },
         {
           "name": "Han-Gyeol Mun",
           "affiliations": [
-            "Pohang University of Science and Technology,Pohang,Korea",
             "Pohang University of Science and Technology, Pohang, Korea"
           ]
         },
         {
           "name": "Hyunwoo Son",
           "affiliations": [
-            "Gyeongsang National University,Jinju,Korea",
             "Gyeongsang National University, Jinju, Korea"
           ]
         },
         {
           "name": "Jae-Yoon Sim",
           "affiliations": [
-            "Pohang University of Science and Technology,Pohang,Korea",
             "Pohang University of Science and Technology, Pohang, Korea"
           ]
         }
@@ -7282,99 +6820,85 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Thierry Tambe",
           "affiliations": [
-            "Harvard University,Cambridge,MA",
             "Harvard University, Cambridge, MA"
           ]
         },
         {
           "name": "Jeff Zhang",
           "affiliations": [
-            "Harvard University,Cambridge,MA",
             "Harvard University, Cambridge, MA"
           ]
         },
         {
           "name": "Coleman Hooper",
           "affiliations": [
-            "Harvard University,Cambridge,MA",
             "Harvard University, Cambridge, MA"
           ]
         },
         {
           "name": "Tianyu Jia",
           "affiliations": [
-            "Peking University,Beijing,China",
             "Peking University, Beijing, China"
           ]
         },
         {
           "name": "Paul N. Whatmough",
           "affiliations": [
-            "Harvard University,Cambridge,MA",
-            "ARM, Boston, MA",
-            "Harvard University, Cambridge, MA"
+            "Harvard University, Cambridge, MA",
+            "ARM, Boston, MA"
           ]
         },
         {
           "name": "Joseph Zuckerman",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Maico Cassel Dos Santos",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Erik Jens Loscalzo",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Davide Giri",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Kenneth Shepard",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Luca Carloni",
           "affiliations": [
-            "Columbia University,New York,NY",
             "Columbia University, New York, NY"
           ]
         },
         {
           "name": "Alexander Rush",
           "affiliations": [
-            "Cornell University,New York,NY",
             "Cornell University, New York, NY"
           ]
         },
         {
           "name": "David Brooks",
           "affiliations": [
-            "Harvard University,Cambridge,MA",
             "Harvard University, Cambridge, MA"
           ]
         },
         {
           "name": "Gu-Yeon Wei",
           "affiliations": [
-            "Harvard University,Cambridge,MA",
             "Harvard University, Cambridge, MA"
           ]
         }
@@ -7390,56 +6914,48 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Edward Choi",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Injun Choi",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Vincent Lukito",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Dong-Hwi Choi",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Donghyeon Yi",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         },
         {
           "name": "Ik-Joon Chang",
           "affiliations": [
-            "Kyung Hee University,Yongin-si,South Korea",
             "Kyung Hee University, Yongin-si, South Korea"
           ]
         },
         {
           "name": "Sohmyung Ha",
           "affiliations": [
-            "New York University Abu Dhabi,Abu Dhabi,United Arab Emirates",
             "New York University Abu Dhabi, Abu Dhabi, United Arab Emirates"
           ]
         },
         {
           "name": "Minkyu Je",
           "affiliations": [
-            "KAIST,Daejeon,South Korea",
             "KAIST, Daejeon, South Korea"
           ]
         }
@@ -7455,42 +6971,36 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yuanzhe Zhao",
           "affiliations": [
-            "University of Macau,Macao,China",
             "University of Macau, Macao, China"
           ]
         },
         {
           "name": "Minglei Zhang",
           "affiliations": [
-            "University of Macau,Macao,China",
             "University of Macau, Macao, China"
           ]
         },
         {
           "name": "Pengyu He",
           "affiliations": [
-            "University of Macau,Macao,China",
             "University of Macau, Macao, China"
           ]
         },
         {
           "name": "Zhu Yan",
           "affiliations": [
-            "University of Macau,Macao,China",
             "University of Macau, Macao, China"
           ]
         },
         {
           "name": "Chi-Hang Chan",
           "affiliations": [
-            "University of Macau,Macao,China",
             "University of Macau, Macao, China"
           ]
         },
         {
           "name": "R. P. Martins",
           "affiliations": [
-            "lnstituto Superior Tecnico/University of Lisboa,Lisbon,Portugal",
             "lnstituto Superior Tecnico/University of Lisboa, Lisbon, Portugal"
           ]
         }
@@ -7506,28 +7016,24 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yugandhar Khodke",
           "affiliations": [
-            "University of California,San Diego",
             "University of California, San Diego"
           ]
         },
         {
           "name": "Sadhana Shanmugasundaram",
           "affiliations": [
-            "University of California,San Diego",
             "University of California, San Diego"
           ]
         },
         {
           "name": "Yidong Li",
           "affiliations": [
-            "University of California,San Diego",
             "University of California, San Diego"
           ]
         },
         {
           "name": "Mingu Kang",
           "affiliations": [
-            "University of California,San Diego",
             "University of California, San Diego"
           ]
         }
@@ -7600,49 +7106,42 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Junsoo Kim",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Geonwoo Ko",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Ji-Hoon Kim",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Changha Lee",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Taewoo Kim",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Chan-Hyun Youn",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         },
         {
           "name": "Joo-Young Kim",
           "affiliations": [
-            "KAIST,Daejeon,Korea",
             "KAIST, Daejeon, Korea"
           ]
         }
@@ -7658,65 +7157,56 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Samuel D. Spetalnick",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA,USA",
             "Georgia Institute of Technology, Atlanta, GA, USA"
           ]
         },
         {
           "name": "Muya Chang",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA,USA",
-            "TSMC Corporate Research,Hsinchu,Taiwan",
-            "Georgia Institute of Technology, Atlanta, GA, USA"
+            "Georgia Institute of Technology, Atlanta, GA, USA",
+            "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Shota Konno",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA,USA",
             "Georgia Institute of Technology, Atlanta, GA, USA"
           ]
         },
         {
           "name": "Brian Crafton",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA,USA",
             "Georgia Institute of Technology, Atlanta, GA, USA"
           ]
         },
         {
           "name": "Ashwin S. Lele",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA,USA",
             "Georgia Institute of Technology, Atlanta, GA, USA"
           ]
         },
         {
           "name": "Win-San Khwa",
           "affiliations": [
-            "TSMC Corporate Research,Hsinchu,Taiwan",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Yu-Der Chih",
           "affiliations": [
-            "TSMC Design Technology,Hsinchu,Taiwan",
             "TSMC Design Technology, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Fan Chang",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA,USA",
-            "TSMC Corporate Research,Hsinchu,Taiwan",
+            "Georgia Institute of Technology, Atlanta, GA, USA",
             "TSMC Corporate Research, Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Arijit Raychowdhury",
           "affiliations": [
-            "Georgia Institute of Technology,Atlanta,GA,USA",
             "Georgia Institute of Technology, Atlanta, GA, USA"
           ]
         }
@@ -7732,77 +7222,66 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Gajanan Jedhe",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Chetan Deshpande",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Sushil Kumar",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Cheng-Xin Xue",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Zijie Guo",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Ritesh Garg",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Kim Soon Jway",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "En-Jui Chang",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Jenwei Liang",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Zhe Wan",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Zhenhao Pan",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         }
@@ -7818,28 +7297,24 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yuhao Ju",
           "affiliations": [
-            "Northwestern University,Evanston,IL,USA",
             "Northwestern University, Evanston, IL, USA"
           ]
         },
         {
           "name": "Yijie Wei",
           "affiliations": [
-            "Northwestern University,Evanston,IL,USA",
             "Northwestern University, Evanston, IL, USA"
           ]
         },
         {
           "name": "Xi Chen",
           "affiliations": [
-            "Northwestern University,Evanston,IL,USA",
             "Northwestern University, Evanston, IL, USA"
           ]
         },
         {
           "name": "Jie Gu",
           "affiliations": [
-            "Northwestern University,Evanston,IL,USA",
             "Northwestern University, Evanston, IL, USA"
           ]
         }
@@ -7855,99 +7330,85 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Jinshan Yue",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
-            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China",
-            "Tsinghua University, Beijing, China"
+            "Tsinghua University, Beijing, China",
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Mingtao Zhan",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Zi Wang",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China",
             "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Yifan He",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Yaolei Li",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Songming Yu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Wenyu Sun",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Lu Jie",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Chunmeng Dou",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China",
             "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Xueqing Li",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Nan Sun",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Huazhong Yang",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Ming Liu",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China",
             "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Yongpan Liu",
           "affiliations": [
-            "Tsinghua University,Beijing,China",
             "Tsinghua University, Beijing, China"
           ]
         }
@@ -7963,119 +7424,102 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "En-Jui Chang",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Cheng-Xin Xue",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chetan Deshpande",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Gajanan Jedhe",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Jenwei Liang",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-Chung Cheng",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Hung-Wei Lin",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chia-Da Lee",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Sushil Kumar",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Kim Soon Jway",
           "affiliations": [
-            "MediaTek Inc.,Singapore,Singapore",
             "MediaTek Inc., Singapore, Singapore"
           ]
         },
         {
           "name": "Zijie Guo",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Ritesh Garg",
           "affiliations": [
-            "MediaTek Inc.,San Jose,CA,USA",
             "MediaTek Inc., San Jose, CA, USA"
           ]
         },
         {
           "name": "Allen-Cl Lu",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chien-Hung Lin",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Meng-Han Hsieh",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Tsung-Yao Lin",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         },
         {
           "name": "Chih-Cheng Chen",
           "affiliations": [
-            "MediaTek Inc.,Hsinchu,Taiwan",
             "MediaTek Inc., Hsinchu, Taiwan"
           ]
         }
@@ -8091,42 +7535,36 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "HanGyeol Mun",
           "affiliations": [
-            "POSTECH,Pohang,Korea",
             "POSTECH, Pohang, Korea"
           ]
         },
         {
           "name": "Hyunwoo Son",
           "affiliations": [
-            "Gyeongsang National University,Jinju,Korea",
             "Gyeongsang National University, Jinju, Korea"
           ]
         },
         {
           "name": "Seunghyun Moon",
           "affiliations": [
-            "POSTECH,Pohang,Korea",
             "POSTECH, Pohang, Korea"
           ]
         },
         {
           "name": "Jaehyun Park",
           "affiliations": [
-            "POSTECH,Pohang,Korea",
             "POSTECH, Pohang, Korea"
           ]
         },
         {
           "name": "ByungJun Kim",
           "affiliations": [
-            "POSTECH,Pohang,Korea",
             "POSTECH, Pohang, Korea"
           ]
         },
         {
           "name": "Jae-Yoon Sim",
           "affiliations": [
-            "POSTECH,Pohang,Korea",
             "POSTECH, Pohang, Korea"
           ]
         }
@@ -8142,70 +7580,60 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Junnosuke Suzuki",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Jaehoon Yu",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Mari Yasunaga",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Ángel López García-Arias",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Yasuyuki Okoshi",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Shungo Kumazawa",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Kota Ando",
           "affiliations": [
-            "Hokkaido University,Sapporo,Japan",
             "Hokkaido University, Sapporo, Japan"
           ]
         },
         {
           "name": "Kazushi Kawamura",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Thiem Van Chu",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         },
         {
           "name": "Masato Motomura",
           "affiliations": [
-            "Equally Credited Authors, Tokyo Institute of Technology,Yokohama,Japan",
             "Equally Credited Authors, Tokyo Institute of Technology, Yokohama, Japan"
           ]
         }
@@ -8221,77 +7649,66 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Yang Wang",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Yubin Qin",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Dazheng Deng",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Xiaolong Yang",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Zhiren Zhao",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Ruiqi Guo",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Zhiheng Yue",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Leibo Liu",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Shaojun Wei",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Yang Hu",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         },
         {
           "name": "Shouyi Yin",
           "affiliations": [
-            "Tsinghua University,Beijing",
             "Tsinghua University, Beijing"
           ]
         }
@@ -8307,67 +7724,67 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Zhuoyu Dai",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Shengzhe Yan",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Zhaori Cong",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Zeyu Guo",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Yifan He",
           "affiliations": [
-            "Tsinghua University,Beijing,China"
+            "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Wenyu Sun",
           "affiliations": [
-            "Tsinghua University,Beijing,China"
+            "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Chunmeng Dou",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Feng Zhang",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Jinshan Yue",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         },
         {
           "name": "Yongpan Liu",
           "affiliations": [
-            "Tsinghua University,Beijing,China"
+            "Tsinghua University, Beijing, China"
           ]
         },
         {
           "name": "Ming Liu",
           "affiliations": [
-            "Institute of Microelectronics of the Chinese Academy of Sciences,Beijing,China"
+            "Institute of Microelectronics of the Chinese Academy of Sciences, Beijing, China"
           ]
         }
       ],
@@ -8382,37 +7799,37 @@ window.BENCHMARK_PAPER_METADATA = {
         {
           "name": "Hechen Wang",
           "affiliations": [
-            "Intel Labs, Intel Corporation,Hillsboro,OR,USA"
+            "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Renzhi Liu",
           "affiliations": [
-            "Intel Labs, Intel Corporation,Hillsboro,OR,USA"
+            "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Richard Dorrance",
           "affiliations": [
-            "Intel Labs, Intel Corporation,Hillsboro,OR,USA"
+            "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Deepak Dasalukunte",
           "affiliations": [
-            "Intel Labs, Intel Corporation,Hillsboro,OR,USA"
+            "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Niranjan Gowda",
           "affiliations": [
-            "Intel Labs, Intel Corporation,Hillsboro,OR,USA"
+            "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         },
         {
           "name": "Brent Carlton",
           "affiliations": [
-            "Intel Labs, Intel Corporation,Hillsboro,OR,USA"
+            "Intel Labs, Intel Corporation, Hillsboro, OR, USA"
           ]
         }
       ],

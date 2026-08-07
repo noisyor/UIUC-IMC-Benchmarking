@@ -89,9 +89,30 @@ function escapeHtml(value) {
   })[character]);
 }
 
+function uniqueAffiliations(values) {
+  const seen = new Set();
+  return values.reduce((result, value) => {
+    const cleaned = String(value).normalize("NFKC")
+      .replace(/\s*,\s*/g, ", ")
+      .replace(/\s*;\s*/g, "; ")
+      .replace(/\s*:\s*/g, ": ")
+      .replace(/\s+/g, " ")
+      .replace(/^[,;\s]+|[,;\s]+$/g, "");
+    const key = cleaned.toLocaleLowerCase().replace(/\s+/g, "");
+    if (cleaned && !seen.has(key)) {
+      seen.add(key);
+      result.push(cleaned);
+    }
+    return result;
+  }, []);
+}
+
 function paperPeople(index, fallbackAuthors) {
   const metadata = window.BENCHMARK_PAPER_METADATA?.papers?.[index];
-  const authors = metadata?.authors || [];
+  const authors = (metadata?.authors || []).map((author) => ({
+    ...author,
+    affiliations: uniqueAffiliations(author.affiliations || [])
+  }));
   if (!authors.length) return {
     toggle: `<span class="paper-meta">${escapeHtml(fallbackAuthors)}</span>`,
     row: ""

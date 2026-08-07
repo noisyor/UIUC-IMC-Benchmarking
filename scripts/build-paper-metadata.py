@@ -76,8 +76,12 @@ def unique_strings(values: list[str]) -> list[str]:
     seen = set()
     result = []
     for value in values:
-        cleaned = " ".join(value.split())
-        key = cleaned.casefold()
+        cleaned = unicodedata.normalize("NFKC", value)
+        cleaned = re.sub(r"\s*,\s*", ", ", cleaned)
+        cleaned = re.sub(r"\s*;\s*", "; ", cleaned)
+        cleaned = re.sub(r"\s*:\s*", ": ", cleaned)
+        cleaned = " ".join(cleaned.split()).strip(" ,;")
+        key = re.sub(r"\s+", "", cleaned.casefold())
         if cleaned and key not in seen:
             seen.add(key)
             result.append(cleaned)
