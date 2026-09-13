@@ -1,0 +1,223 @@
+{
+  "meta": {
+    "source": {
+      "paper": "W. Zhang, S. Ando, Y.-C. Chen, K. Yoshioka, \"ASiM: Modeling and Analyzing Inference Accuracy of SRAM-Based Analog CiM Circuits,\" IEEE TVLSI 2025",
+      "arxivId": "2411.11022",
+      "arxivVersion": "v4",
+      "urlUsed": "https://arxiv.org/html/2411.11022",
+      "versionEvidence": "The HTML served at urlUsed references its figure assets under the path prefix 2411.11022v4/",
+      "absUrl": "https://arxiv.org/abs/2411.11022v4",
+      "arxivVersionDate": "2025-09-02 (HTML header: arXiv:2411.11022v4 [cs.AR] 02 Sep 2025)",
+      "retrieved": "2026-09-12",
+      "repo": "https://github.com/Keio-CSG/ASiM (default branch, shallow clone 2026-09-12)"
+    },
+    "units": {
+      "top1": "top-1 accuracy in percent, printed to 0.01 in the figures",
+      "adcBits": "string keys, ADC precision in bits",
+      "vppPercent": "string keys formatted as in the figure row labels (\"0.000\" ... \"0.200\"); random-noise or nonlinearity sigma as a percent of the full compute-bit-line Vpp (Sec. IV-C). This is the value passed to ASiM's rand_noise_sigma / non_linear_sigma.",
+      "vppPercentToLsbRmsAt8BitAdc": {"0.000": 0.000, "0.025": 0.064, "0.050": 0.128, "0.075": 0.191, "0.100": 0.255, "0.125": 0.319, "0.150": 0.383, "0.175": 0.446, "0.200": 0.510},
+      "lsbNote": "The LSBrms equivalents are printed in the Fig. 9/18 row labels and equal vppPercent/100 * (2^8 - 1). They apply to the 8-bit ADC only."
+    },
+    "figures": {
+      "fig6_bitSerialAdc": {
+        "rows_N": 256,
+        "model": "8b/8b (W8A8)",
+        "checkpoint": "W8A8 QAT followed by NAT. Sec. IV-B1: 'Both models are trained with 8b/8b weight/activation QAT, followed by fine-tuning with appropriate noise intensities through NAT.' The training-noise intensities are not stated for Fig. 6. The digital baselines in the column headers are identical to Figs. 7 and 9, which suggests the same checkpoints; this is an inference, not a stated fact.",
+        "conditions": "Bit-serial; no analog noise; ADC precision 6-10 bits",
+        "valueOrigin": "Raster image of a numeric table (2411.11022v4/Fig_Shmoo_BS.png). This is not an HTML table. Values were transcribed by eye from 2x-upscaled crops; each cell is printed to two decimals. No OCR cross-check was done.",
+        "precision": "Exact to the printed 0.01 unless mis-transcribed"
+      },
+      "fig7_adcByEncoding": {
+        "rows_N": 256,
+        "model": "8b/8b (W8A8)",
+        "checkpoint": "Same statement as Fig. 6 (QAT then NAT; intensities not stated for this figure)",
+        "conditions": "Bit-serial and 2-bit/4-bit activation encoding; no analog noise; ADC precision 8-12 bits. Per Sec. IV-B2, signed activations keep the sign bit bit-serial.",
+        "valueOrigin": "Raster image of a numeric table (2411.11022v4/Fig_Shmoo_BP.png), transcribed by eye from 2x-upscaled crops",
+        "precision": "Exact to the printed 0.01 unless mis-transcribed",
+        "note": "Fig. 7's bit-serial column at 8-10 bits is a separate run from Fig. 6 and differs from it by up to 0.03 pp (e.g. ResNet-18 ImageNet at 8 bits: 65.48 in Fig. 6, 65.51 in Fig. 7). Both are reported as printed."
+      },
+      "fig9a_randomNoise": {
+        "rows_N": 256,
+        "adcBits": 8,
+        "model": "8b/8b (W8A8)",
+        "checkpoint": "W8A8 NAT. Fig. 9 caption: 'ResNet-18 is trained with 100% and 50%, and ViT-B-32 is trained with 60% and 40% training noise intensities for CIFAR-10 and ImageNet, respectively.' These match the repo checkpoints resnet18_cifar10_w8a8_pact_trim_100, resnet18_imagenet_w8a8_pact_trim_50, vitb32_cifar10_w8a8_trim_60 and vitb32_imagenet_w8a8_trim_40 (README.md:146-149).",
+        "conditions": "Random noise only (nonlinearity = 0); fixed 8-bit ADC for every encoding",
+        "valueOrigin": "Raster image of a numeric table (2411.11022v4/Fig_Shmoo_Rand_Noise.png), transcribed by eye from 2x-upscaled crops",
+        "precision": "Exact to the printed 0.01 unless mis-transcribed",
+        "caveat": "The 2-bit and 4-bit columns use an 8-bit ADC, which is below their boundary precision (8+2 and 8+4 bits). They therefore mix ADC quantization loss with noise loss; see the 0.000 row."
+      },
+      "fig9b_nonlinearity": {
+        "rows_N": 256,
+        "adcBits": 8,
+        "model": "8b/8b (W8A8)",
+        "checkpoint": "Same as fig9a (the caption covers both panels)",
+        "conditions": "Nonlinearity only (random noise = 0). ASiM scales this term by 1/sqrt(MAC*N+1) (module/asim_conv.py:341). Fixed 8-bit ADC.",
+        "valueOrigin": "Raster image of a numeric table (2411.11022v4/Fig_Shmoo_Non_Linear.png), transcribed by eye from 2x-upscaled crops",
+        "precision": "Exact to the printed 0.01 unless mis-transcribed",
+        "caveat": "Same 8-bit-ADC caveat as fig9a"
+      },
+      "fig10_noiseByAdc": {
+        "value": null,
+        "reason": "Line plot embedded as an SVG object (2411.11022v4/Fig_Noise_ADC_Dependence.svg). All glyphs are converted to paths (0 <text> elements) and no numeric table exists in the HTML. Values could only be estimated from curve positions, so they are omitted."
+      },
+      "fig3_natTrainingNoise": {
+        "value": null,
+        "reason": "Plot embedded as an SVG object (2411.11022v4/Fig_NAT.svg) with 0 <text> elements and no numeric table. Omitted. The text states only the selected checkpoints' cost: 'a 2.0% accuracy drop for the CIFAR-10 task and around a 3.0% accuracy drop for the ImageNet task' (Sec. III-D)."
+      },
+      "fig17_natVsNonNat": {
+        "value": null,
+        "reason": "Plots embedded as SVG objects (2411.11022v4/Fig_Appendix_NAT_Inference_CIFAR10.svg and ..._ImageNet.svg) with 0 <text> elements and no numeric table. Omitted."
+      },
+      "fig18_nonNatRandomNoise": {
+        "rows_N": 256,
+        "adcBits": 8,
+        "model": "8b/8b ResNet-18, CIFAR-10 only",
+        "checkpoint": "Without NAT (QAT only). Appendix text: 'we simulate the 8b/8b ResNet-18 model on CIFAR-10 using the same experimental configuration as in Fig. 9 (a), except that the weights are obtained without NAT.' The digital baseline printed in the header is 93.42%.",
+        "conditions": "Random noise only; fixed 8-bit ADC",
+        "valueOrigin": "A numeric shmoo table embedded as an SVG object (2411.11022v4/Fig_Appendix_Baseline_Sim.svg) whose glyphs are paths, so it is not machine-readable text. It was rendered to a 2400 px PNG with macOS qlmanage and transcribed by eye.",
+        "precision": "Exact to the printed 0.01 unless mis-transcribed"
+      }
+    },
+    "tableI_anchor": {
+      "valueOrigin": "HTML table S3.T1 (machine-readable)",
+      "conditions": "Bit-serial ACiM, 256-row parallelism, 6-bit ADC, 0.5 LSBrms noise, 8b/8b ResNet-18, ImageNet",
+      "predictionsBySimulator": {
+        "CSNR (ADC model: SNR)": 65.44,
+        "CIMUFAS (ADC model: Gaussian)": 0.10,
+        "Saikia (ADC model: Adaptive)": 40.82,
+        "NeuroSim (ADC model: Min-Max)": 61.09
+      },
+      "correction": "65.44% is the CSNR-based simulator's prediction, not ASiM's. The header row reads ['', 'CSNR', 'CIMUFAS', 'Saikia', 'NeuroSim'] and the accuracy row reads ['Accuracy', '65.44%', '0.10%', '40.82%', '61.09%']. Table I gives no ASiM value. Sec. III-C uses the table to show that existing simulators disagree. For comparison, ASiM's own bit-serial 6-bit-ADC, noise-free ResNet-18 ImageNet result is 2.00% (Fig. 6). Do not use 65.44% as an ASiM calibration point."
+    },
+    "siliconValidation_CRCIM": {
+      "section": "Sec. IV-D (Simulation to Silicon Correlation)",
+      "model": "8b/8b ResNet-18; CONV and Linear layers run on-chip, the rest off-chip (Sec. IV-D does not name the dataset in this passage)",
+      "noiseSetup": "The measured LSBrms noise was divided equally between random noise and nonlinearity",
+      "asimPredictedTop1": 91.84,
+      "measuredTop1": 91.70,
+      "chipParametersTableIII": {"parallelism": 512, "activationEncodingBits": 1, "adcBits": 10, "lsbRms": 0.58},
+      "majorityVotingExample": "Sec. VI-C: 'by applying 3 times oversampling to majority voting with a boundary level of 3, the 6-bit CR-CIM design recovers accuracy from 72.74% to 90.55%'"
+    },
+    "textThresholds_SecIVC": {
+      "simpleTasks_CIFAR10_CNN": "'noise intensity should be kept below 0.15 Vpp(%) (~0.4 LSBrms) to maintain inference accuracy above 90%'; for 4-bit encoding '0.025 Vpp(%) (~0.1 LSBrms)'. The figure axis maps 0.025% to 0.064 LSBrms.",
+      "complexTasks_ViT_or_ImageNet": "'with an operational voltage Vpp of 1 V for bit-serial scheme, noise intensity needs to be controlled below 0.5 mV to enable functional classification in silicon' (0.5 mV = 0.050 Vpp%)"
+    },
+    "spotChecks": [
+      {
+        "selection": "3 values drawn with Python random.Random(seed=329866559).sample over all 323 transcribed values; for each, the source table row was re-cropped with its header and row label and compared",
+        "workload": "resnet18-imagenet", "field": "fig9b_nonlinearity", "encoding": "4", "key": "0.000", "jsonValue": 16.26,
+        "sourceValue": 16.26, "result": "match",
+        "evidence": "Fig. 9b (Fig_Shmoo_Non_Linear.png), row 0.000/0.000, column ResNet-18 ImageNet Enc = 4. Consistent with Fig. 7 (same encoding at 8-bit ADC, no noise) = 16.26, and with the Sec. IV-B2 text that 4-bit encoding needs 2 more ADC bits."
+      },
+      {
+        "workload": "vitb32-cifar10", "field": "fig6_bitSerialAdc", "encoding": "bitSerial", "key": "7", "jsonValue": 13.36,
+        "sourceValue": 13.36, "result": "match",
+        "evidence": "Fig. 6 (Fig_Shmoo_BS.png), row ADC Precision 7, column ViT-B-32 CIFAR-10. Consistent with Sec. IV-B1: 'any reduction in ADC precision below the boundary causes inference accuracy to approach random guessing in ViT-B-32' (chance = 10%)."
+      },
+      {
+        "workload": "resnet18-cifar10", "field": "fig18_nonNatRandomNoise", "encoding": "2", "key": "0.150", "jsonValue": 23.95,
+        "sourceValue": 23.95, "result": "match",
+        "evidence": "Fig. 18 (Fig_Appendix_Baseline_Sim.svg rendered to PNG), row 0.150/0.383, column Enc = 2. Consistent with the appendix text that the non-NAT shmoo 'shows a sharper decline relative to the NAT-enhanced counterpart' (Fig. 9a NAT value at the same point: 74.51)."
+      }
+    ]
+  },
+  "workloads": {
+    "resnet18-cifar10": {
+      "digitalBaseline": {"top1": 92.08, "source": "Digital-counterpart accuracy printed in the column headers of Figs. 6, 7, 9a and 9b (8b/8b NAT checkpoint)"},
+      "nonNatDigitalBaseline": {"top1": 93.42, "source": "Fig. 18 header (8b/8b ResNet-18 CIFAR-10 without NAT)"},
+      "fig6_bitSerialAdc": {"6": 90.37, "7": 91.80, "8": 92.08, "9": 92.08, "10": 92.08},
+      "fig7_adcByEncoding": {
+        "bitSerial": {"8": 92.08, "9": 92.09, "10": 92.08, "11": 92.07, "12": 92.06},
+        "2": {"8": 91.93, "9": 92.10, "10": 92.03, "11": 92.12, "12": 92.09},
+        "4": {"8": 91.36, "9": 91.96, "10": 91.96, "11": 91.97, "12": 92.08}
+      },
+      "fig9a_randomNoise": {
+        "bitSerial": {"0.000": 92.08, "0.025": 92.08, "0.050": 92.06, "0.075": 92.00, "0.100": 91.84, "0.125": 91.35, "0.150": 90.71, "0.175": 89.25, "0.200": 86.74},
+        "2": {"0.000": 91.93, "0.025": 92.00, "0.050": 91.02, "0.075": 89.09, "0.100": 86.16, "0.125": 81.86, "0.150": 74.51, "0.175": 64.95, "0.200": 55.30},
+        "4": {"0.000": 91.36, "0.025": 90.49, "0.050": 87.91, "0.075": 82.47, "0.100": 74.76, "0.125": 63.60, "0.150": 53.27, "0.175": 41.69, "0.200": 33.52}
+      },
+      "fig9b_nonlinearity": {
+        "bitSerial": {"0.000": 92.08, "0.025": 92.08, "0.050": 92.10, "0.075": 92.00, "0.100": 92.10, "0.125": 91.71, "0.150": 91.50, "0.175": 91.27, "0.200": 90.62},
+        "2": {"0.000": 91.93, "0.025": 92.03, "0.050": 91.79, "0.075": 91.15, "0.100": 90.42, "0.125": 89.41, "0.150": 87.81, "0.175": 86.37, "0.200": 84.30},
+        "4": {"0.000": 91.36, "0.025": 91.27, "0.050": 90.59, "0.075": 89.50, "0.100": 88.20, "0.125": 87.20, "0.150": 84.76, "0.175": 83.03, "0.200": 79.72}
+      },
+      "fig10_noiseByAdc": null,
+      "fig3_natTrainingNoise": null,
+      "fig17_natVsNonNat": null,
+      "fig18_nonNatRandomNoise": {
+        "bitSerial": {"0.000": 93.42, "0.025": 93.42, "0.050": 93.42, "0.075": 93.20, "0.100": 92.34, "0.125": 88.68, "0.150": 82.19, "0.175": 69.53, "0.200": 52.50},
+        "2": {"0.000": 92.07, "0.025": 91.57, "0.050": 85.04, "0.075": 69.01, "0.100": 50.88, "0.125": 35.33, "0.150": 23.95, "0.175": 16.74, "0.200": 13.41},
+        "4": {"0.000": 88.10, "0.025": 78.36, "0.050": 58.55, "0.075": 38.79, "0.100": 24.55, "0.125": 16.98, "0.150": 13.10, "0.175": 11.66, "0.200": 11.43}
+      }
+    },
+    "resnet18-imagenet": {
+      "digitalBaseline": {"top1": 65.49, "source": "Digital-counterpart accuracy printed in the column headers of Figs. 6, 7, 9a and 9b (8b/8b NAT checkpoint)"},
+      "fig6_bitSerialAdc": {"6": 2.00, "7": 55.84, "8": 65.48, "9": 65.54, "10": 65.60},
+      "fig7_adcByEncoding": {
+        "bitSerial": {"8": 65.51, "9": 65.55, "10": 65.58, "11": 65.47, "12": 65.51},
+        "2": {"8": 55.73, "9": 64.45, "10": 65.16, "11": 65.33, "12": 65.46},
+        "4": {"8": 16.26, "9": 59.04, "10": 65.04, "11": 65.56, "12": 65.42}
+      },
+      "fig9a_randomNoise": {
+        "bitSerial": {"0.000": 65.51, "0.025": 65.51, "0.050": 65.48, "0.075": 62.51, "0.100": 3.76, "0.125": 0.15, "0.150": 0.12, "0.175": 0.11, "0.200": 0.10},
+        "2": {"0.000": 55.73, "0.025": 49.47, "0.050": 0.12, "0.075": 0.10, "0.100": 0.10, "0.125": 0.11, "0.150": 0.10, "0.175": 0.11, "0.200": 0.10},
+        "4": {"0.000": 16.26, "0.025": 0.12, "0.050": 0.11, "0.075": 0.12, "0.100": 0.10, "0.125": 0.09, "0.150": 0.10, "0.175": 0.10, "0.200": 0.11}
+      },
+      "fig9b_nonlinearity": {
+        "bitSerial": {"0.000": 65.51, "0.025": 65.51, "0.050": 65.49, "0.075": 64.54, "0.100": 38.63, "0.125": 1.12, "0.150": 0.12, "0.175": 0.11, "0.200": 0.09},
+        "2": {"0.000": 55.73, "0.025": 55.33, "0.050": 2.71, "0.075": 0.12, "0.100": 0.12, "0.125": 0.13, "0.150": 0.09, "0.175": 0.10, "0.200": 0.10},
+        "4": {"0.000": 16.26, "0.025": 0.11, "0.050": 0.12, "0.075": 0.10, "0.100": 0.10, "0.125": 0.10, "0.150": 0.09, "0.175": 0.10, "0.200": 0.10}
+      },
+      "fig10_noiseByAdc": null,
+      "fig3_natTrainingNoise": null,
+      "fig17_natVsNonNat": null,
+      "fig18_nonNatRandomNoise": null
+    },
+    "vitb32-cifar10": {
+      "digitalBaseline": {"top1": 95.26, "source": "Digital-counterpart accuracy printed in the column headers of Figs. 6, 7, 9a and 9b (8b/8b NAT checkpoint)"},
+      "fig6_bitSerialAdc": {"6": 9.94, "7": 13.36, "8": 95.27, "9": 95.28, "10": 95.22},
+      "fig7_adcByEncoding": {
+        "bitSerial": {"8": 95.22, "9": 95.26, "10": 95.24, "11": 95.29, "12": 95.24},
+        "2": {"8": 94.39, "9": 95.04, "10": 95.16, "11": 95.17, "12": 95.30},
+        "4": {"8": 57.89, "9": 93.77, "10": 95.04, "11": 95.12, "12": 95.27}
+      },
+      "fig9a_randomNoise": {
+        "bitSerial": {"0.000": 95.22, "0.025": 95.22, "0.050": 93.70, "0.075": 10.10, "0.100": 10.00, "0.125": 10.00, "0.150": 9.97, "0.175": 10.02, "0.200": 10.00},
+        "2": {"0.000": 94.39, "0.025": 79.01, "0.050": 10.21, "0.075": 10.05, "0.100": 10.00, "0.125": 10.00, "0.150": 10.01, "0.175": 10.01, "0.200": 10.03},
+        "4": {"0.000": 57.89, "0.025": 10.05, "0.050": 10.00, "0.075": 10.02, "0.100": 10.00, "0.125": 9.95, "0.150": 10.00, "0.175": 10.00, "0.200": 10.01}
+      },
+      "fig9b_nonlinearity": {
+        "bitSerial": {"0.000": 95.22, "0.025": 95.22, "0.050": 95.19, "0.075": 92.44, "0.100": 24.45, "0.125": 11.49, "0.150": 10.02, "0.175": 9.98, "0.200": 10.00},
+        "2": {"0.000": 94.39, "0.025": 94.21, "0.050": 93.26, "0.075": 62.99, "0.100": 12.82, "0.125": 10.10, "0.150": 10.02, "0.175": 10.00, "0.200": 10.04},
+        "4": {"0.000": 57.89, "0.025": 40.13, "0.050": 11.41, "0.075": 10.00, "0.100": 10.00, "0.125": 10.02, "0.150": 10.00, "0.175": 10.00, "0.200": 10.08}
+      },
+      "fig10_noiseByAdc": null,
+      "fig3_natTrainingNoise": null,
+      "fig17_natVsNonNat": null,
+      "fig18_nonNatRandomNoise": null
+    },
+    "vitb32-imagenet": {
+      "digitalBaseline": {"top1": 68.17, "source": "Digital-counterpart accuracy printed in the column headers of Figs. 6, 7, 9a and 9b (8b/8b NAT checkpoint)"},
+      "fig6_bitSerialAdc": {"6": 0.11, "7": 0.15, "8": 68.14, "9": 68.23, "10": 68.13},
+      "fig7_adcByEncoding": {
+        "bitSerial": {"8": 68.19, "9": 68.24, "10": 68.10, "11": 68.14, "12": 68.20},
+        "2": {"8": 56.35, "9": 66.48, "10": 67.06, "11": 68.06, "12": 68.08},
+        "4": {"8": 0.45, "9": 45.87, "10": 64.74, "11": 67.71, "12": 68.03}
+      },
+      "fig9a_randomNoise": {
+        "bitSerial": {"0.000": 68.19, "0.025": 68.19, "0.050": 38.91, "0.075": 0.11, "0.100": 0.11, "0.125": 0.10, "0.150": 0.09, "0.175": 0.10, "0.200": 0.10},
+        "2": {"0.000": 56.35, "0.025": 0.88, "0.050": 0.10, "0.075": 0.11, "0.100": 0.13, "0.125": 0.10, "0.150": 0.08, "0.175": 0.10, "0.200": 0.10},
+        "4": {"0.000": 0.45, "0.025": 0.09, "0.050": 0.10, "0.075": 0.09, "0.100": 0.08, "0.125": 0.10, "0.150": 0.11, "0.175": 0.10, "0.200": 0.10}
+      },
+      "fig9b_nonlinearity": {
+        "bitSerial": {"0.000": 68.19, "0.025": 68.19, "0.050": 68.08, "0.075": 22.44, "0.100": 0.14, "0.125": 0.10, "0.150": 0.09, "0.175": 0.15, "0.200": 0.11},
+        "2": {"0.000": 56.35, "0.025": 55.90, "0.050": 19.71, "0.075": 0.15, "0.100": 0.11, "0.125": 0.12, "0.150": 0.10, "0.175": 0.13, "0.200": 0.11},
+        "4": {"0.000": 0.45, "0.025": 0.13, "0.050": 0.11, "0.075": 0.13, "0.100": 0.12, "0.125": 0.10, "0.150": 0.10, "0.175": 0.14, "0.200": 0.15}
+      },
+      "fig10_noiseByAdc": null,
+      "fig3_natTrainingNoise": null,
+      "fig17_natVsNonNat": null,
+      "fig18_nonNatRandomNoise": null
+    }
+  }
+}

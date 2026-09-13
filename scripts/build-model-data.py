@@ -32,6 +32,21 @@ def main() -> None:
             "averageGeq": rounded(np.load(model_dir / f"AGeq_{device}_vs_N.npy")),
         }
 
+    # SNDR-sim/<device>/Pbar_<device>_SNDRd_Max_vs_BADC.py: N = 64, B_ADC = 2..10,
+    # 25 bitline voltages, SNDR at the optimal clipping range. The FeFET array is
+    # left out because its saved shape (9 x 25) does not match its generator
+    # (seven ADC precisions at N = 1024).
+    adc_sweep_dir = args.source / "SNDR-sim" / "SNDRd-vs-BADC"
+    adc_sweep = {
+        "dimension": 64,
+        "adcBits": list(range(2, 11)),
+        "vbl": rounded(np.logspace(-2, -0.09, 25)),
+        "sndrDb": {
+            device: rounded(np.load(adc_sweep_dir / f"SNDRd_dB_{device}_vs_BADC.npy"))
+            for device in ("ReRAM", "MRAM")
+        },
+    }
+
     payload = {
         "source": "https://github.com/calmyor/eNVM-IMC-Modeling",
         "sourceModel": "Energy-Accuracy Trade-offs for Resistive In-Memory Computing Architectures",
@@ -39,6 +54,7 @@ def main() -> None:
         "modelScope": "Published six-bit-ADC SNDR and energy surface",
         "dimensions": rounded(dimensions),
         "devices": devices,
+        "adcSweep": adc_sweep,
         "energyConstants": {
             "adcLinearJPerBit": 100e-15,
             "adcExponentialJ": 1e-18,
