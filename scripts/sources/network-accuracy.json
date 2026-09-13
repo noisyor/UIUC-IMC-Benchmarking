@@ -1,0 +1,369 @@
+{
+  "meta": {
+    "collected": "2026-09-12",
+    "scope": "Analog IMC papers in Benchmarking_Data.csv (SRAM QS/QR/QS-QR/IS, eDRAM, eNVM IS) that report network-level accuracy",
+    "method": "Paper abstracts, open full texts, journal versions of the same chip, and citing papers or press material where the original was not open. Numbers that could not be traced to a readable source were left out.",
+    "training": {
+      "nat": "Noise-aware, hardware-aware, or in-situ (chip-in-the-loop) training stated",
+      "qat": "Quantization- or binarization-aware training only, with no analog noise model",
+      "unstated": "The accessible sources do not describe the training"
+    }
+  },
+  "papers": {
+    "3": {
+      "training": "qat",
+      "trainingNote": "Binary weights and inputs; accuracy evaluated by simulating the network with measured variation.",
+      "compensation": "Per-column offset calibration with 32 calibration bitcells; replica-bitcell ADC reference.",
+      "bankMetric": "Largest dot-product variation σ = 2.48%; DNL +0.31/−0.26 LSB after calibration (JSSC 2022).",
+      "confidence": "medium",
+      "entries": [
+        { "task": "MNIST (1b input / 1b weight)", "chip": 96.2, "baseline": 96.6, "baselineType": "without variation", "evidence": "simulated with the measured variation" },
+        { "task": "CIFAR-10 · VGG-like CNN (1b / 1b)", "chip": 87.1, "baseline": null, "baselineType": "", "evidence": "simulated; JSSC 2022 version reports 0.67–1.34 pt below software" },
+        { "task": "CIFAR-10 · ResNet-18 (1b / 1b)", "chip": 82.66, "baseline": null, "baselineType": "", "evidence": "simulated; JSSC 2022 version" }
+      ],
+      "sources": [{ "label": "JSSC 2022 version", "url": "https://doi.org/10.1109/jssc.2022.3162602" }]
+    },
+    "4": {
+      "training": "unstated",
+      "trainingNote": "Not described in the accessible abstracts.",
+      "compensation": "Weight-bitwise MAC and bitline header selection to enlarge the sensing margin.",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "CIFAR-10 · ResNet-20 (8b / 8b)", "chip": 92.02, "baseline": null, "baselineType": "", "evidence": "reported by a citing paper" }
+      ],
+      "sources": [{ "label": "CAP-RAM, arXiv 2107.02388 (citing paper)", "url": "https://arxiv.org/abs/2107.02388" }]
+    },
+    "5": {
+      "training": "qat",
+      "trainingNote": "Training models only the chip's bit-parallel/bit-serial rounding and ADC quantization; the design relies on high compute SNR.",
+      "compensation": "ADC offset calibration; 8b column SAR ADC.",
+      "bankMetric": "Measured multi-bit SQNR matches the quantization-only model.",
+      "confidence": "high",
+      "entries": [
+        { "task": "CIFAR-10 · 10-layer CNN (4b W / 4b A)", "chip": 92.4, "baseline": 92.7, "baselineType": "quantized software", "evidence": "measured on chip, all layers" },
+        { "task": "CIFAR-10 · 10-layer CNN (1b W / 1b A)", "chip": 89.3, "baseline": 89.8, "baselineType": "quantized software", "evidence": "measured on chip, all layers" }
+      ],
+      "sources": [{ "label": "JSSC 2020 full text", "url": "https://www.princeton.edu/~nverma/VermaLabSite/Publications/2020/JiaValaviTangZhangVerma_JSSC2020.pdf" }]
+    },
+    "6": {
+      "training": "qat",
+      "trainingNote": "Binarized networks chosen for error tolerance; errors injected only at inference.",
+      "compensation": "Double-sampling, offset-cancelling comparators in the column flash ADC.",
+      "bankMetric": "Comparator offset σ ≈ 5 mV; bitline MAC voltage σ ≈ 0.9–1.8 mV over a 600 mV range.",
+      "confidence": "high",
+      "entries": [
+        { "task": "MNIST · binary MLP (1b / 1b)", "chip": 98.3, "baseline": 98.7, "baselineType": "binary software", "evidence": "measured on chip, whole network" },
+        { "task": "CIFAR-10 · VGG-like BNN (1b / 1b)", "chip": 85.5, "baseline": 88.6, "baselineType": "binary software", "evidence": "simulated with measured error probabilities" }
+      ],
+      "sources": [{ "label": "JSSC 2020 full text", "url": "https://par.nsf.gov/servlets/purl/10170858" }]
+    },
+    "7": {
+      "training": "unstated",
+      "trainingNote": "Not described in the accessible sources.",
+      "compensation": "Twin-8T cell and configurable reference voltages (JSSC version).",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "CIFAR-10 · CNN (4b input / 5b weight)", "chip": 90.42, "baseline": null, "baselineType": "", "evidence": "reported by citing papers for the JSSC 2020 version" },
+        { "task": "MNIST · CNN (4b / 5b)", "chip": 99.52, "baseline": null, "baselineType": "", "evidence": "reported by citing papers for the JSSC 2020 version" }
+      ],
+      "sources": [{ "label": "IMAC, arXiv 2003.12558 (citing paper)", "url": "https://arxiv.org/abs/2003.12558" }]
+    },
+    "8": {
+      "training": "qat",
+      "trainingNote": "Binarized RNN; the CIM-aware weight adaptation targets energy, not noise.",
+      "compensation": null,
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "Google Speech Commands (10 keywords) · binarized RNN", "chip": 90.2, "baseline": null, "baselineType": "", "evidence": "measured on chip" }
+      ],
+      "sources": [{ "label": "VLSI 2019 abstract", "url": "https://doi.org/10.23919/vlsic.2019.8778028" }]
+    },
+    "11": {
+      "training": "qat",
+      "trainingNote": "Binary (XNOR) network; no variation-aware training reported.",
+      "compensation": "In-memory calibration and in-memory batch normalization.",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "CIFAR-10 · BNN (1b / 1b)", "chip": 79.38, "baseline": null, "baselineType": "", "evidence": "reported by a citing paper" }
+      ],
+      "sources": [{ "label": "IGA-SRAM, JETCAS 2026 (citing paper)", "url": "https://doi.org/10.1109/jetcas.2026.3678317" }]
+    },
+    "13": {
+      "training": "nat",
+      "trainingNote": "On-chip SGD (chip-in-the-loop) learns weights that absorb die-specific variation; weights trained on another die fail.",
+      "compensation": "Word-line voltage and pulse tuning; ADC output offset adjustment.",
+      "bankMetric": "Bitline swing spread σ/µ ≤ 16% at 320 mV versus 7% at 560 mV.",
+      "confidence": "high",
+      "entries": [
+        { "task": "MIT CBCL faces · linear SVM (8b / 8b), 560 mV swing", "chip": 96.0, "baseline": null, "baselineType": "", "evidence": "measured on chip; within 1% of floating point" },
+        { "task": "Same, 320 mV swing before retraining", "chip": 82.0, "baseline": null, "baselineType": "", "evidence": "measured on chip" },
+        { "task": "Same, 320 mV swing after on-chip retraining", "chip": 92.0, "baseline": null, "baselineType": "", "evidence": "measured on chip" },
+        { "task": "Same, weights trained on another die", "chip": 57.0, "baseline": 91.6, "baselineType": "chip-specific weights", "evidence": "measured across 5 chips" }
+      ],
+      "sources": [
+        { "label": "ISSCC 2018 full text", "url": "http://shanbhag.ece.illinois.edu/publications/sujan-isscc-2018.pdf" },
+        { "label": "JSSC 2018 version", "url": "http://shanbhag.ece.illinois.edu/publications/sujan-jssc-2018.pdf" }
+      ]
+    },
+    "14": {
+      "training": "unstated",
+      "trainingNote": "Not described in the accessible sources.",
+      "compensation": "Active nodes placed in the SRAM blocks with the least process variation.",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "MNIST · ternary CNN", "chip": 99.0, "chipText": "above 99%", "baseline": null, "baselineType": "", "evidence": "press release" }
+      ],
+      "sources": [{ "label": "Renesas press release", "url": "https://www.renesas.com/en/about/press-room/renesas-electronics-develops-new-processing-memory-technology-next-generation-ai-chips-achieves-ai" }]
+    },
+    "15": {
+      "training": "qat",
+      "trainingNote": "Binary-weight network; no noise- or variation-aware training mentioned.",
+      "compensation": null,
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "MNIST · binary-weight CNN (1b W / 6b A)", "chip": 98.0, "chipText": "above 98%", "baseline": null, "baselineType": "", "evidence": "JSSC 2019 version" }
+      ],
+      "sources": [{ "label": "JSSC 2019 version", "url": "https://doi.org/10.1109/jssc.2018.2880918" }]
+    },
+    "16": {
+      "training": "qat",
+      "trainingNote": "Standard binarized CNN training; accuracy attributed to high-SNR MOM-capacitor computation.",
+      "compensation": "One-time self-calibration through the binarizing batch-norm block.",
+      "bankMetric": "MOM-capacitor mismatch and thermal noise shown negligible at the demonstrated scale.",
+      "confidence": "medium",
+      "entries": [
+        { "task": "MNIST · binarized CNN (1b / 1b)", "chip": 98.6, "baseline": 98.92, "baselineType": "binary software", "evidence": "measured on chip, hidden layers one at a time (JSSC 2019)" },
+        { "task": "CIFAR-10 · binarized VGG (1b / 1b)", "chip": 83.27, "baseline": 83.5, "baselineType": "binary software", "evidence": "measured on chip, hidden layers (JSSC 2019)" },
+        { "task": "SVHN · binarized VGG (1b / 1b)", "chip": 94.35, "baseline": 95.1, "baselineType": "binary software", "evidence": "measured on chip, hidden layers (JSSC 2019)" }
+      ],
+      "sources": [{ "label": "JSSC 2019 full text", "url": "http://www.princeton.edu/~nverma/VermaLabSite/Publications/2019/ValaviRamadgeNestlerVerma_JSSC2019.pdf" }]
+    },
+    "17": {
+      "training": "qat",
+      "trainingNote": "Standard binary/ternary training; accuracy recovered with calibration rather than retraining.",
+      "compensation": "Per-chip ADC reference calibration, body-bias tuning, nonlinear ADC levels, and averaging several arrays.",
+      "bankMetric": "Worst read-bitline voltage std. dev. 20 mV across columns and patterns.",
+      "confidence": "medium",
+      "entries": [
+        { "task": "MNIST · MLP (1b W / 1b A)", "chip": 98.65, "baseline": 98.77, "baselineType": "binary software", "evidence": "measured on chip, partial (JSSC 2020)" },
+        { "task": "MNIST · MLP (1b W / ternary A)", "chip": 98.84, "baseline": 99.07, "baselineType": "quantized software", "evidence": "measured on chip, partial (JSSC 2020)" },
+        { "task": "CIFAR-10 · VGG-like CNN (1b / 1b)", "chip": 87.23, "baseline": 88.6, "baselineType": "binary software", "evidence": "simulated with measured ADC statistics" },
+        { "task": "CIFAR-10 · VGG-like CNN (1b W / ternary A)", "chip": 88.78, "baseline": 90.7, "baselineType": "quantized software", "evidence": "simulated with measured ADC statistics" },
+        { "task": "CIFAR-10 · ResNet-14 (1b / 1b)", "chip": 85.72, "baseline": 89.61, "baselineType": "binary software", "evidence": "simulated with measured ADC statistics" },
+        { "task": "CIFAR-10 · ResNet-14 (1b W / ternary A)", "chip": 87.05, "baseline": 90.8, "baselineType": "quantized software", "evidence": "simulated with measured ADC statistics" }
+      ],
+      "sources": [{ "label": "JSSC 2020 full text", "url": "https://par.nsf.gov/servlets/purl/10214141" }]
+    },
+    "25": {
+      "training": "qat",
+      "trainingNote": "Training models only quantization; the JSSC paper states that no analog non-idealities need to be modeled.",
+      "compensation": "High-SNR MOM-capacitor computation; ADC offset calibration.",
+      "bankMetric": "Column noise 0.68 LSB rms and INL < 1 LSB at an 8b ADC.",
+      "confidence": "high",
+      "entries": [
+        { "task": "CIFAR-10 · 11-layer VGG (4b W / 4b A)", "chip": 91.51, "baseline": 91.68, "baselineType": "quantized software", "evidence": "measured on chip, all layers" },
+        { "task": "ImageNet · ResNet-50 (4b / 4b)", "chip": 73.33, "baseline": 73.89, "baselineType": "quantized software", "evidence": "measured on chip, all four stacks; shortcut projections off-chip (JSSC 2021)" },
+        { "task": "ImageNet · ResNet-50 (4b / 4b), ISSCC 2021", "chip": 73.08, "baseline": 73.17, "baselineType": "quantized software", "evidence": "last stack on chip, the rest simulated" }
+      ],
+      "sources": [
+        { "label": "JSSC 2021 full text", "url": "http://www.princeton.edu/~nverma/VermaLabSite/Publications/2021/JiaOzatayTangValaviPathakLeeVerma_JSSC2021.pdf" },
+        { "label": "ISSCC 2021 proof", "url": "https://www.princeton.edu/~nverma/VermaLabSite/Publications/2021/JiaOzatayTangValaviPathakLeeVerma_ISSCC2021Proof.pdf" }
+      ]
+    },
+    "30": {
+      "training": "unstated",
+      "trainingNote": "Not described in the abstract.",
+      "compensation": "Sign-weighted 2T2R array to reduce IR drop; resolution-adjustable ADC.",
+      "bankMetric": null,
+      "confidence": "high",
+      "entries": [
+        { "task": "MNIST · 784-100-10 MLP", "chip": 94.4, "baseline": null, "baselineType": "", "evidence": "measured on chip, all layers" }
+      ],
+      "sources": [{ "label": "ISSCC 2020 abstract", "url": "https://doi.org/10.1109/isscc19947.2020.9062953" }]
+    },
+    "31": {
+      "training": "unstated",
+      "trainingNote": "Not described in the accessible sources.",
+      "compensation": "Input-aware bitline clamping and weight mapping; small-offset current-mode sense amplifier.",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "CIFAR-10 · ResNet-20 (4b W / 2b input)", "chip": 90.18, "baseline": null, "baselineType": "", "evidence": "reported by a citing paper" }
+      ],
+      "sources": [{ "label": "Darabi et al., arXiv 2309.01771 (citing paper)", "url": "https://arxiv.org/abs/2309.01771" }]
+    },
+    "33": {
+      "training": "nat",
+      "trainingNote": "Hardware-aware flow: quantization-aware training, then fine-tuning with the chip's noise injected (imec public slides).",
+      "compensation": "Layer-wise analog parameter optimization; clamp-free summation line.",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "CIFAR-10 (ternary W / 7b A / 6b ADC)", "chip": 88.0, "baseline": null, "baselineType": "", "evidence": "chip run in imec slides; about 1 pt below software per EE Times" }
+      ],
+      "sources": [
+        { "label": "imec public slides (ASCI 2022)", "url": "https://asci.school/wp-content/uploads/2022/03/Sarda_ASCI-EDL-winterschool-Public.pdf" },
+        { "label": "EE Times, 2020", "url": "https://www.eetimes.com/imec-develops-efficient-processor-in-memory-technique-for-glofo/" }
+      ]
+    },
+    "35": {
+      "training": "unstated",
+      "trainingNote": "Not described in the 2-page paper; compared with bit-true quantized software.",
+      "compensation": "Metal-fringe capacitor charge-domain computation; dynamic-range-doubling DACs.",
+      "bankMetric": "Column noise 0.98 LSB rms; INL +0.32/−0.98 LSB at an 8b ADC.",
+      "confidence": "high",
+      "entries": [
+        { "task": "CIFAR-10 · 14-layer CNN (5b W / 5b A)", "chip": 91.1, "baseline": 91.3, "baselineType": "quantized software", "evidence": "chip demonstration; layer split not stated" }
+      ],
+      "sources": [{ "label": "VLSI 2021 full text", "url": "http://www.princeton.edu/~nverma/VermaLabSite/Publications/2021/LeeValaviTangVerma_VLSI2021.pdf" }]
+    },
+    "38": {
+      "training": "nat",
+      "trainingNote": "Hardware-generalized stochastic training samples MTJ conductance variation and comparator offset during backpropagation.",
+      "compensation": "Row shuffling of inputs and weights to randomize bitline resistance; autozeroed comparator preamplifier.",
+      "bankMetric": null,
+      "confidence": "high",
+      "entries": [
+        { "task": "CIFAR-10 · 6-layer CNN", "chip": 90.1, "baseline": null, "baselineType": "", "evidence": "measured on chip one layer at a time; reported equal to ideal digital" }
+      ],
+      "sources": [{ "label": "ESSCIRC 2021 full text", "url": "http://www.princeton.edu/~nverma/VermaLabSite/Publications/2021/DeavilleZhangChenVerma_ESSCIRC2021.pdf" }]
+    },
+    "39": {
+      "training": "unstated",
+      "trainingNote": "Not described in the abstract.",
+      "compensation": "Cell-current-controlled writing for accurate analog conductance.",
+      "bankMetric": "Cell current linear over 30 µA with 0.59 µA 1σ variation (180 nm).",
+      "confidence": "high",
+      "entries": [
+        { "task": "MNIST", "chip": 90.8, "baseline": null, "baselineType": "", "evidence": "abstract; on-chip coverage not stated" }
+      ],
+      "sources": [{ "label": "VLSI 2018 abstract", "url": "https://doi.org/10.1109/vlsit.2018.8510676" }]
+    },
+    "40": {
+      "training": "qat",
+      "trainingNote": "Binary networks trained in software; no noise- or variation-aware training.",
+      "compensation": "Per-ADC reference calibration and write-verify programming.",
+      "bankMetric": "Measured ADC output histograms versus ideal bitcount; no scalar metric.",
+      "confidence": "high",
+      "entries": [
+        { "task": "MNIST · BNN MLP (1b / 1b, 3b ADC)", "chip": 98.5, "baseline": 98.7, "baselineType": "binary software", "evidence": "simulated with measured ADC statistics" },
+        { "task": "CIFAR-10 · BNN CNN (1b / 1b, 3b ADC)", "chip": 83.5, "baseline": 88.6, "baselineType": "binary software", "evidence": "simulated with measured ADC statistics" }
+      ],
+      "sources": [{ "label": "arXiv 1909.07514 full text", "url": "https://arxiv.org/abs/1909.07514" }]
+    },
+    "41": {
+      "training": "unstated",
+      "trainingNote": "No training method described; accuracy estimated by injecting the measured error rate into software inference.",
+      "compensation": "Iterative write-verify, read-disturb detection, and ADC threshold adjustment.",
+      "bankMetric": "Worst-case MAC error rate 13% with 9 active rows.",
+      "confidence": "high",
+      "entries": [
+        { "task": "MNIST · LeNet-300-100", "chip": 92.6, "baseline": 96.0, "baselineType": "software", "evidence": "estimated with the measured worst-case MAC error; drop exact, absolute values read from a chart" },
+        { "task": "MNIST · LeNet-5", "chip": 95.7, "baseline": 98.4, "baselineType": "software", "evidence": "estimated with the measured worst-case MAC error" },
+        { "task": "ImageNet · VGG16", "chip": 45.5, "baseline": 51.3, "baselineType": "software", "evidence": "estimated with the measured worst-case MAC error" },
+        { "task": "ImageNet · MobileNet", "chip": 54.0, "baseline": 59.5, "baselineType": "software", "evidence": "estimated with the measured worst-case MAC error" }
+      ],
+      "sources": [{ "label": "JSSC 2021 full text", "url": "https://bpb-us-e1.wpmucdn.com/sites.gatech.edu/dist/e/220/files/2021/08/Yoon_JSSC_2021.pdf" }]
+    },
+    "45": {
+      "training": "unstated",
+      "trainingNote": "No training or retraining described.",
+      "compensation": "ADC/DAC offset calibration and nonlinear DAC write voltages.",
+      "bankMetric": "MAC INL below 1.3 of 105 output levels.",
+      "confidence": "high",
+      "entries": [
+        { "task": "CIFAR-10 · VGG16 (4b W / 4b A)", "chip": 90.6, "baseline": null, "baselineType": "", "evidence": "measured; layer coverage not stated" },
+        { "task": "CIFAR-10 · ResNet18 (4b W / 4b A)", "chip": 91.2, "baseline": null, "baselineType": "", "evidence": "measured; layer coverage not stated" }
+      ],
+      "sources": [{ "label": "ISSCC 2021 full text", "url": "http://nu-vlsi.eecs.northwestern.edu/CIM_ISSCC21.pdf" }]
+    },
+    "57": {
+      "training": "unstated",
+      "trainingNote": "Not described in the accessible sources.",
+      "compensation": "Small-offset current-mode sense amplifier and bitline clamping.",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [
+        { "task": "CIFAR-10 (2b input / 3b weight)", "chip": 88.52, "baseline": null, "baselineType": "", "evidence": "reported by a review for the ISSCC 2019 version" }
+      ],
+      "sources": [{ "label": "Resistive accelerator review, arXiv 2109.03934", "url": "https://arxiv.org/abs/2109.03934" }]
+    },
+    "84": {
+      "training": "unstated",
+      "trainingNote": "Compared with INT8 software; no noise-aware training described.",
+      "compensation": "Leakage-cutting voltage clipper; configurable Schmitt-trigger ADC thresholds.",
+      "bankMetric": "ADC DNL below 1 LSB at 27 °C and 60 °C.",
+      "confidence": "high",
+      "entries": [
+        { "task": "CIFAR-10 · ResNet-20 (8b / 8b), 27 °C", "chip": 92.02, "baseline": 92.2, "baselineType": "INT8 software", "evidence": "not stated; the figure mixes measured and ideal non-idealities" },
+        { "task": "CIFAR-10 · ResNet-20 (8b / 8b), 60 °C", "chip": 91.34, "baseline": 92.2, "baselineType": "INT8 software", "evidence": "not stated" }
+      ],
+      "sources": [{ "label": "VLSI 2022 full text", "url": "https://sites.utexas.edu/CRL/wp-content/uploads/sites/4417/2022/06/Gain_cell_CIM_VLSI2022.pdf" }]
+    },
+    "85": {
+      "training": "qat",
+      "trainingNote": "The reference model is quantization-aware trained; no noise-aware training mentioned.",
+      "compensation": "Differential mapping of weights to 3b multi-level cells.",
+      "bankMetric": null,
+      "confidence": "medium",
+      "entries": [],
+      "summary": "MNIST · LeNet1: 1.6 points below the quantization-aware-trained model after mapping across macros (JSSC 2025 version); no absolute accuracy.",
+      "sources": [{ "label": "JSSC 2025 version", "url": "https://doi.org/10.1109/jssc.2025.3540114" }]
+    },
+    "87": {
+      "training": "unstated",
+      "trainingNote": "Not described in the 2-page paper; same group and macro family as #38, which used hardware-generalized training.",
+      "compensation": "Column-resistance boosting and in-situ auto-zeroing against a reference conductance.",
+      "bankMetric": null,
+      "confidence": "high",
+      "entries": [
+        { "task": "CIFAR-10 · 6-layer CNN", "chip": 90.24, "baseline": null, "baselineType": "", "evidence": "all conv layers on chip; reported as matching ideal software" },
+        { "task": "CIFAR-100 · 6-layer CNN", "chip": 71.08, "baseline": null, "baselineType": "", "evidence": "all conv layers on chip; reported as matching ideal software" }
+      ],
+      "sources": [
+        { "label": "VLSI 2022 full text", "url": "http://www.princeton.edu/~nverma/VermaLabSite/Publications/2022/DeavilleZhangVerma_VLSI2022.pdf" },
+        { "label": "JSSC 2024 version", "url": "https://doi.org/10.1109/jssc.2024.3386462" }
+      ]
+    },
+    "89": {
+      "training": "unstated",
+      "trainingNote": "Not described in the accessible abstracts.",
+      "compensation": "Passive C-2C ladder designed for multi-bit linearity.",
+      "bankMetric": "MVM error below 0.5% and within 1% over PVT (JSSC 2023).",
+      "confidence": "medium",
+      "entries": [
+        { "task": "MNIST (8b / 8b)", "chip": 98.1, "baseline": null, "baselineType": "", "evidence": "reported by a citing paper" }
+      ],
+      "sources": [
+        { "label": "IMAGINE, arXiv 2412.19750 (citing paper)", "url": "https://arxiv.org/abs/2412.19750" },
+        { "label": "JSSC 2023 version", "url": "https://doi.org/10.1109/jssc.2022.3232601" }
+      ]
+    },
+    "96": {
+      "training": "nat",
+      "trainingNote": "Noise-aware 'error desensitization' training with an analog-CIM noise model relaxes the noise requirement 2× at the same accuracy.",
+      "compensation": "On-chip self-calibration; word-wise data-selection MAC.",
+      "bankMetric": "Linearity above 10 bits.",
+      "confidence": "high",
+      "entries": [],
+      "summary": "Visual Wake Words: accuracy kept with a 2× looser analog noise requirement after noise-aware training; the abstract gives no percentages.",
+      "sources": [{ "label": "ISSCC 2023 abstract", "url": "https://doi.org/10.1109/isscc42615.2023.10067335" }]
+    },
+    "108": {
+      "training": "unstated",
+      "trainingNote": "Not described in the accessible sources.",
+      "compensation": "Embedded triple error correction in the RRAM macro.",
+      "bankMetric": "Raw read bit errors cut by more than five orders of magnitude with error correction (JSSC 2023).",
+      "confidence": "medium",
+      "entries": [],
+      "summary": "Frame and event-camera target tracking: under 1% accuracy loss with error correction, per the ISSCC 2023 press kit; no absolute accuracy.",
+      "sources": [{ "label": "ISSCC 2023 press kit", "url": "https://static1.squarespace.com/static/6130ef779c7a2574bd4b8888/t/658da67ec1b02828b369e925/1703782019190/ISSCC2023-PressKit.pdf" }]
+    }
+  }
+}

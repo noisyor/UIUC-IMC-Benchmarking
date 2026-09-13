@@ -1189,6 +1189,76 @@ async function initDetailedLab() {
     document.querySelector("#neighbor-body").innerHTML = renderNearestPaperRows(nearest);
   }
 
+  const labTrainingLabels = {
+    nat: "Noise-aware or in-situ training",
+    qat: "Quantization-aware training only",
+    unstated: "Training not stated"
+  };
+
+  function networkAccuracyRows(indices) {
+    const papers = window.IMC_NETWORK_ACCURACY.papers;
+    return indices.map((index) => {
+      const paper = papers[index];
+      const row = rows.find((item) => item.Index === index);
+      const link = window.BENCHMARK_PAPER_LINKS?.[index];
+      const title = link
+        ? `<a class="neighbor-paper-link" href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(row["Paper Title"])} ↗</a>`
+        : escapeHtml(row["Paper Title"]);
+      const results = paper.entries.length
+        ? paper.entries.map((entry) => `<div>${escapeHtml(entry.task)}: <strong>${escapeHtml(entry.chipText || `${labFormat(entry.chip, 2)}%`)}</strong>${entry.baseline === null ? "" : ` vs ${labFormat(entry.baseline, 2)}% ${escapeHtml(entry.baselineType)}`} · ${escapeHtml(entry.evidence)}</div>`).join("")
+        : `<div>${escapeHtml(paper.summary)}</div>`;
+      const sources = paper.sources.map((source) => `<a class="neighbor-source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(source.label)} ↗</a>`).join(" · ");
+      return `<tr><td><span class="index-chip">#${escapeHtml(index)}</span><div class="paper-meta">${escapeHtml(row.Year)} · ${escapeHtml(row["Journal/Conference"])}</div></td>`
+        + `<td>${title}${results}<div class="paper-meta">Confidence: ${escapeHtml(paper.confidence)} · ${sources}</div></td>`
+        + `<td><strong>${escapeHtml(labTrainingLabels[paper.training])}</strong><div>${escapeHtml(paper.trainingNote)}</div>${paper.compensation ? `<div class="paper-meta">${escapeHtml(paper.compensation)}</div>` : ""}</td>`
+        + `<td>${escapeHtml(paper.bankMetric || "—")}</td></tr>`;
+    }).join("");
+  }
+
+  function updateNetworkAccuracy(candidate, evidence) {
+    const lead = document.querySelector("#network-lead");
+    const detail = document.querySelector("#network-detail");
+    const papers = window.IMC_NETWORK_ACCURACY?.papers;
+    if (!papers) {
+      lead.textContent = "Reported accuracy data did not load";
+      return;
+    }
+    const familyIndices = [...new Set(rows.filter((row) => row.Architecture === candidate.architecture && row.model === candidate.model).map((row) => row.Index))];
+    const exact = new Set(labUniquePapers(evidence.exact));
+    const withData = familyIndices.filter((index) => papers[index]).sort((a, b) => (exact.has(b) - exact.has(a)) || Number(a) - Number(b));
+    const trained = withData.filter((index) => papers[index].training === "nat");
+    const family = `${candidate.architecture} ${candidate.model || "unclassified"}`;
+    lead.textContent = withData.length
+      ? `${withData.length} of ${familyIndices.length} ${family} papers report network accuracy`
+      : `No ${family} paper reports network accuracy`;
+
+    const sentences = [];
+    if (trained.length) sentences.push(`${trained.map((index) => `#${index}`).join(", ")} used noise-aware or in-situ training.`);
+    const exactWithout = [...exact].filter((index) => !papers[index]);
+    if (exactWithout.length) sentences.push(`The matching paper${exactWithout.length === 1 ? "" : "s"} ${exactWithout.map((index) => `#${index}`).join(", ")} report${exactWithout.length === 1 ? "s" : ""} no network accuracy.`);
+    const accuracy = labComputeAccuracy(candidate);
+    const snr = candidate.hasSnr
+      ? candidate.snr
+      : accuracy.kind === "charge" ? accuracy.model.totalSnrDb
+        : accuracy.kind === "resistive" ? accuracy.model.sndr.db
+          : accuracy.kind === "digital" ? Infinity : null;
+    if (snr === Infinity) {
+      sentences.push("Digital computation adds no analog error, so reported accuracy reflects quantization alone.");
+    } else if (Number.isFinite(snr) && snr < 20) {
+      sentences.push(`At ${labFormat(snr, 1)} dB SNR_T, the benchmark's evidence is that near-baseline accuracy at low bank-level SNR came with noise-aware or in-situ training (#38, #13, #96) or was shown only for binary networks on MNIST. Binary networks lost 1.4–5.1 points on CIFAR-10 (#6, #17, #40), and the MRAM chip in Roy's dissertation, without noise-aware training, reached 74.8–82.0% against a 91.1% baseline at 5–11 dB SNDR.`);
+    } else if (Number.isFinite(snr)) {
+      sentences.push(`At ${labFormat(snr, 1)} dB SNR_T, the closest evidence is the high-SNR charge-domain chips that stayed within 0.6 points of quantized baselines without noise-aware training (#5, #25, #35; #25 and #35 measured 0.68 and 0.98 LSB rms column noise).`);
+    }
+    sentences.push("Each paper reports against its own baseline, often quantized software, and some results are simulated from measured chip statistics.");
+    detail.textContent = sentences.join(" ");
+    document.querySelector("#network-body").innerHTML = withData.length
+      ? networkAccuracyRows(withData)
+      : '<tr><td colspan="4">No reported network accuracy was found for this architecture and compute model.</td></tr>';
+    const others = Object.keys(papers).filter((index) => !familyIndices.includes(index)).sort((a, b) => Number(a) - Number(b));
+    document.querySelector("#network-other-summary").textContent = `${others.length} other analog papers with reported accuracy`;
+    document.querySelector("#network-other-body").innerHTML = networkAccuracyRows(others);
+  }
+
   function update() {
     let candidate = candidateValues();
     const available = { published: Number.isFinite(labModelEnergyPerOp(candidate, "published")), fit: Number.isFinite(labModelEnergyPerOp(candidate, "fit")) };
@@ -1242,6 +1312,7 @@ async function initDetailedLab() {
     updateAccuracy(candidate);
     updateMetricCitations(candidate);
     updateNeighbors(candidate);
+    updateNetworkAccuracy(candidate, evidence);
   }
 
   let pendingUpdate = null;
