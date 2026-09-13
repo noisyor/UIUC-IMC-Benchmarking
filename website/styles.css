@@ -434,6 +434,7 @@ details.model-section[open] > summary h3::after { content: " −"; }
 .lab-chart .candidate-point { stroke: var(--ink); stroke-width: 2.5; }
 .lab-chart .candidate-label { fill: var(--ink); font-size: var(--text-sm); font-weight: 700; paint-order: stroke; stroke: #fff; stroke-width: 5px; }
 .lab-results { min-width: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.lab-results.four-up { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .lab-result { padding: 26px; display: flex; flex-direction: column; }
 .lab-result h3 { margin: 0 0 14px; font-size: var(--text-lg); }
 .lab-result strong.result-lead { display: block; margin-bottom: 8px; color: var(--blue-dark); font-size: var(--text-xl); line-height: 1.2; }
@@ -527,7 +528,7 @@ footer > a:last-child { color: var(--blue-dark); font-size: var(--text-sm); font
   .paper-people-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .paper-card { grid-template-columns: 1fr; gap: 14px; }
   .control-grid-wide, .performance-grid, .model-controls .control-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .lab-results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lab-results, .lab-results.four-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .year-coverage { grid-template-columns: repeat(4, 1fr); }
   .year-coverage article { border-bottom: 1px solid var(--line); }
   .year-coverage article:nth-child(4n) { border-right: 0; }
@@ -554,7 +555,7 @@ footer > a:last-child { color: var(--blue-dark); font-size: var(--text-sm); font
   .control-grid, .control-grid-wide, .performance-grid, .model-controls .control-grid { grid-template-columns: 1fr; }
   .control-group.full { grid-column: auto; }
   .control-section, .model-section { padding: 18px; }
-  .lab-results { grid-template-columns: 1fr; }
+  .lab-results, .lab-results.four-up { grid-template-columns: 1fr; }
   .network-table td:nth-child(3), .network-table td:nth-child(4) { width: auto; }
   .lab-controls, .lab-visual, .lab-result { padding: 22px; }
   .lab-chart-wrap { min-height: 360px; }

@@ -1094,12 +1094,15 @@ async function initDetailedLab() {
   }
 
   function updateAsim(candidate) {
-    const asimResult = document.querySelector("#asim-result");
+    const asimCard = document.querySelector("#asim-card");
     const asimActive = candidate.architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(candidate.model);
-    asimResult.hidden = !asimActive;
+    asimCard.hidden = !asimActive;
+    document.querySelector(".lab-results").classList.toggle("four-up", asimActive);
     if (!asimActive) return;
     const lead = document.querySelector("#asim-lead");
     const detail = document.querySelector("#asim-detail");
+    const workload = document.querySelector("#asim-workload");
+    workload.textContent = "";
     const asimFields = ["#asim-adc-boundary", "#asim-adc-only", "#asim-random", "#asim-nonlinearity"];
     if (!Number.isInteger(candidate.inputBits) || !Number.isInteger(candidate.weightBits) || !Number.isInteger(candidate.adcBits)) {
       lead.textContent = "ASiM screening needs integer precisions and an ADC";
@@ -1116,6 +1119,7 @@ async function initDetailedLab() {
       return;
     }
     lead.textContent = `${screening.bound ? "At most" : "About"} ${labFormat(screening.estimate, 1)}% top-1`;
+    workload.textContent = screening.workload.label;
     detail.textContent = `${screening.workload.label}, ${screening.encoding.label} encoding, scaled from the paper's ${labFormat(screening.paperBaseline, 2)}% digital baseline onto the entered ${labFormat(candidate.asimBaseline, 2)}%. ${screening.notes.join(" ")} This reads published ASiM results and is not an inference run.`;
     const noiseText = (source) => (source.sigma <= 0 ? "None" : `${labFormat(source.sigma, 3)}% Vpp (${labFormat(source.sigma / 100 * 255, 3)} LSB rms at 8 bits) → ${labFormat(source.scaled, 1)}% at an 8-bit ADC (${source.figure})`);
     document.querySelector("#asim-adc-boundary").textContent = `${screening.boundaryAdc}-bit boundary · ${labFormat(candidate.adcBits, 2)}-bit selected`;
@@ -1131,13 +1135,12 @@ async function initDetailedLab() {
     const accuracyCitation = document.querySelector("#accuracy-citation");
     const gonugondla = '<a href="https://arxiv.org/abs/2012.13645">Gonugondla et al., TCAD 2022</a>';
     const fitLink = '<a href="data/Benchmarking_Data.csv">Data fit: Benchmarking_Data.csv</a>';
-    const asim = '<a href="https://arxiv.org/abs/2411.11022">ASiM tables</a>';
     if (candidate.architecture === "eNVM" && candidate.model === "IS") {
       modelCitation.innerHTML = `<span>Source</span><a href="https://doi.org/10.1109/JXCDC.2024.3381888">Roy &amp; Shanbhag, JXCDC 2024</a><a href="https://github.com/calmyor/eNVM-IMC-Modeling">Code</a>${fitLink}`;
       accuracyCitation.innerHTML = '<span>Source</span><a href="https://doi.org/10.1109/JXCDC.2024.3381888">Resistive IMC SNDR model</a>';
     } else if (labIsChargeDomain(candidate)) {
       modelCitation.innerHTML = `<span>Source</span>${gonugondla}${fitLink}`;
-      accuracyCitation.innerHTML = `<span>Source</span>${gonugondla}${candidate.architecture === "SRAM" && candidate.model === "QR" ? '<a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">28 nm QR code</a>' : ""}${candidate.architecture === "SRAM" && candidate.model !== "IS" ? asim : ""}`;
+      accuracyCitation.innerHTML = `<span>Source</span>${gonugondla}${candidate.architecture === "SRAM" && candidate.model === "QR" ? '<a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">28 nm QR code</a>' : ""}`;
     } else if (candidate.model === "DIMC" || candidate.architecture === "Digital") {
       modelCitation.innerHTML = `<span>Source</span>${fitLink}`;
       accuracyCitation.innerHTML = "<span>Scope</span>Digital computation has no analog noise";
