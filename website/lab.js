@@ -249,6 +249,7 @@ function labAsimScreen(candidate) {
 async function initDetailedLab() {
   const chart = document.querySelector("#lab-chart");
   if (!chart) return;
+  setupReportedPointTooltip(chart);
   const rawRows = await loadBenchmarkRows();
   const rows = rawRows.map((row) => ({
     ...row,
@@ -551,8 +552,8 @@ async function initDetailedLab() {
     const xTitle = svgElement("text", { x: margin.left + plotWidth / 2, y: height - 18, "text-anchor": "middle", class: "axis-title" }); xTitle.textContent = "Compute density (1b-TOPS/mm²)"; grid.append(xTitle);
     const yTitle = svgElement("text", { x: 24, y: margin.top + plotHeight / 2, "text-anchor": "middle", class: "axis-title", transform: `rotate(-90 24 ${margin.top + plotHeight / 2})` }); yTitle.textContent = "Energy efficiency (1b-TOPS/W)"; grid.append(yTitle);
     chart.append(grid);
-    const pointGroup = svgElement("g", { "aria-hidden": "true" });
-    plottedRows.forEach((row) => pointGroup.append(svgElement("circle", { cx: xPosition(row.density), cy: yPosition(row.efficiency), r: compact ? 5.2 : 4.2, fill: colors[row.Architecture] || "#687080", class: "reported-point" })));
+    const pointGroup = svgElement("g");
+    plottedRows.forEach((row) => pointGroup.append(reportedPointLink(row, { cx: xPosition(row.density), cy: yPosition(row.efficiency), r: compact ? 5.2 : 4.2, fill: colors[row.Architecture] || "#687080" })));
     chart.append(pointGroup);
     const x = xPosition(Math.max(xDomain[0], Math.min(xDomain[1], candidate.density)));
     const y = yPosition(Math.max(yDomain[0], Math.min(yDomain[1], candidate.efficiency)));
@@ -569,7 +570,7 @@ async function initDetailedLab() {
       if (!prior || distance < prior.distance) nearestByIndex.set(row.Index, { ...row, distance });
     });
     const nearest = [...nearestByIndex.values()].sort((a, b) => a.distance - b.distance).slice(0, 3);
-    document.querySelector("#neighbor-body").innerHTML = nearest.map((row) => `<tr><td><span class="index-chip">#${escapeHtml(row.Index)}</span></td><td>${escapeHtml(row["Paper Title"])}</td><td><span class="arch-chip ${escapeHtml(row.Architecture.toLowerCase())}">${escapeHtml(row.Architecture)}</span></td></tr>`).join("");
+    document.querySelector("#neighbor-body").innerHTML = renderNearestPaperRows(nearest);
   }
 
   function update() {

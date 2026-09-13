@@ -17,6 +17,52 @@ if (menuButton && siteNav) {
   }));
 }
 
+const figureLightbox = document.querySelector("#figure-lightbox");
+
+if (figureLightbox) {
+  const lightboxImage = figureLightbox.querySelector("#figure-lightbox-image");
+  const lightboxCaption = figureLightbox.querySelector("#figure-lightbox-caption");
+  const lightboxClose = figureLightbox.querySelector(".figure-lightbox-close");
+  let lastFocusedFigure = null;
+
+  function openFigureLightbox(figure) {
+    const sourceImage = figure.querySelector("img");
+    const sourceCaption = figure.querySelector("figcaption");
+    if (!sourceImage) return;
+    lastFocusedFigure = figure;
+    lightboxImage.src = sourceImage.currentSrc || sourceImage.src;
+    lightboxImage.alt = sourceImage.alt;
+    lightboxCaption.textContent = sourceCaption?.textContent.trim() || sourceImage.alt;
+    figureLightbox.hidden = false;
+    document.body.classList.add("figure-lightbox-open");
+    lightboxClose.focus();
+  }
+
+  function closeFigureLightbox() {
+    if (figureLightbox.hidden) return;
+    figureLightbox.hidden = true;
+    document.body.classList.remove("figure-lightbox-open");
+    lightboxImage.src = "";
+    lastFocusedFigure?.focus();
+  }
+
+  document.querySelectorAll(".zoomable-figure").forEach((figure) => {
+    figure.addEventListener("click", () => openFigureLightbox(figure));
+    figure.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      openFigureLightbox(figure);
+    });
+  });
+  lightboxClose.addEventListener("click", closeFigureLightbox);
+  figureLightbox.addEventListener("click", (event) => {
+    if (event.target === figureLightbox) closeFigureLightbox();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeFigureLightbox();
+  });
+}
+
 const plotLayouts = {
   efficiency: [
     [11,77],[23,61],[32,71],[40,48],[49,58],[57,35],[66,43],[75,24],[83,31],[88,14],[69,68],[44,80]
@@ -143,6 +189,26 @@ function paperPeople(index, fallbackAuthors) {
   };
 }
 
+function renderNearestPaperRows(nearest) {
+  return nearest.map((row) => {
+    const paperLink = window.BENCHMARK_PAPER_LINKS?.[row.Index];
+    const metadata = window.BENCHMARK_PAPER_METADATA?.papers?.[row.Index];
+    const authors = metadata?.authors || [];
+    const affiliations = uniqueAffiliations(authors.flatMap((author) => author.affiliations || []));
+    const title = paperLink
+      ? `<a class="neighbor-paper-link" href="${escapeHtml(paperLink.url)}" target="_blank" rel="noopener">${escapeHtml(row["Paper Title"])} ↗</a>`
+      : escapeHtml(row["Paper Title"]);
+    const people = authors.length ? `
+      <details class="neighbor-people">
+        <summary>${authors.length} author${authors.length === 1 ? "" : "s"} · ${affiliations.length} affiliation${affiliations.length === 1 ? "" : "s"}</summary>
+        <div><strong>Authors</strong><p>${authors.map((author) => escapeHtml(author.name)).join(", ")}</p></div>
+        <div><strong>Affiliations</strong><p>${affiliations.map((affiliation) => escapeHtml(affiliation)).join(" · ")}</p></div>
+        ${metadata.openAlexUrl ? `<a class="neighbor-source-link" href="${escapeHtml(metadata.openAlexUrl)}" target="_blank" rel="noopener">Author metadata source ↗</a>` : ""}
+      </details>` : `<span class="paper-meta">${escapeHtml(row.Authors)}</span>`;
+    return `<tr><td><span class="index-chip">#${escapeHtml(row.Index)}</span></td><td>${title}${people}</td><td><span class="arch-chip ${escapeHtml(row.Architecture.toLowerCase())}">${escapeHtml(row.Architecture)}</span></td></tr>`;
+  }).join("");
+}
+
 async function initExplorer() {
   const tableBody = document.querySelector("#benchmark-body");
   if (!tableBody) return;
@@ -243,6 +309,86 @@ function svgElement(name, attributes = {}) {
   return element;
 }
 
+function reportedPointLink(row, attributes) {
+  const circle = svgElement("circle", { ...attributes, class: "reported-point" });
+  const paperLink = window.BENCHMARK_PAPER_LINKS?.[row.Index];
+  if (!paperLink) return circle;
+  const hitArea = svgElement("circle", {
+    cx: attributes.cx,
+    cy: attributes.cy,
+    r: Math.max(10, Number(attributes.r) || 0),
+    class: "reported-point-hit"
+  });
+  const label = `Open benchmark paper ${row.Index}: ${row["Paper Title"]}. Energy efficiency ${row.efficiency.toLocaleString()} one-bit TOPS per watt; compute density ${row.density.toLocaleString()} one-bit TOPS per square millimeter.`;
+  const link = svgElement("a", {
+    href: paperLink.url,
+    target: "_blank",
+    rel: "noopener",
+    class: "reported-point-link",
+    "aria-label": label,
+    "data-tooltip-title": `#${row.Index} · ${row["Paper Title"]}`,
+    "data-tooltip-meta": `${row.Year} · ${row["Journal/Conference"]} · ${row.Architecture}`
+  });
+  link.append(hitArea, circle);
+  return link;
+}
+
+function setupReportedPointTooltip(chart) {
+  if (chart.dataset.tooltipReady === "true") return;
+  const tooltip = chart.parentElement.querySelector(".plot-point-tooltip");
+  if (!tooltip) return;
+  const title = tooltip.querySelector("strong");
+  const meta = tooltip.querySelector("span");
+  const wrap = chart.parentElement;
+
+  function positionTooltip(clientX, clientY) {
+    const bounds = wrap.getBoundingClientRect();
+    const x = clientX - bounds.left;
+    const y = clientY - bounds.top;
+    const halfWidth = tooltip.offsetWidth / 2;
+    const left = Math.max(halfWidth + 10, Math.min(bounds.width - halfWidth - 10, x));
+    const top = Math.max(tooltip.offsetHeight + 10, y - 14);
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${top}px`;
+  }
+
+  function showTooltip(link, clientX, clientY) {
+    title.textContent = link.dataset.tooltipTitle;
+    meta.textContent = link.dataset.tooltipMeta;
+    tooltip.hidden = false;
+    positionTooltip(clientX, clientY);
+  }
+
+  function hideTooltip() {
+    tooltip.hidden = true;
+  }
+
+  chart.addEventListener("pointerover", (event) => {
+    const link = event.target.closest?.(".reported-point-link");
+    if (link) showTooltip(link, event.clientX, event.clientY);
+  });
+  chart.addEventListener("pointermove", (event) => {
+    if (!tooltip.hidden && event.target.closest?.(".reported-point-link")) positionTooltip(event.clientX, event.clientY);
+  });
+  chart.addEventListener("pointerout", (event) => {
+    const link = event.target.closest?.(".reported-point-link");
+    if (link && !link.contains(event.relatedTarget)) hideTooltip();
+  });
+  chart.addEventListener("focusin", (event) => {
+    const link = event.target.closest?.(".reported-point-link");
+    if (!link) return;
+    const bounds = link.getBoundingClientRect();
+    showTooltip(link, bounds.left + bounds.width / 2, bounds.top);
+  });
+  chart.addEventListener("focusout", (event) => {
+    if (event.target.closest?.(".reported-point-link")) hideTooltip();
+  });
+  chart.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") hideTooltip();
+  });
+  chart.dataset.tooltipReady = "true";
+}
+
 function percentile(values, candidate) {
   if (!values.length) return 0;
   return Math.round(100 * values.filter((value) => value <= candidate).length / values.length);
@@ -251,6 +397,7 @@ function percentile(values, candidate) {
 async function initLab() {
   const chart = document.querySelector("#lab-chart");
   if (!chart) return;
+  setupReportedPointTooltip(chart);
   const allRows = (await loadBenchmarkRows()).map((row) => ({
     ...row,
     efficiency: Number(row["TOPS/W"]),
@@ -323,10 +470,10 @@ async function initLab() {
     grid.append(yTitle);
     chart.append(grid);
 
-    const points = svgElement("g", { "aria-hidden": "true" });
-    allRows.forEach((row) => points.append(svgElement("circle", {
+    const points = svgElement("g");
+    allRows.forEach((row) => points.append(reportedPointLink(row, {
       cx: xPosition(row.density), cy: yPosition(row.efficiency), r: compactChart ? 5.2 : 4.2,
-      fill: colors[row.Architecture] || "#687080", class: "reported-point"
+      fill: colors[row.Architecture] || "#687080"
     })));
     chart.append(points);
   }
@@ -381,7 +528,7 @@ async function initLab() {
       if (!prior || distance < prior.distance) nearestByIndex.set(row.Index, { ...row, distance });
     });
     const nearest = [...nearestByIndex.values()].sort((a, b) => a.distance - b.distance).slice(0, 3);
-    document.querySelector("#neighbor-body").innerHTML = nearest.map((row) => `<tr><td><span class="index-chip">#${escapeHtml(row.Index)}</span></td><td>${escapeHtml(row["Paper Title"])}</td><td><span class="arch-chip ${escapeHtml(row.Architecture.toLowerCase())}">${escapeHtml(row.Architecture)}</span></td></tr>`).join("");
+    document.querySelector("#neighbor-body").innerHTML = renderNearestPaperRows(nearest);
   }
 
   function update() {

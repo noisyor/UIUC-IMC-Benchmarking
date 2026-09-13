@@ -1,9 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#294f69"/>
-  <path d="M14 12v39h40" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-  <path d="M18 46 29 34l9 4 13-20" fill="none" stroke="#67e8c3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="18" cy="46" r="4" fill="#ffb447"/>
-  <circle cx="29" cy="34" r="4" fill="#ff6b6b"/>
-  <circle cx="38" cy="38" r="4" fill="#8c7cff"/>
-  <circle cx="51" cy="18" r="4" fill="#67e8c3"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">IMC Benchmarking emblem</title>
+  <desc id="desc">A memory array converging on a highlighted normalized benchmark point.</desc>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#f7fbfd" stroke="#294f69" stroke-width="2"/>
+  <g fill="#f0c33c">
+    <rect x="17" y="5" width="4" height="7" rx="2"/><rect x="30" y="5" width="4" height="7" rx="2"/><rect x="43" y="5" width="4" height="7" rx="2"/>
+    <rect x="17" y="52" width="4" height="7" rx="2"/><rect x="30" y="52" width="4" height="7" rx="2"/><rect x="43" y="52" width="4" height="7" rx="2"/>
+  </g>
+  <rect x="9" y="10" width="46" height="44" rx="11" fill="#294f69"/>
+  <g fill="#d8eef7">
+    <rect x="15" y="16" width="8" height="8" rx="2"/><rect x="28" y="16" width="8" height="8" rx="2"/><rect x="41" y="16" width="8" height="8" rx="2"/>
+    <rect x="15" y="29" width="8" height="8" rx="2"/><rect x="41" y="29" width="8" height="8" rx="2"/>
+    <rect x="15" y="42" width="8" height="6" rx="2"/><rect x="28" y="42" width="8" height="6" rx="2"/><rect x="41" y="42" width="8" height="6" rx="2"/>
+  </g>
+  <path d="M19 20 32 33 45 20M19 33h13m13 0H32M19 45 32 33 45 45" fill="none" stroke="#68c9ed" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+  <rect x="26" y="27" width="12" height="12" rx="3" fill="#c83e36" stroke="#f7fbfd" stroke-width="2" transform="rotate(45 32 33)"/>
+  <circle cx="32" cy="33" r="2.5" fill="#f0c33c"/>
 </svg>

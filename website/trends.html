@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="2024 trend views from the UIUC in-memory computing benchmarking database." />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="styles.css" /><script src="app.js" defer></script>
+  <link rel="icon" href="favicon.svg?v=20260831-brand" type="image/svg+xml" /><link rel="stylesheet" href="styles.css?v=20260912-type" /><script src="app.js?v=20260831-zoom" defer></script>
   <title>Trends · IMC Benchmarking</title>
 </head>
 <body class="themed-page">
@@ -19,22 +19,29 @@
     <section class="section white">
       <div class="trend-lead">
         <div><p class="section-label">Publication mix</p><h2>SRAM compute models evolve year by year.</h2><p>The repository tracks charge sharing (QS), charge redistribution (QR), and digital IMC (DIMC) papers as separate design families. This view counts the represented SRAM publications by compute model and year.</p><p>The October 2024 update adds only three designs because the database prioritizes bank-level innovations with enough disclosed information to validate metrics.</p></div>
-        <figure class="figure-frame"><img src="assets/figures/2024_SRAM_IMC_Trend.png" alt="Count of SRAM IMC publications by compute model and year" /><figcaption>SRAM publication count by compute model and year, as published in the repository.</figcaption></figure>
+        <figure class="figure-frame zoomable-figure" tabindex="0" role="button" aria-label="Enlarge SRAM publication count by compute model and year"><img src="assets/figures/2024_SRAM_IMC_Trend.png" alt="Count of SRAM IMC publications by compute model and year" /><figcaption>SRAM publication count by compute model and year, as published in the repository.</figcaption></figure>
       </div>
     </section>
     <section class="section">
       <div class="section-heading"><p class="section-label">Comparative views</p><h2>Seven reproducible projections.</h2><p>The gallery uses the repository’s latest 2024 figures without changing the plotted data or annotations.</p></div>
       <div class="trend-gallery">
-        <figure><img src="assets/figures/1_1b-TOPSpW_vs_1bTOPSpmm2_SRAM.png" alt="Energy efficiency versus compute density for SRAM IMCs" /><figcaption>SRAM: energy efficiency × compute density</figcaption></figure>
-        <figure><img src="assets/figures/2_1b-TOPSpW_vs_1b-TOPS_SRAM.png" alt="Energy efficiency versus throughput for SRAM IMCs" /><figcaption>SRAM: energy efficiency × throughput</figcaption></figure>
-        <figure><img src="assets/figures/3_1b-TOPSpW_vs_BIcol_SRAM.png" alt="Energy efficiency versus pre-ADC information content for SRAM IMCs" /><figcaption>SRAM: efficiency × pre-ADC information</figcaption></figure>
-        <figure><img src="assets/figures/4_BADC_vs_BIcol_SRAM.png" alt="ADC precision versus pre-ADC information content for SRAM IMCs" /><figcaption>SRAM: ADC precision × information content</figcaption></figure>
-        <figure><img src="assets/figures/5_1b-TOPS_vs_1b-TOPSpW_all.png" alt="Throughput versus energy efficiency across IMC and digital architectures" /><figcaption>All architectures: throughput × efficiency</figcaption></figure>
-        <figure><img src="assets/figures/6_1b-TOPSpmm2_vs_1b-TOPSpW_all.png" alt="Compute density versus energy efficiency across IMC and digital architectures" /><figcaption>All architectures: density × efficiency</figcaption></figure>
-        <figure><img src="assets/figures/7_1b-TOPS_vs_W_all.png" alt="Throughput versus power across IMC and digital architectures" /><figcaption>All architectures: throughput × power</figcaption></figure>
+        <figure class="zoomable-figure" tabindex="0" role="button" aria-label="Enlarge SRAM energy efficiency versus compute density"><img src="assets/figures/1_1b-TOPSpW_vs_1bTOPSpmm2_SRAM.png" alt="Energy efficiency versus compute density for SRAM IMCs" /><figcaption>SRAM: energy efficiency × compute density</figcaption></figure>
+        <figure class="zoomable-figure" tabindex="0" role="button" aria-label="Enlarge SRAM energy efficiency versus throughput"><img src="assets/figures/2_1b-TOPSpW_vs_1b-TOPS_SRAM.png" alt="Energy efficiency versus throughput for SRAM IMCs" /><figcaption>SRAM: energy efficiency × throughput</figcaption></figure>
+        <figure class="zoomable-figure" tabindex="0" role="button" aria-label="Enlarge SRAM energy efficiency versus pre-ADC information"><img src="assets/figures/3_1b-TOPSpW_vs_BIcol_SRAM.png" alt="Energy efficiency versus pre-ADC information content for SRAM IMCs" /><figcaption>SRAM: efficiency × pre-ADC information</figcaption></figure>
+        <figure class="zoomable-figure" tabindex="0" role="button" aria-label="Enlarge SRAM ADC precision versus information content"><img src="assets/figures/4_BADC_vs_BIcol_SRAM.png" alt="ADC precision versus pre-ADC information content for SRAM IMCs" /><figcaption>SRAM: ADC precision × information content</figcaption></figure>
+        <figure class="zoomable-figure" tabindex="0" role="button" aria-label="Enlarge all architectures throughput versus efficiency"><img src="assets/figures/5_1b-TOPS_vs_1b-TOPSpW_all.png" alt="Throughput versus energy efficiency across IMC and digital architectures" /><figcaption>All architectures: throughput × efficiency</figcaption></figure>
+        <figure class="zoomable-figure" tabindex="0" role="button" aria-label="Enlarge all architectures density versus efficiency"><img src="assets/figures/6_1b-TOPSpmm2_vs_1b-TOPSpW_all.png" alt="Compute density versus energy efficiency across IMC and digital architectures" /><figcaption>All architectures: density × efficiency</figcaption></figure>
+        <figure class="zoomable-figure" tabindex="0" role="button" aria-label="Enlarge all architectures throughput versus power"><img src="assets/figures/7_1b-TOPS_vs_W_all.png" alt="Throughput versus power across IMC and digital architectures" /><figcaption>All architectures: throughput × power</figcaption></figure>
       </div>
     </section>
   </main>
+  <div class="figure-lightbox" id="figure-lightbox" role="dialog" aria-modal="true" aria-labelledby="figure-lightbox-caption" hidden>
+    <button class="figure-lightbox-close" type="button" aria-label="Close enlarged figure">×</button>
+    <figure>
+      <img id="figure-lightbox-image" src="" alt="" />
+      <figcaption id="figure-lightbox-caption"></figcaption>
+    </figure>
+  </div>
   <footer><a class="footer-brand" href="index.html"><img src="favicon.svg" alt="" /><strong>IMC Benchmarking</strong></a><p>All figures reproduced from the repository’s 2024 analysis outputs.</p><a href="https://github.com/UIUC-IMC/UIUC-IMC-Benchmarking/tree/master/figures">Figure archive ↗</a></footer>
 </body>
 </html>
