@@ -189,19 +189,6 @@ function labSramQrSnr(candidate) {
   };
 }
 
-// Energy constants from Cqr_sweep.py / Badc_sweep.py: E_ADC = 0.1·B + 1e-6·4^B pJ and
-// E_IA = 1.244·C_QR·N·VDD² fJ per column conversion. Normalizing one conversion over its
-// 2N one-bit operations follows the benchmark's N_1b convention; that split is the lab's.
-function labSramQrEnergy(candidate) {
-  const adcBits = candidate.adcBits;
-  if (!Number.isFinite(adcBits) || adcBits <= 0) return null;
-  const vdd = 0.9;
-  const dimension = Math.max(1, candidate.dimension);
-  const adcFj = (0.1 * adcBits + 1e-6 * 4 ** adcBits) * 1000;
-  const arrayFj = 1.244 * candidate.cellCap * dimension * vdd ** 2;
-  return { adcFj, arrayFj, perOpFj: (adcFj + arrayFj) / (2 * dimension) };
-}
-
 const labAsimWorkloads = {
   "resnet18-cifar10": { label: "ResNet-18 · CIFAR-10", task: "CIFAR-10", model: "ResNet-18", chance: 10, checkpoint: "resnet18_cifar10_w8a8_pact_trim_100.pkl" },
   "resnet18-imagenet": { label: "ResNet-18 · ImageNet", task: "ImageNet", model: "ResNet-18", chance: 0.1, checkpoint: "resnet18_imagenet_w8a8_pact_trim_50.pkl" },
@@ -437,10 +424,363 @@ function labEnvmModel(candidate) {
   };
 }
 
-function labModelEnergyPerOp(candidate) {
-  if (candidate.architecture === "eNVM" && candidate.model === "IS") return labEnvmModel(candidate)?.perOpFj ?? null;
-  if (candidate.architecture === "SRAM" && candidate.model === "QR") return labSramQrEnergy(candidate)?.perOpFj ?? null;
+// Compute-accuracy and energy models for charge- and current-domain SRAM IMC.
+//   [G] S. K. Gonugondla, C. Sakr, H. Dbouk, N. R. Shanbhag, "Fundamental limits on energy-delay-accuracy of
+//       in-memory architectures in inference applications," IEEE TCAD 2022 (arXiv:2012.13645):
+//       Table II (65 nm parameters), Table III (architecture noise and energy), eqs. (10)-(11), (18), (21), (25).
+//   [D] S. K. Roy, PhD dissertation, UIUC 2024: E_op1 = E_DP / (2·N·B_x·B_w) (2.3), SNDR_col (2.6), E_ADC (3.18).
+// Operands follow [G]: unsigned inputs x in [0, 1) and signed weights w in [-1, 1), each built from
+// independent equiprobable bits, which is what produces the (1 - 4^-B) factors in Table III.
+
+const LAB_G_PARAMETERS = {
+  kPrime: 220e-6, alpha: 1.8, sigmaVt: 23.8e-3, vt: 0.4,   // QS cell current, 65 nm
+  kappa: 0.08, wlCox: 0.31, injection: 0.5,                // QR: Pelgrom coefficient (fF^0.5), switch W·L·Cox (fF), p
+  boltzmann: 1.38e-23, temperature: 300
+};
+
+function labAdcEnergyFj(bits) {
+  return 100 * bits + 1e-3 * 4 ** bits; // [D] (3.18): k1 = 100 fJ, k2 = 1 aJ
+}
+
+function labDb(ratio) {
+  return ratio === Infinity ? Infinity : 10 * Math.log10(ratio);
+}
+
+function labParallel(...ratios) {
+  const inverse = ratios.filter((ratio) => ratio !== null && ratio !== undefined).reduce((sum, ratio) => sum + (ratio === Infinity ? 0 : 1 / ratio), 0);
+  return inverse === 0 ? Infinity : 1 / inverse;
+}
+
+function labOperands(inputBits, weightBits) {
+  const xMean = (1 - 2 ** -inputBits) / 2;
+  const xVariance = (1 - 4 ** -inputBits) / 12;
+  const wMean = -(2 ** -weightBits);
+  const wVariance = (1 - 4 ** -weightBits) / 3;
+  const xSquare = xVariance + xMean ** 2;
+  const wSquare = wVariance + wMean ** 2;
+  return { xMean, xVariance, xSquare, wMean, wVariance, wSquare, productVariance: wSquare * xSquare - (wMean * xMean) ** 2 };
+}
+
+function labBinomial(n, p) {
+  const values = [];
+  const probs = [];
+  let log = n * Math.log(1 - p);
+  const odds = Math.log(p / (1 - p));
+  for (let k = 0; k <= n; k += 1) {
+    if (k > 0) log += Math.log((n - k + 1) / k) + odds;
+    const probability = Math.exp(log);
+    if (probability > 1e-14) {
+      values.push(k);
+      probs.push(probability);
+    }
+  }
+  return { values, probs };
+}
+
+// Mid-rise uniform ADC: `levels` equal bins tile [low, high] and each input maps to its bin centre;
+// inputs beyond the range fall into the end bins.
+function labQuantize(value, low, step, levels) {
+  return low + (Math.min(levels - 1, Math.max(0, Math.floor((value - low) / step))) + 0.5) * step;
+}
+
+function labDiscreteMse(distribution, low, high, levels) {
+  const step = (high - low) / levels;
+  let mse = 0;
+  for (let i = 0; i < distribution.values.length; i += 1) {
+    const error = distribution.values[i] - labQuantize(distribution.values[i], low, step, levels);
+    mse += distribution.probs[i] * error * error;
+  }
+  return mse;
+}
+
+function labGaussianMse(mean, sd, low, high, levels) {
+  const step = (high - low) / levels;
+  const from = mean - 10 * sd;
+  const span = 20 * sd;
+  const samples = Math.min(200000, Math.max(4000, Math.ceil(span / (step / 8))));
+  const width = span / samples;
+  let mse = 0;
+  let mass = 0;
+  for (let i = 0; i < samples; i += 1) {
+    const value = from + (i + 0.5) * width;
+    const z = (value - mean) / sd;
+    const density = Math.exp(-0.5 * z * z);
+    const error = value - labQuantize(value, low, step, levels);
+    mse += density * error * error;
+    mass += density;
+  }
+  return mse / mass;
+}
+
+// Quantization MSE of a B-bit ADC with the clipping range that minimizes it (searched over the full input range
+// and mean ± kσ, k = 1…8), in the units of the distribution. Returns zero error when every input level is resolved.
+function labBestAdc(distribution, bits) {
+  if (!(bits > 0)) return null;
+  const levels = Math.max(2, Math.round(2 ** bits));
+  let { mean, sd, min, max } = distribution;
+  if (distribution.kind === "discrete") {
+    let square = 0;
+    mean = 0;
+    min = Infinity;
+    max = -Infinity;
+    distribution.values.forEach((value, i) => {
+      mean += distribution.probs[i] * value;
+      square += distribution.probs[i] * value * value;
+      min = Math.min(min, value);
+      max = Math.max(max, value);
+    });
+    sd = Math.sqrt(Math.max(0, square - mean * mean));
+  }
+  if (distribution.lattice > 0 && Number.isFinite(min) && Number.isFinite(max) && Math.round((max - min) / distribution.lattice) + 1 <= levels) {
+    return { mse: 0, lossless: true, low: min, high: max, clip: "every input level resolved" };
+  }
+  if (!(sd > 0)) return { mse: 0, lossless: true, low: mean, high: mean, clip: "constant input" };
+  let best = null;
+  const consider = (low, high, clip) => {
+    if (!(high > low)) return;
+    const mse = distribution.kind === "discrete" ? labDiscreteMse(distribution, low, high, levels) : labGaussianMse(mean, sd, low, high, levels);
+    if (!best || mse < best.mse) best = { mse, low, high, clip, lossless: false };
+  };
+  if (Number.isFinite(min) && Number.isFinite(max)) consider(min, max, "full range");
+  for (let k = 1; k <= 8.001; k += 0.25) consider(Math.max(min, mean - k * sd), Math.min(max, mean + k * sd), `±${k}σ`);
+  return best;
+}
+
+// Pre-ADC value of one QR-Arch conversion: z = Σ_j x_j·b_j for one weight bit b_j, with B_x-bit unsigned x_j.
+function labQrConversionDistribution(dimension, inputBits) {
+  const codes = 2 ** inputBits;
+  if (Number.isInteger(inputBits) && dimension * dimension * codes * codes / 2 <= 4e6) {
+    const step = new Float64Array(codes).fill(0.5 / codes);
+    step[0] += 0.5;
+    let pmf = new Float64Array([1]);
+    for (let row = 0; row < dimension; row += 1) {
+      const next = new Float64Array(pmf.length + codes - 1);
+      for (let i = 0; i < pmf.length; i += 1) {
+        if (pmf[i] < 1e-300) continue;
+        for (let code = 0; code < codes; code += 1) next[i + code] += pmf[i] * step[code];
+      }
+      pmf = next;
+    }
+    const values = [];
+    const probs = [];
+    pmf.forEach((probability, index) => {
+      if (probability > 1e-14) {
+        values.push(index / codes);
+        probs.push(probability);
+      }
+    });
+    return { kind: "discrete", values, probs, lattice: 1 / codes };
+  }
+  const x = labOperands(inputBits, 1);
+  return {
+    kind: "gaussian", mean: dimension * x.xMean / 2, sd: Math.sqrt(dimension * (x.xSquare / 2 - x.xMean ** 2 / 4)),
+    min: 0, max: dimension * (1 - 2 ** -inputBits), lattice: Number.isInteger(inputBits) ? 1 / codes : 0
+  };
+}
+
+function labQsCell(wordlineVoltage) {
+  const p = LAB_G_PARAMETERS;
+  const overdrive = wordlineVoltage - p.vt;
+  if (!(overdrive > 0)) return null;
+  return { current: p.kPrime * overdrive ** p.alpha, sigmaD: p.alpha * p.sigmaVt / overdrive }; // α-law current, (18)
+}
+
+// c: { arch: "QS-Arch" | "QR-Arch" | "CM" | "IS", dimension, inputBits, weightBits, adcBits, vdd,
+//      wordlineVoltage (V), bitlineCapFf, pulsePs (LSB WL pulse), headroomV (ΔV_BL,max), unitCapFf (C_o), includeInjection }
+function labChargeDomainModel(c) {
+  const p = LAB_G_PARAMETERS;
+  const N = Math.max(1, Math.round(c.dimension));
+  const bx = c.inputBits;
+  const bw = c.weightBits;
+  const ops = labOperands(bx, bw);
+  const signal = N * ops.productVariance;
+  const inputQuantization = N * (4 ** -bx * ops.wVariance + 4 ** (1 - bw) * ops.xSquare) / 12; // σ²_qiy, Table III
+  const notes = [];
+  const result = { arch: c.arch, dimension: N, signal, inputSqnr: signal / inputQuantization, notes };
+  const adcFj = c.adcBits > 0 ? labAdcEnergyFj(c.adcBits) : null;
+
+  if (c.arch === "QS-Arch" || c.arch === "IS") {
+    const cell = labQsCell(c.wordlineVoltage);
+    if (!cell) return { ...result, error: `V_WL must exceed V_t = ${p.vt} V.` };
+    const placeFactor = (1 - 4 ** -bw) * (1 - 4 ** -bx);
+    const unitDischarge = cell.current * c.pulsePs * 1e-12 / (c.bitlineCapFf * 1e-15);
+    const headroomUnits = c.arch === "IS" ? Infinity : c.headroomV / unitDischarge;
+    const counts = labBinomial(N, 0.25);
+    let clipping = 0;
+    let meanUnits = 0;
+    const clipped = counts.values.map((k, i) => {
+      if (k > headroomUnits) clipping += counts.probs[i] * (k - headroomUnits) ** 2;
+      meanUnits += counts.probs[i] * Math.min(k, headroomUnits);
+      return Math.min(k, headroomUnits);
+    });
+    result.circuitNoise = N * cell.sigmaD ** 2 * placeFactor / 9;
+    result.headroomNoise = 4 / 9 * placeFactor * clipping;
+    result.analogSnr = signal / (result.circuitNoise + result.headroomNoise);
+    result.sigmaD = cell.sigmaD;
+    result.headroomUnits = headroomUnits;
+    result.conversionsPerDp = bx * bw;
+    const adc = labBestAdc({ kind: "discrete", values: clipped, probs: counts.probs, lattice: 1 }, c.adcBits);
+    result.adc = adc;
+    result.adcNoise = adc ? adc.mse * 4 / 9 * placeFactor : null;
+    if (c.arch === "QS-Arch") {
+      const bitlineFj = meanUnits * unitDischarge * c.vdd * c.bitlineCapFf; // (21): E[V_a]·V_dd·C_BL
+      result.energy = adcFj === null ? null : { arrayFj: bitlineFj, adcFj, perDpFj: bx * bw * (bitlineFj + adcFj) };
+      result.minAdcBits = (snrA) => Math.min((labDb(snrA) + 16.2) / 6, Math.log2(headroomUnits), Math.log2(N));
+    } else {
+      notes.push("No published current-summing SRAM model: SNR_a uses the QS-Arch cell-current mismatch term without headroom clipping, and no energy is estimated.");
+      result.energy = null;
+      result.minAdcBits = (snrA) => Math.min((labDb(snrA) + 16.2) / 6, Math.log2(N));
+    }
+  } else if (c.arch === "QR-Arch") {
+    const capF = c.unitCapFf * 1e-15;
+    const mismatch = ops.xSquare * p.kappa ** 2 / c.unitCapFf; // E[x²]·σ²_Co/C_o², σ_Co = κ√C_o
+    const thermal = 2 * p.boltzmann * p.temperature / (capF * c.vdd ** 2);
+    // Charge injection v_j = p·WLCox·(V_dd − V_t − V_j)/C_o (24) scales as 1/C_o, so its variance scales as 1/C_o².
+    // Table III's caption prints E[x²]·WLCox/C_o; that form gives ~2 dB at 1 fF and +4.8 dB per 3× C_o, against
+    // the paper's reported ~+8 dB, which the squared form reproduces.
+    const injection = c.includeInjection ? ops.xSquare * (p.injection * p.wlCox / c.unitCapFf) ** 2 : 0;
+    result.circuitNoise = 2 / 3 * (1 - 4 ** -bw) * N * (mismatch + thermal + injection);
+    result.headroomNoise = 0;
+    result.analogSnr = signal / result.circuitNoise;
+    result.noiseShares = { mismatch, thermal, injection };
+    result.conversionsPerDp = bw;
+    const adc = labBestAdc(labQrConversionDistribution(N, bx), c.adcBits);
+    result.adc = adc;
+    result.adcNoise = adc ? adc.mse * 4 * (1 - 4 ** -bw) / 3 : null;
+    const arrayFj = N * c.unitCapFf * c.vdd ** 2; // (25) + N·E_mult with V_j = x_j·V_dd: N·C_o·V_dd²
+    result.energy = adcFj === null ? null : { arrayFj, adcFj, perDpFj: bw * (arrayFj + adcFj) };
+    result.minAdcBits = (snrA) => Math.min((labDb(snrA) + 16.2) / 6, bx + Math.log2(N));
+  } else if (c.arch === "CM") {
+    const cell = labQsCell(c.wordlineVoltage);
+    if (!cell) return { ...result, error: `V_WL must exceed V_t = ${p.vt} V.` };
+    const unitDischarge = cell.current * c.pulsePs * 1e-12 / (c.bitlineCapFf * 1e-15);
+    const headroomUnits = c.headroomV / unitDischarge;
+    result.circuitNoise = 2 / 3 * N * ops.xSquare * (1 / 4 - 4 ** -bw) * cell.sigmaD ** 2;
+    result.headroomNoise = N * ops.xSquare * ops.wVariance * headroomUnits ** -2 * 2 ** (2 * bw) * Math.max(0, 1 - 2 * headroomUnits * 2 ** -bw) ** 2 / 12;
+    result.analogSnr = signal / (result.circuitNoise + result.headroomNoise);
+    result.sigmaD = cell.sigmaD;
+    result.headroomUnits = headroomUnits;
+    result.conversionsPerDp = 1;
+    const lattice = Number.isInteger(bx) && Number.isInteger(bw) ? 2 ** -bx * 2 ** (1 - bw) : 0;
+    const adc = labBestAdc({ kind: "gaussian", mean: N * ops.wMean * ops.xMean, sd: Math.sqrt(signal), min: -N * (1 - 2 ** -bx), max: N * (1 - 2 ** (1 - bw)) * (1 - 2 ** -bx), lattice }, c.adcBits);
+    result.adc = adc;
+    result.adcNoise = adc ? adc.mse : null;
+    const magnitudes = 2 ** Math.max(0, Math.round(bw) - 1);
+    let meanUnits = 0;
+    for (let code = -magnitudes; code < magnitudes; code += 1) meanUnits += Math.min(Math.abs(code), headroomUnits) / (2 * magnitudes);
+    const bitlineFj = 2 * N * meanUnits * unitDischarge * c.vdd * c.bitlineCapFf;         // 2N·E_QS
+    const aggregateFj = N * c.unitCapFf * c.vdd ** 2 * (1 - ops.xMean);                     // E_QR, V_j = x_j·V_dd
+    const multiplierFj = ops.xMean * (1 - ops.wMean) * c.unitCapFf * c.vdd ** 2;             // E_mult
+    result.energy = adcFj === null ? null : { arrayFj: bitlineFj + aggregateFj + multiplierFj, adcFj, perDpFj: bitlineFj + aggregateFj + multiplierFj + adcFj };
+    result.minAdcBits = (snrA) => (labDb(snrA) + 16.2) / 6;
+  } else {
+    return { ...result, error: `Unknown architecture ${c.arch}` };
+  }
+
+  result.analogSnrDb = labDb(result.analogSnr);
+  result.inputSqnrDb = labDb(result.inputSqnr);
+  result.snrA = labParallel(result.analogSnr, result.inputSqnr);
+  result.snrADb = labDb(result.snrA);
+  result.minAdcBits = result.minAdcBits(result.snrA);
+  if (result.adcNoise === null) {
+    notes.push("No ADC precision is selected, so SQNR and SNR_T are not evaluated.");
+    result.adcSqnrDb = null;
+    result.totalSnrDb = null;
+    result.totalFloatSnrDb = null;
+  } else {
+    result.adcSqnr = result.adcNoise === 0 ? Infinity : signal / result.adcNoise;
+    result.adcSqnrDb = labDb(result.adcSqnr);
+    result.totalSnrDb = labDb(labParallel(result.analogSnr, result.adcSqnr));                       // [D] (2.6), vs fixed point
+    result.totalFloatSnrDb = labDb(labParallel(result.analogSnr, result.inputSqnr, result.adcSqnr)); // [G] (10)-(11)
+  }
+  if (result.energy) result.energy.perOpFj = result.energy.perDpFj / (2 * N * bx * bw); // [D] (2.3)
+  return result;
+}
+
+const labAutoAnalogArch = { QS: "QS-Arch", QR: "QR-Arch", "QS-QR": "CM", IS: "IS" };
+const labAnalogArchLabels = {
+  "QS-Arch": "QS-Arch: binarized bit-serial dot products (B_x·B_w conversions each)",
+  "QR-Arch": "QR-Arch: binary-weighted dot products (B_w conversions each)",
+  CM: "Compute memory: one multi-bit conversion per dot product",
+  IS: "Current summing, approximated with the QS-Arch cell-current mismatch term"
+};
+
+function labIsChargeDomain(candidate) {
+  return ["SRAM", "eDRAM"].includes(candidate.architecture) && ["QS", "QR", "QS-QR", "IS"].includes(candidate.model);
+}
+
+function labResolvedAnalogArch(candidate) {
+  return candidate.analogArch === "auto" ? labAutoAnalogArch[candidate.model] : candidate.analogArch;
+}
+
+let labChargeCache = { key: "", result: null };
+function labChargeDomainCached(candidate) {
+  const inputs = {
+    arch: labResolvedAnalogArch(candidate), dimension: candidate.dimension, inputBits: candidate.inputBits, weightBits: candidate.weightBits,
+    adcBits: candidate.adcBits, vdd: candidate.vdd, wordlineVoltage: candidate.wordlineVoltage, bitlineCapFf: candidate.bitlineCapFf,
+    pulsePs: candidate.pulsePs, headroomV: candidate.headroomV, unitCapFf: candidate.cellCap, includeInjection: candidate.includeInjection
+  };
+  const key = JSON.stringify(inputs);
+  if (labChargeCache.key !== key) labChargeCache = { key, result: labChargeDomainModel(inputs) };
+  return labChargeCache.result;
+}
+
+// Published-model energy per dot product, normalized as E_op1 = E_DP / (2·N·B_x·B_w) ([D] eq. 2.3).
+function labPublishedEnergy(candidate) {
+  if (candidate.architecture === "eNVM" && candidate.model === "IS" && window.IMC_MODEL_DATA) {
+    const model = labEnvmModel(candidate);
+    if (!model) return null;
+    const conversions = candidate.envmCore === "multibit" ? 1 : candidate.inputBits * candidate.weightBits;
+    const perDpFj = conversions * (model.arrayFj + model.adcFj);
+    return { perDpFj, perOpFj: perDpFj / (2 * model.modelDimension * candidate.inputBits * candidate.weightBits), arrayFj: model.arrayFj, adcFj: model.adcFj, conversions, model };
+  }
+  if (labIsChargeDomain(candidate)) {
+    const model = labChargeDomainCached(candidate);
+    if (!model || model.error || !model.energy) return null;
+    return { perDpFj: model.energy.perDpFj, perOpFj: model.energy.perOpFj, arrayFj: model.energy.arrayFj, adcFj: model.energy.adcFj, conversions: model.conversionsPerDp, model };
+  }
   return null;
+}
+
+function labFitEnergy(candidate) {
+  const fit = labFitColumnEnergy(candidate);
+  return fit ? { ...fit, perOpFj: fit.columnFj / (2 * candidate.dimension * candidate.inputBits * candidate.weightBits) } : null;
+}
+
+function labModelEnergyPerOp(candidate, source) {
+  const estimate = source === "published" ? labPublishedEnergy(candidate) : source === "fit" ? labFitEnergy(candidate) : null;
+  return estimate ? estimate.perOpFj : null;
+}
+
+function labComputeAccuracy(candidate) {
+  if (labIsChargeDomain(candidate)) return { kind: "charge", model: labChargeDomainCached(candidate) };
+  if (candidate.architecture === "eNVM" && candidate.model === "IS" && window.IMC_MODEL_DATA) return { kind: "resistive", model: labEnvmModel(candidate) };
+  if (candidate.model === "DIMC" || candidate.architecture === "Digital") return { kind: "digital" };
+  return { kind: "none" };
+}
+
+// Data-derived column energy from scripts/build-energy-fit.py (window.IMC_ENERGY_FIT).
+// Returns null when no fitted family covers the selection or a required input is missing.
+function labFitColumnEnergy(candidate) {
+  const fit = window.IMC_ENERGY_FIT;
+  if (!fit) return null;
+  const family = candidate.model === "DIMC"
+    ? "DIMC"
+    : ["eNVM", "eFlash"].includes(candidate.architecture) && candidate.model === "IS"
+      ? "resistive IS"
+      : { IS: "SRAM IS", QR: "QR", QS: "QS", "QS-QR": "QS" }[candidate.model];
+  if (!family || !(candidate.vdd > 0) || !(candidate.tech > 0)) return null;
+  const scale = candidate.tech / fit.nodeReferenceNm;
+  let columnFj;
+  if (family === "DIMC") {
+    columnFj = fit.dimc.aFj * (candidate.dimension * candidate.inputBits * candidate.weightBits) ** fit.dimc.opsExponent
+      * candidate.vdd ** 2 * scale ** fit.dimc.nodeExponent;
+  } else {
+    if (!(candidate.adcBits > 0)) return null;
+    columnFj = fit.analog.k1FjPerBit * candidate.adcBits * scale ** fit.analog.adcNodeExponent
+      + fit.analog.arrayFjPerRowVolt2[family] * candidate.dimension * candidate.vdd ** 2 * scale ** fit.analog.arrayNodeExponent;
+  }
+  return { family, columnFj, validation: fit.validation.families[family] };
 }
 
 let labQrCache = { key: "", result: null };
@@ -472,7 +812,7 @@ async function initDetailedLab() {
 
   const controls = {
     architecture: document.querySelector("#lab-architecture"), model: document.querySelector("#lab-model"),
-    tech: document.querySelector("#lab-tech"), dimension: document.querySelector("#lab-dimension"),
+    tech: document.querySelector("#lab-tech"), vdd: document.querySelector("#lab-vdd"), dimension: document.querySelector("#lab-dimension"),
     inputBits: document.querySelector("#lab-input-bits"), weightBits: document.querySelector("#lab-weight-bits"),
     adcBits: document.querySelector("#lab-adc-bits"), adcColumns: document.querySelector("#lab-adc-columns"),
     coreLatency: document.querySelector("#lab-core-latency"), area: document.querySelector("#lab-area"),
@@ -481,6 +821,10 @@ async function initDetailedLab() {
     hasSnr: document.querySelector("#lab-has-snr"), snr: document.querySelector("#lab-snr"),
     envmDevice: document.querySelector("#lab-envm-device"), vbl: document.querySelector("#lab-vbl"),
     cellCap: document.querySelector("#lab-cell-cap"), adcNoise: document.querySelector("#lab-adc-noise"),
+    analogArch: document.querySelector("#lab-analog-arch"), wordlineVoltage: document.querySelector("#lab-vwl"),
+    bitlineCap: document.querySelector("#lab-cbl"), pulse: document.querySelector("#lab-pulse"),
+    headroom: document.querySelector("#lab-headroom"), injection: document.querySelector("#lab-injection"),
+    envmCore: document.querySelector("#lab-envm-core"),
     asimWorkload: document.querySelector("#lab-asim-workload"), asimBaseline: document.querySelector("#lab-asim-baseline"),
     asimEncoding: document.querySelector("#lab-asim-encoding"), asimRandomNoise: document.querySelector("#lab-asim-random-noise"),
     asimNonlinearity: document.querySelector("#lab-asim-nonlinearity"), asimTraining: document.querySelector("#lab-asim-training")
@@ -490,7 +834,7 @@ async function initDetailedLab() {
     area: document.querySelector("#lab-area-output"), columnEnergy: document.querySelector("#lab-column-energy-output"),
     information: document.querySelector("#lab-information-output"), snr: document.querySelector("#lab-snr-output"),
     vbl: document.querySelector("#lab-vbl-output"), cellCap: document.querySelector("#lab-cell-cap-output"),
-    adcNoise: document.querySelector("#lab-adc-noise-output"),
+    adcNoise: document.querySelector("#lab-adc-noise-output"), wordlineVoltage: document.querySelector("#lab-vwl-output"),
     asimRandomNoise: document.querySelector("#lab-asim-random-noise-output"), asimNonlinearity: document.querySelector("#lab-asim-nonlinearity-output")
   };
   const colors = { SRAM: "#218a5b", eNVM: "#df4b45", eFlash: "#df4b45", Digital: "#3268cc", eDRAM: "#d98a1c" };
@@ -526,16 +870,19 @@ async function initDetailedLab() {
       coreLatencyNs: 10 ** Number(controls.coreLatency.value), areaMm2: 10 ** Number(controls.area.value),
       enteredColumnEnergyFj: 10 ** Number(controls.columnEnergy.value), energySource: controls.energySource.value,
       information: Number(controls.information.value), hasSnr: controls.hasSnr.checked, snr: Number(controls.snr.value),
-      envmDevice: controls.envmDevice.value, vbl: 10 ** Number(controls.vbl.value),
+      envmDevice: controls.envmDevice.value, vbl: 10 ** Number(controls.vbl.value), envmCore: controls.envmCore.value,
       cellCap: 10 ** Number(controls.cellCap.value), adcNoiseMv: Number(controls.adcNoise.value),
+      vdd: positiveNumber(controls.vdd, 0.8), analogArch: controls.analogArch.value,
+      wordlineVoltage: Number(controls.wordlineVoltage.value), bitlineCapFf: positiveNumber(controls.bitlineCap, 270),
+      pulsePs: positiveNumber(controls.pulse, 100), headroomV: positiveNumber(controls.headroom, 0.8), includeInjection: controls.injection.checked,
       asimWorkload: controls.asimWorkload.value, asimBaseline: Number(controls.asimBaseline.value),
       asimEncoding: Number(controls.asimEncoding.value), asimRandomNoise: Number(controls.asimRandomNoise.value),
       asimNonlinearity: Number(controls.asimNonlinearity.value), asimTraining: controls.asimTraining.value
     };
     const opsPerColumn = 2 * candidate.dimension * candidate.inputBits * candidate.weightBits;
     candidate.bitOps = candidate.adcColumns * opsPerColumn;
-    candidate.modelEnergyPerOpFj = labModelEnergyPerOp(candidate);
-    candidate.usesModelEnergy = candidate.energySource === "model" && Number.isFinite(candidate.modelEnergyPerOpFj);
+    candidate.modelEnergyPerOpFj = labModelEnergyPerOp(candidate, candidate.energySource);
+    candidate.usesModelEnergy = candidate.energySource !== "entered" && Number.isFinite(candidate.modelEnergyPerOpFj);
     candidate.energyPerOpFj = candidate.usesModelEnergy ? candidate.modelEnergyPerOpFj : candidate.enteredColumnEnergyFj / opsPerColumn;
     candidate.columnEnergyFj = candidate.energyPerOpFj * opsPerColumn;
     candidate.throughput = candidate.bitOps / (candidate.coreLatencyNs * 1e-9) / 1e12;
@@ -569,6 +916,7 @@ async function initDetailedLab() {
     else if (wasDisabled && !controls.adcBits.value) controls.adcBits.value = modelRows.some((row) => row.adcBits === 6) ? "6" : "5";
     document.querySelector("#envm-model-controls").hidden = !(architecture === "eNVM" && model === "IS");
     document.querySelector("#sram-model-controls").hidden = !(architecture === "SRAM" && model === "QR");
+    document.querySelector("#charge-model-controls").hidden = !(["SRAM", "eDRAM"].includes(architecture) && ["QS", "QR", "QS-QR", "IS"].includes(model));
     document.querySelector("#asim-model-controls").hidden = !(architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(model));
   }
 
@@ -577,7 +925,9 @@ async function initDetailedLab() {
     const node = pair.filter((row) => labEqual(row.tech, candidate.tech));
     const dimension = node.filter((row) => labEqual(row.dimension, candidate.dimension));
     const precision = dimension.filter((row) => labEqual(row.inputBits, candidate.inputBits) && labEqual(row.weightBits, candidate.weightBits));
-    const sameAdc = (row) => (candidate.adcBits === null ? row.adcBits === null : labEqual(row.adcBits, candidate.adcBits));
+    // Digital IMC has no ADC input here, so a DIMC row's B_ADC field (28 for #177) is not matched.
+    const ignoresAdc = candidate.model === "DIMC" || candidate.architecture === "Digital";
+    const sameAdc = (row) => ignoresAdc || (candidate.adcBits === null ? row.adcBits === null : labEqual(row.adcBits, candidate.adcBits));
     const exact = precision.filter(sameAdc);
     const sameExceptNode = pair.filter((row) => labEqual(row.dimension, candidate.dimension) && labEqual(row.inputBits, candidate.inputBits) && labEqual(row.weightBits, candidate.weightBits) && sameAdc(row));
     const status = document.querySelector("#evidence-status");
@@ -599,173 +949,200 @@ async function initDetailedLab() {
     return { pair, exact, sameExceptNode };
   }
 
-  function energyComparison(candidate, modelPerOpFj, name) {
-    if (candidate.usesModelEnergy) return `Placement uses the ${name} energy estimate.`;
-    const ratio = candidate.energyPerOpFj / modelPerOpFj;
-    return `Entered energy is ${labFormat(ratio >= 1 ? ratio : 1 / ratio, 2)}× ${ratio >= 1 ? "above" : "below"} the ${name} estimate.`;
+  function ratioText(entered, estimate) {
+    const ratio = entered / estimate;
+    return `${labFormat(ratio >= 1 ? ratio : 1 / ratio, 2)}× ${ratio >= 1 ? "above" : "below"}`;
   }
 
-  function validateModel(candidate) {
-    if (candidate.architecture === "eNVM" && candidate.model === "IS" && window.IMC_MODEL_DATA) {
-      const model = labEnvmModel(candidate);
-      const scope = [
+  function updateEnergy(candidate) {
+    const published = labPublishedEnergy(candidate);
+    const fit = labFitEnergy(candidate);
+    const placementSource = candidate.usesModelEnergy ? (candidate.energySource === "published" ? "published model" : "data fit") : "entered column energy";
+    const metrics = [["Placement energy per 1b op", `${labFormat(candidate.energyPerOpFj, 3)} fJ (${placementSource})`]];
+    const details = [];
+    if (published) {
+      metrics.push(
+        ["Published model per 1b op", `${labFormat(published.perOpFj, 3)} fJ`],
+        ["Published energy per dot product", `${labFormat(published.perDpFj, 1)} fJ = ${published.conversions} × (${labFormat(published.arrayFj, 1)} array + ${labFormat(published.adcFj, 1)} ADC)`]
+      );
+    }
+    if (fit) metrics.push(["Data fit per 1b op", `${labFormat(fit.perOpFj, 3)} fJ (typical error ×${labFormat(fit.validation.typicalFactor, 1)}; 80% within ×${labFormat(fit.validation.p80Factor, 1)})`]);
+
+    if (candidate.architecture === "eNVM" && candidate.model === "IS" && published) {
+      const model = published.model;
+      details.push(`${candidate.envmDevice} current-summing column at ${[
         model.dimensionClamped ? `N = ${labFormat(model.modelDimension, 0)} (the edge of the model's 16–5,000 range; ${candidate.dimension} selected)` : `N = ${candidate.dimension}`,
         `${labFormat(candidate.vbl, 4)} V bitline${model.vblClamped ? " (clamped to the published range)" : ""}`,
         `the source's fixed ${labFormat(model.periodNs, 0)} ns read period`,
-        `a ${labFormat(model.adcBits, 2)}-bit ADC${model.assumedAdc ? " (assumed; none selected)" : ""}`
-      ].join(", ");
-      const sndrText = model.sndr.db === null ? `Not modeled: ${model.sndr.reason}` : `${labFormat(model.sndr.db, 1)} dB${model.sndr.method === "adc-sweep" ? " (6-bit surface adjusted with the N = 64 ADC sweep)" : ""}`;
-      return {
-        lead: energyComparison(candidate, model.perOpFj, "eNVM model"),
-        detail: `${candidate.envmDevice} current-summing column at ${scope}. Energy covers the column current and the ADC only; drivers, bias, and other peripherals are excluded. Behavioral model calibrated against a 22 nm MRAM prototype, with no technology-node scaling.`,
-        metrics: [
-          ["Model energy per 1b op", `${labFormat(model.perOpFj, 3)} fJ`],
-          ["Array / ADC energy", `${labFormat(model.arrayFj, 1)} / ${labFormat(model.adcFj, 1)} fJ per conversion`],
-          ["SNDR, 6-bit surface", `${labFormat(model.sndrSixBit, 1)} dB`],
-          [`SNDR at ${labFormat(model.adcBits, 2)} bits`, sndrText]
-        ],
-        modeledSnr: model.sndr.db,
-        referenceSnr: model.sndrSixBit,
-        referenceNode: "22 nm MRAM calibration"
-      };
-    }
-    if (candidate.architecture === "SRAM" && candidate.model === "QR") {
-      const snr = labSramQrSnrCached(candidate);
-      const energy = labSramQrEnergy(candidate);
-      const atSourceNode = candidate.tech === 28;
-      const snrText = (result) => (result.errorFree ? `No errors in ${snr.samples} samples (100 dB)` : `${labFormat(result.db, 1)} dB`);
-      const metrics = [];
-      if (snr) {
-        metrics.push(["Compute SNR, full-range ADC", snrText(snr.fullRange)]);
-        metrics.push(["Compute SNR, tuned ADC window", snr.tunedWindow ? snrText(snr.tunedWindow) : "Defined only for N = 64, 128, 256 with 3–9-bit ADCs"]);
-        metrics.push(["Monte Carlo", `${snr.samples} samples${snr.dimension < snr.requestedDimension ? `, run at N = 1,024 (capped from ${snr.requestedDimension.toLocaleString()})` : ""}`]);
+        `a ${labFormat(model.adcBits, 2)}-bit ADC${model.assumedAdc ? " (assumed; none selected)" : ""}`,
+        candidate.envmCore === "multibit" ? "one multi-bit conversion per dot product" : "binarized columns"
+      ].join(", ")}. E_bl = V_DD·V_BL·E[G_eq]·T and E_ADC = 100 fJ·B + 1 aJ·4^B; drivers and bias are excluded.`);
+    } else if (labIsChargeDomain(candidate)) {
+      const arch = labResolvedAnalogArch(candidate);
+      if (published) {
+        details.push(`${labAnalogArchLabels[arch]}. Table III energy with Table II 65 nm parameters at ${labFormat(candidate.vdd, 2)} V, V_WL = ${labFormat(candidate.wordlineVoltage, 2)} V, C_BL = ${labFormat(candidate.bitlineCapFf, 0)} fF, C_o = ${labFormat(candidate.cellCap, 2)} fF, and E_ADC = 100 fJ·B + 1 aJ·4^B. Switch, DAC, and driver energy (E_su, E_misc) have no published values and are excluded.`);
+      } else if (arch === "IS") {
+        details.push("No published energy model exists for current-summing SRAM, so only the data fit is shown.");
+      } else if (!(candidate.adcBits > 0)) {
+        details.push("The published model needs an ADC precision.");
       }
-      if (energy) metrics.push(["Model energy per 1b op", `${labFormat(energy.perOpFj, 3)} fJ (ADC ${labFormat(energy.adcFj, 0)} + array ${labFormat(energy.arrayFj, 1)} fJ per conversion)`]);
-      return {
-        lead: snr ? `${labFormat(snr.fullRange.db, 1)} dB full-range${snr.tunedWindow ? ` · ${labFormat(snr.tunedWindow.db, 1)} dB tuned` : ""} compute SNR` : "QR SNR needs integer input, weight, and ADC precision",
-        detail: [
-          snr ? "Capacitor mismatch and ADC thermal noise at the repository's 28 nm, 0.9 V parameterization, with no node scaling." : "The QR simulator decomposes integer input, weight, and ADC precisions; the selection has a fractional value or no ADC.",
-          snr?.tunedWindow ? "The tuned window centres the ADC on the mean count N/4, as in the paper's MIMO sweeps; rare clipping errors make it vary by a few dB between runs." : "",
-          energy ? `${energyComparison(candidate, energy.perOpFj, "QR model")} Splitting the repository's ADC and array constants over 2N one-bit operations is the lab's normalization.` : "",
-          snr && !atSourceNode ? `The SNR is not transferred to ${candidate.tech} nm.` : ""
-        ].filter(Boolean).join(" "),
-        metrics,
-        modeledSnr: snr && atSourceNode ? snr.fullRange.db : null,
-        referenceSnr: snr ? snr.fullRange.db : null,
-        referenceNode: "28 nm"
-      };
+      if (candidate.architecture === "eDRAM") details.push("eDRAM uses the SRAM charge-domain forms as an approximation.");
+      if (candidate.tech !== 65) details.push(`Model parameters are for 65 nm; nothing is scaled to ${candidate.tech} nm.`);
+    } else if (candidate.model === "DIMC") {
+      details.push("No published DIMC energy model exists; the data fit scales with adder activity N·B_x·B_w.");
+      metrics.push(
+        ["Behavioral reference", "1024×1024 INT8 matmul with a forced 2,150 µs latency"],
+        ["Reference throughput", `${labFormat(2 * 1024 ** 3 / 2150e-6 / 1e12, 2)} TOPS (not an energy or area model)`]
+      );
     }
-    if (candidate.architecture === "SRAM" && candidate.model === "DIMC") {
-      const referenceLatencyUs = 2150;
-      const referenceN = 1024;
-      const referenceTops = 2 * referenceN ** 3 / (referenceLatencyUs * 1e-6) / 1e12;
-      return {
-        lead: "Behavioral DIMC reference, not a performance certificate",
-        detail: "The Explorer BackdooringDiT path uses 8-bit weight/activation fake quantization. Its 2,150 µs DIMC latency is a forced simulation value extrapolated from an approximately 1-TOPS design, not a measured energy or area model.",
-        metrics: [
-          ["Reference operation", "1024×1024 INT8 matmul"],
-          ["Forced latency", "2,150 µs"],
-          ["Implied throughput", `${labFormat(referenceTops, 2)} TOPS`],
-          ["Energy / density validation", "Not provided"]
-        ],
-        modeledSnr: null,
-        referenceSnr: null
-      };
-    }
-    return {
-      lead: "Benchmark evidence only",
-      detail: "No attached external model covers this architecture and compute-model pair. The lab can check reported coordinates and exact paper matches, but it cannot certify the selected energy, area, throughput, or SNR.",
-      metrics: [], modeledSnr: null, referenceSnr: null
-    };
+    if (fit) details.push(`The data fit covers the ${fit.family} family, validated leave-one-paper-out on ${fit.validation.rows} rows from ${fit.validation.papers} papers.`);
+
+    const reference = published || fit;
+    const lead = !reference
+      ? "No energy model covers this selection"
+      : candidate.usesModelEnergy
+        ? `Placement uses the ${candidate.energySource === "published" ? "published model" : "data fit"}`
+        : `Entered energy is ${ratioText(candidate.energyPerOpFj, reference.perOpFj)} the ${published ? "published model" : "data fit"}`;
+    if (!reference) details.push("The lab can check reported coordinates and exact paper matches, but it cannot estimate energy for this architecture and compute model.");
+    document.querySelector("#model-lead").textContent = lead;
+    document.querySelector("#model-detail").textContent = details.join(" ");
+    document.querySelector("#model-metrics").innerHTML = metrics.map(([label, value]) => `<li><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`).join("");
   }
 
-  function updateAccuracy(candidate, modelResult) {
-    const title = document.querySelector("#accuracy-title");
+  function updateAccuracy(candidate) {
     const lead = document.querySelector("#accuracy-lead");
     const detail = document.querySelector("#accuracy-detail");
     const marker = document.querySelector("#accuracy-marker");
     const scale = document.querySelector("#accuracy-scale");
-    const asimResult = document.querySelector("#asim-result");
-    const asimActive = candidate.architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(candidate.model);
-    const asimFields = ["#asim-adc-boundary", "#asim-adc-only", "#asim-random", "#asim-nonlinearity"];
-    title.textContent = asimActive ? "Network-level accuracy" : "Accuracy awareness";
-    scale.hidden = asimActive;
-    asimResult.hidden = !asimActive;
-    if (asimActive) {
-      marker.hidden = true;
-      if (!Number.isInteger(candidate.inputBits) || !Number.isInteger(candidate.weightBits) || !Number.isInteger(candidate.adcBits)) {
-        lead.textContent = "ASiM screening needs integer precisions and an ADC";
-        detail.textContent = "Choose integer input and weight precision plus an integer ADC precision. ASiM decomposes quantized tensors into binary MAC cycles.";
-        asimFields.forEach((selector) => { document.querySelector(selector).textContent = "Not evaluated"; });
-        document.querySelector("#asim-evidence-class").textContent = "Outside ASiM input scope";
-        document.querySelector("#asim-config-text").textContent = "Select integer input/weight precision and an ADC precision to generate an ASiM configuration.";
-        return;
+    const accuracy = labComputeAccuracy(candidate);
+    const metrics = [];
+    const details = [];
+    let modelSnrDb = null;
+
+    if (accuracy.kind === "charge") {
+      const model = accuracy.model;
+      const arch = labResolvedAnalogArch(candidate);
+      if (model.error) {
+        details.push(model.error);
+      } else {
+        modelSnrDb = model.totalSnrDb;
+        const noiseTotal = model.circuitNoise + model.headroomNoise;
+        metrics.push(["Analog SNR_a", `${labFormat(model.analogSnrDb, 1)} dB`]);
+        if (model.headroomNoise > 0) metrics.push(["Analog noise split", `${labFormat(100 * model.circuitNoise / noiseTotal, 0)}% circuit · ${labFormat(100 * model.headroomNoise / noiseTotal, 0)}% headroom clipping`]);
+        metrics.push(["ADC SQNR", model.adcSqnrDb === null ? "No ADC selected" : model.adc.lossless ? "Lossless: every level resolved" : `${labFormat(model.adcSqnrDb, 1)} dB (optimal clip ${model.adc.clip})`]);
+        metrics.push(["SNR_T vs fixed point", model.totalSnrDb === null ? "Needs an ADC" : `${labFormat(model.totalSnrDb, 1)} dB`]);
+        if (model.totalFloatSnrDb !== null) metrics.push(["With operand quantization", `${labFormat(model.totalFloatSnrDb, 1)} dB (SQNR_qiy ${labFormat(model.inputSqnrDb, 1)} dB)`]);
+        const minimumAdc = Math.max(1, model.minAdcBits);
+        metrics.push(["Minimum ADC precision (MPC)", `${labFormat(minimumAdc, 1)} bits${candidate.adcBits ? (candidate.adcBits + 1e-9 >= minimumAdc ? " · selected ADC meets it" : " · selected ADC is below it") : ""}`]);
+        if (Number.isFinite(model.headroomUnits)) metrics.push(["Bitline headroom", `${labFormat(model.headroomUnits, 1)} unit discharges · σ_I/I ${labFormat(100 * model.sigmaD, 1)}%`]);
+        details.push(`${labAnalogArchLabels[arch]}. Table III noise with Table II 65 nm parameters and uniform, independent operand bits; the ADC SQNR is exact for the digitized signal at its SQNR-optimal clipping range.`);
+        details.push(...model.notes);
+        if (candidate.architecture === "eDRAM") details.push("eDRAM uses the SRAM charge-domain forms as an approximation.");
+        if (candidate.tech !== 65) details.push(`No scaling to ${candidate.tech} nm is applied.`);
       }
-      const screening = labAsimScreen(candidate);
-      if (!screening) {
-        lead.textContent = "ASiM tables are unavailable";
-        detail.textContent = "The ASiM result tables did not load.";
-        return;
+      if (candidate.architecture === "SRAM" && candidate.model === "QR") {
+        const monteCarlo = labSramQrSnrCached(candidate);
+        const text = (result) => (result.errorFree ? "no errors" : `${labFormat(result.db, 1)} dB`);
+        if (monteCarlo) metrics.push(["28 nm Monte Carlo cross-check", `${text(monteCarlo.fullRange)} full-range${monteCarlo.tunedWindow ? ` · ${text(monteCarlo.tunedWindow)} tuned` : ""} (${monteCarlo.samples} samples${monteCarlo.dimension < monteCarlo.requestedDimension ? ", N capped at 1,024" : ""})`]);
       }
-      lead.textContent = `${screening.bound ? "At most" : "About"} ${labFormat(screening.estimate, 1)}% top-1`;
-      detail.textContent = `${screening.workload.label}, ${screening.encoding.label} encoding, scaled from the paper's ${labFormat(screening.paperBaseline, 2)}% digital baseline onto the entered ${labFormat(candidate.asimBaseline, 2)}%. ${screening.notes.join(" ")} This reads published ASiM results and is not an inference run.`;
-      const noiseText = (source) => (source.sigma <= 0 ? "None" : `${labFormat(source.sigma, 3)}% Vpp (${labFormat(source.sigma / 100 * 255, 3)} LSB rms at 8 bits) → ${labFormat(source.scaled, 1)}% at an 8-bit ADC (${source.figure})`);
-      document.querySelector("#asim-adc-boundary").textContent = `${screening.boundaryAdc}-bit boundary · ${labFormat(candidate.adcBits, 2)}-bit selected`;
-      document.querySelector("#asim-adc-only").textContent = `${labFormat(screening.adcOnly, 1)}% (Figs. 6–7)`;
-      document.querySelector("#asim-random").textContent = noiseText(screening.noise[0]);
-      document.querySelector("#asim-nonlinearity").textContent = noiseText(screening.noise[1]);
-      document.querySelector("#asim-evidence-class").textContent = screening.evidenceClass;
-      document.querySelector("#asim-config-text").textContent = screening.config;
-      return;
+    } else if (accuracy.kind === "resistive") {
+      const model = accuracy.model;
+      modelSnrDb = model.sndr.db;
+      metrics.push(
+        ["SNDR, 6-bit surface", `${labFormat(model.sndrSixBit, 1)} dB`],
+        [`SNDR at ${labFormat(model.adcBits, 2)}-bit ADC`, model.sndr.db === null ? `Not modeled: ${model.sndr.reason}` : `${labFormat(model.sndr.db, 1)} dB${model.sndr.method === "adc-sweep" ? " (adjusted with the N = 64 ADC sweep)" : ""}`]
+      );
+      details.push(`${candidate.envmDevice} current-summing behavioral model: conductance variation, wire parasitics, current-mirror mismatch, and ADC noise at the SNDR-optimal clipping. Calibrated against a 22 nm MRAM prototype, with no node scaling.`);
+    } else if (accuracy.kind === "digital") {
+      modelSnrDb = Infinity;
+      metrics.push(["Analog noise", "None: digital computation"], ["SNR_T vs fixed point", "Exact"]);
+      details.push("Digital IMC computes the fixed-point dot product exactly, so accuracy is set by operand precision alone.");
     }
-    const presentSnr = candidate.hasSnr ? candidate.snr : modelResult.modeledSnr;
-    if (presentSnr === null || !Number.isFinite(presentSnr)) {
+    document.querySelector("#accuracy-metrics").innerHTML = metrics.map(([label, value]) => `<li><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`).join("");
+
+    const presentSnr = candidate.hasSnr ? candidate.snr : modelSnrDb;
+    const sourceText = candidate.hasSnr ? "Measured" : "Model";
+    if (presentSnr === Infinity) {
       marker.hidden = true;
-      if (modelResult.referenceSnr !== null && Number.isFinite(modelResult.referenceSnr)) {
-        lead.textContent = "SNR not established at the selected node";
-        detail.textContent = `The source model gives ${labFormat(modelResult.referenceSnr, 1)} dB at its ${modelResult.referenceNode} reference. A new technology node can increase nonidealities and reduce SNR, so this value is not transferred.`;
+      scale.hidden = true;
+      lead.textContent = "Exact fixed-point computation";
+    } else if (presentSnr === null || !Number.isFinite(presentSnr)) {
+      marker.hidden = true;
+      scale.hidden = false;
+      if (accuracy.kind === "charge" && !accuracy.model.error) {
+        lead.textContent = "Select an ADC to evaluate SNR_T";
+      } else if (accuracy.kind === "resistive") {
+        lead.textContent = "SNDR not modeled for this ADC setting";
       } else {
         const gap = (candidate.adcBits || 0) - candidate.information;
         lead.textContent = "Accuracy not established";
-        detail.textContent = candidate.adcBits === null ? "This compute model has no selected ADC. Add measured compute SNR or a validated architecture model before making an accuracy claim." : `ADC precision is ${Math.abs(gap).toFixed(1)} bits ${gap < 0 ? "below" : "above"} the selected pre-ADC information proxy. This flags quantization pressure but is not an accuracy prediction.`;
+        details.push(candidate.adcBits === null ? "No model covers this selection. Add a measured compute SNR before making an accuracy claim." : `No model covers this selection. ADC precision is ${Math.abs(gap).toFixed(1)} bits ${gap < 0 ? "below" : "above"} the pre-ADC information proxy, which flags quantization pressure but does not predict accuracy.`);
       }
+    } else {
+      scale.hidden = false;
+      marker.hidden = false;
+      marker.style.left = `${Math.max(0, Math.min(100, presentSnr / 50 * 100))}%`;
+      lead.textContent = `${sourceText} SNR_T ${labFormat(presentSnr, 1)} dB`;
+      details.push(presentSnr < 10
+        ? "That is below the 10–40 dB range that fixed-point DNNs need to stay within 1% of floating point; network accuracy needs direct evaluation."
+        : presentSnr <= 40
+          ? "That falls inside the task-dependent 10–40 dB range reported for fixed-point DNNs within 1% of floating point; it is context, not a network-accuracy guarantee."
+          : "That exceeds the 10–40 dB range reported for fixed-point DNNs; mapping and network accuracy still need direct evaluation.");
+    }
+    detail.textContent = details.join(" ");
+    updateAsim(candidate);
+  }
+
+  function updateAsim(candidate) {
+    const asimResult = document.querySelector("#asim-result");
+    const asimActive = candidate.architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(candidate.model);
+    asimResult.hidden = !asimActive;
+    if (!asimActive) return;
+    const lead = document.querySelector("#asim-lead");
+    const detail = document.querySelector("#asim-detail");
+    const asimFields = ["#asim-adc-boundary", "#asim-adc-only", "#asim-random", "#asim-nonlinearity"];
+    if (!Number.isInteger(candidate.inputBits) || !Number.isInteger(candidate.weightBits) || !Number.isInteger(candidate.adcBits)) {
+      lead.textContent = "ASiM screening needs integer precisions and an ADC";
+      detail.textContent = "Choose integer input and weight precision plus an integer ADC precision. ASiM decomposes quantized tensors into binary MAC cycles.";
+      asimFields.forEach((selector) => { document.querySelector(selector).textContent = "Not evaluated"; });
+      document.querySelector("#asim-evidence-class").textContent = "Outside ASiM input scope";
+      document.querySelector("#asim-config-text").textContent = "Select integer input/weight precision and an ADC precision to generate an ASiM configuration.";
       return;
     }
-    marker.hidden = false;
-    marker.style.left = `${Math.max(0, Math.min(100, presentSnr / 50 * 100))}%`;
-    const sourceText = candidate.hasSnr ? "Measured" : "Model-estimated";
-    if (presentSnr < 10) {
-      lead.textContent = `${sourceText} SNR is below cited guidance`;
-      detail.textContent = `${labFormat(presentSnr, 1)} dB is below the paper's task-dependent 10–40 dB context. Network accuracy requires direct evaluation.`;
-    } else if (presentSnr <= 40) {
-      lead.textContent = `${sourceText} SNR is within cited guidance`;
-      detail.textContent = `${labFormat(presentSnr, 1)} dB falls inside the cited task-dependent range. This is context, not a network-accuracy guarantee.`;
-    } else {
-      lead.textContent = `${sourceText} SNR is above cited guidance`;
-      detail.textContent = `${labFormat(presentSnr, 1)} dB exceeds the cited range, but mapping and target-network accuracy still require direct evaluation.`;
+    const screening = labAsimScreen(candidate);
+    if (!screening) {
+      lead.textContent = "ASiM tables are unavailable";
+      detail.textContent = "The ASiM result tables did not load.";
+      return;
     }
+    lead.textContent = `${screening.bound ? "At most" : "About"} ${labFormat(screening.estimate, 1)}% top-1`;
+    detail.textContent = `${screening.workload.label}, ${screening.encoding.label} encoding, scaled from the paper's ${labFormat(screening.paperBaseline, 2)}% digital baseline onto the entered ${labFormat(candidate.asimBaseline, 2)}%. ${screening.notes.join(" ")} This reads published ASiM results and is not an inference run.`;
+    const noiseText = (source) => (source.sigma <= 0 ? "None" : `${labFormat(source.sigma, 3)}% Vpp (${labFormat(source.sigma / 100 * 255, 3)} LSB rms at 8 bits) → ${labFormat(source.scaled, 1)}% at an 8-bit ADC (${source.figure})`);
+    document.querySelector("#asim-adc-boundary").textContent = `${screening.boundaryAdc}-bit boundary · ${labFormat(candidate.adcBits, 2)}-bit selected`;
+    document.querySelector("#asim-adc-only").textContent = `${labFormat(screening.adcOnly, 1)}% (Figs. 6–7)`;
+    document.querySelector("#asim-random").textContent = noiseText(screening.noise[0]);
+    document.querySelector("#asim-nonlinearity").textContent = noiseText(screening.noise[1]);
+    document.querySelector("#asim-evidence-class").textContent = screening.evidenceClass;
+    document.querySelector("#asim-config-text").textContent = screening.config;
   }
 
   function updateMetricCitations(candidate) {
     const modelCitation = document.querySelector("#model-citation");
     const accuracyCitation = document.querySelector("#accuracy-citation");
+    const gonugondla = '<a href="https://arxiv.org/abs/2012.13645">Gonugondla et al., TCAD 2022</a>';
+    const fitLink = '<a href="data/Benchmarking_Data.csv">Data fit: Benchmarking_Data.csv</a>';
+    const asim = '<a href="https://arxiv.org/abs/2411.11022">ASiM tables</a>';
     if (candidate.architecture === "eNVM" && candidate.model === "IS") {
-      modelCitation.innerHTML = '<span>Source</span><a href="https://doi.org/10.1109/JXCDC.2024.3381888">Roy &amp; Shanbhag, JXCDC 2024</a><a href="https://github.com/calmyor/eNVM-IMC-Modeling">Code</a>';
+      modelCitation.innerHTML = `<span>Source</span><a href="https://doi.org/10.1109/JXCDC.2024.3381888">Roy &amp; Shanbhag, JXCDC 2024</a><a href="https://github.com/calmyor/eNVM-IMC-Modeling">Code</a>${fitLink}`;
       accuracyCitation.innerHTML = '<span>Source</span><a href="https://doi.org/10.1109/JXCDC.2024.3381888">Resistive IMC SNDR model</a>';
-      return;
-    }
-    if (candidate.architecture === "SRAM" && candidate.model === "QR") {
-      modelCitation.innerHTML = '<span>Source</span><a href="https://doi.org/10.1109/TCSI.2025.3594230">Kavishwar &amp; Shanbhag, TCAS-I</a><a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">Code</a>';
-    } else if (candidate.architecture === "SRAM" && candidate.model === "DIMC") {
-      modelCitation.innerHTML = '<span>Scope</span>Behavioral implementation reference; no paper-backed metric model';
+    } else if (labIsChargeDomain(candidate)) {
+      modelCitation.innerHTML = `<span>Source</span>${gonugondla}${fitLink}`;
+      accuracyCitation.innerHTML = `<span>Source</span>${gonugondla}${candidate.architecture === "SRAM" && candidate.model === "QR" ? '<a href="https://github.com/mihirvk2/tcas-mimo-imc-2025">28 nm QR code</a>' : ""}${candidate.architecture === "SRAM" && candidate.model !== "IS" ? asim : ""}`;
+    } else if (candidate.model === "DIMC" || candidate.architecture === "Digital") {
+      modelCitation.innerHTML = `<span>Source</span>${fitLink}`;
+      accuracyCitation.innerHTML = "<span>Scope</span>Digital computation has no analog noise";
     } else {
-      modelCitation.innerHTML = '<span>Method</span><a href="https://doi.org/10.1109/CICC53496.2022.9772817">CICC benchmarking method</a>';
-    }
-    if (candidate.architecture === "SRAM" && ["QS", "QR", "QS-QR"].includes(candidate.model)) {
-      accuracyCitation.innerHTML = '<span>Source</span><a href="https://arxiv.org/abs/2411.11022">Zhang et al., ASiM</a><a href="https://github.com/Keio-CSG/ASiM">Code</a>';
-    } else if (candidate.model === "DIMC") {
-      accuracyCitation.innerHTML = '<span>Scope</span>No network-accuracy source is attached';
-    } else {
+      modelCitation.innerHTML = `<span>Method</span><a href="https://doi.org/10.1109/CICC53496.2022.9772817">CICC benchmarking method</a>${labFitColumnEnergy(candidate) ? fitLink : ""}`;
       accuracyCitation.innerHTML = '<span>Method</span><a href="https://doi.org/10.1109/OJSSCS.2022.3210152">OJ-SSCS accuracy framing</a>';
     }
   }
@@ -814,9 +1191,9 @@ async function initDetailedLab() {
 
   function update() {
     let candidate = candidateValues();
-    const modelAvailable = Number.isFinite(candidate.modelEnergyPerOpFj);
-    controls.energySource.querySelector('option[value="model"]').disabled = !modelAvailable;
-    if (!modelAvailable && controls.energySource.value === "model") {
+    const available = { published: Number.isFinite(labModelEnergyPerOp(candidate, "published")), fit: Number.isFinite(labModelEnergyPerOp(candidate, "fit")) };
+    ["published", "fit"].forEach((source) => { controls.energySource.querySelector(`option[value="${source}"]`).disabled = !available[source]; });
+    if (controls.energySource.value !== "entered" && !available[controls.energySource.value]) {
       controls.energySource.value = "entered";
       candidate = candidateValues();
     }
@@ -826,11 +1203,12 @@ async function initDetailedLab() {
       controls.columnEnergy.value = String(Math.max(Number(controls.columnEnergy.min), Math.min(Number(controls.columnEnergy.max), logEnergy)));
     }
     const opsPerColumn = 2 * candidate.dimension * candidate.inputBits * candidate.weightBits;
-    document.querySelector("#lab-energy-source-help").textContent = !modelAvailable
-      ? "No attached energy model covers this architecture and compute model."
+    const columnEstimates = ["published", "fit"].filter((source) => available[source]).map((source) => `${source === "published" ? "published model" : "data fit"} ${labFormat(labModelEnergyPerOp(candidate, source) * opsPerColumn, 3)} fJ`);
+    document.querySelector("#lab-energy-source-help").textContent = !columnEstimates.length
+      ? "No energy model covers this architecture and compute model."
       : candidate.usesModelEnergy
-        ? `Using the model estimate: ${labFormat(candidate.modelEnergyPerOpFj, 3)} fJ per 1b op.`
-        : `Model estimate available: ${labFormat(candidate.modelEnergyPerOpFj * opsPerColumn, 3)} fJ per column.`;
+        ? `Using the ${candidate.energySource === "published" ? "published model" : "data fit"}: ${labFormat(candidate.energyPerOpFj, 3)} fJ per 1b op.`
+        : `Column estimates: ${columnEstimates.join(" · ")}.`;
 
     outputs.tech.textContent = `${candidate.tech} nm`;
     outputs.coreLatency.textContent = `${labFormat(candidate.coreLatencyNs, 3)} ns`;
@@ -841,6 +1219,7 @@ async function initDetailedLab() {
     outputs.vbl.textContent = `${labFormat(candidate.vbl, 4)} V`;
     outputs.cellCap.textContent = `${labFormat(candidate.cellCap, 3)} fF`;
     outputs.adcNoise.textContent = `${labFormat(candidate.adcNoiseMv, 2)} mV`;
+    outputs.wordlineVoltage.textContent = `${labFormat(candidate.wordlineVoltage, 2)} V`;
     outputs.asimRandomNoise.innerHTML = `${labFormat(candidate.asimRandomNoise, 3)}% V<sub>pp</sub>`;
     outputs.asimNonlinearity.innerHTML = `${labFormat(candidate.asimNonlinearity, 3)}% V<sub>pp</sub>`;
     controls.snr.disabled = !candidate.hasSnr;
@@ -848,7 +1227,6 @@ async function initDetailedLab() {
     document.querySelector("#lab-derived-formula").textContent = `N₁b = 2 × ${candidate.adcColumns} × ${candidate.dimension} × ${labFormat(candidate.inputBits, 2)} × ${labFormat(candidate.weightBits, 2)} = ${labFormat(candidate.bitOps, 0)} per invocation · ${labFormat(candidate.energyPerOpFj, 3)} fJ per 1b op · ${labFormat(candidate.throughput, 3)} 1b-TOPS.`;
 
     const evidence = updateEvidence(candidate);
-    const modelResult = validateModel(candidate);
     draw(candidate);
     document.querySelector("#placement-lead").textContent = `${candidate.architecture} · ${candidate.model || "unclassified"} · ${candidate.tech} nm`;
     document.querySelector("#derived-energy").textContent = `${labFormat(candidate.energyPerOpFj, 3)} fJ`;
@@ -860,10 +1238,8 @@ async function initDetailedLab() {
     const densityRange = labRange(comparison.map((row) => row.density));
     const inside = efficiencyRange && densityRange && candidate.efficiency >= efficiencyRange[0] && candidate.efficiency <= efficiencyRange[1] && candidate.density >= densityRange[0] && candidate.density <= densityRange[1];
     document.querySelector("#envelope-check").textContent = !efficiencyRange || !densityRange ? "No pair-specific envelope" : inside ? "Inside reported pair range" : "Outside reported pair range";
-    document.querySelector("#model-lead").textContent = modelResult.lead;
-    document.querySelector("#model-detail").textContent = modelResult.detail;
-    document.querySelector("#model-metrics").innerHTML = modelResult.metrics.map(([label, value]) => `<li><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></li>`).join("");
-    updateAccuracy(candidate, modelResult);
+    updateEnergy(candidate);
+    updateAccuracy(candidate);
     updateMetricCitations(candidate);
     updateNeighbors(candidate);
   }
