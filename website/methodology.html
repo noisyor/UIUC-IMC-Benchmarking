@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="The compositional methodology and normalized metrics used by the UIUC in-memory computing benchmarking project." />
-  <link rel="icon" href="favicon.svg?v=20260831-brand" type="image/svg+xml" /><link rel="stylesheet" href="styles.css?v=20260912-accuracy" /><script src="app.js" defer></script>
+  <link rel="icon" href="favicon.svg?v=20260831-brand" type="image/svg+xml" /><link rel="stylesheet" href="styles.css?v=20260913-compact" /><script src="app.js" defer></script>
   <title>Methodology · IMC Benchmarking</title>
 </head>
 <body class="themed-page">
@@ -46,7 +46,7 @@
 
     <section class="section">
       <div class="story-grid">
-        <div class="story-copy"><p class="section-label">Accuracy gap</p><h2>Efficiency needs an accuracy coordinate.</h2><p>Analog IMCs trade compute fidelity against energy. The associated papers therefore argue that efficiency, throughput, and accuracy should be reported together, with compute SNR at the ADC-column or bank level and statistical confidence for network-level accuracy.</p><p>The database exposes reported ADC precision and pre-ADC information content as a proxy when compute SNR is unavailable. This is diagnostic evidence, not a substitute for direct accuracy measurement.</p></div>
+        <div class="story-copy"><p class="section-label">Accuracy gap</p><h2>Efficiency needs an accuracy coordinate.</h2><p>Analog IMCs trade compute fidelity against energy. The associated papers therefore argue that efficiency, throughput, and accuracy should be reported together, with compute SNR at the ADC-column or bank level and statistical confidence for network-level accuracy.</p><details class="page-details"><summary>When compute SNR is not reported</summary><p>The database exposes reported ADC precision and pre-ADC information content as a proxy when compute SNR is unavailable. This is diagnostic evidence, not a substitute for direct accuracy measurement.</p></details></div>
         <figure class="figure-frame"><img src="assets/figures/4_BADC_vs_BIcol_SRAM.png" alt="ADC precision against pre-ADC information content for SRAM IMCs in the 2024 data" /><figcaption>ADC precision versus information content at the ADC-column input, using the 2024 dataset.</figcaption></figure>
       </div>
     </section>
